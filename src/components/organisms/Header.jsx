@@ -40,7 +40,7 @@ export default function Header() {
           scrolled
             ? 'bg-surface-light/90 dark:bg-dark-bg/90 backdrop-blur-xl shadow-lg shadow-black/5 dark:shadow-black/20 py-2'
             : 'bg-transparent py-4'
-        }`}
+        } ${!scrolled ? 'text-ink dark:text-white' : ''}`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}

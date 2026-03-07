@@ -6,8 +6,8 @@ import heroImg from '@assets/images/IMG_0050.jpg';
 export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-surface-light dark:to-dark-bg" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-brand-green dark:from-brand-green dark:via-brand-green dark:to-brand-green galaxy-stars" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-gold light:to-brand-gold dark:to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-16">
@@ -68,7 +68,7 @@ export default function Hero() {
           </div>
 
           <motion.div
-            className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[28rem]"
+            className="hidden lg:flex flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[28rem]"
             initial={{ opacity: 0, scale: 0.9, x: 40 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}

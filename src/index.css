@@ -34,10 +34,10 @@
     --surface-warm: #1A1525;
     --surface-cream: #251E35;
     --surface-muted: #3D3450;
-    --ink: #F5F0EB;
-    --ink-light: #D8D0C4;
-    --ink-muted: #A8A0B4;
-    --ink-subtle: #6D6580;
+    --ink: #FFFFFF;
+    --ink-light: #F5F0EB;
+    --ink-muted: #D8D0C4;
+    --ink-subtle: #A8A0B4;
 
     color-scheme: dark;
   }
