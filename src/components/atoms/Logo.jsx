@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import krownEmblem from '@assets/fwd/Krown_Emblem.png';
-import krownWordMark from '@assets/fwd/Krown_WordMark.png';
-import pkEmblem from '@assets/fwd/PK_Emblem.png';
-import plantKlubWordMark from '@assets/fwd/PlantKlub_WordMark.png';
+import krownEmblem from '@assets/logos/Krown_Emblem.png';
+import krownWordMark from '@assets/logos/Krown_WordMark.png';
+import pkEmblem from '@assets/logos/PK_Emblem.png';
+import plantKlubWordMark from '@assets/logos/PlantKlub_WordMark.png';
 
 const logos = {
   emblem: krownEmblem,

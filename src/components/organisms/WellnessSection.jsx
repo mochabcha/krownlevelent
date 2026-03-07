@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Typography, Button, Icon, Badge } from '../atoms';
 import { AccordionItem, Card } from '../molecules';
-import charliImg from '@assets/charli-photo-download-1of1/Highlights/IMG_0155.jpg';
+import charliImg from '@assets/images/IMG_0155.jpg';
 
 const specialties = ['Chronic Pain', 'Terminal Illness', 'Anxiety', 'Insomnia'];
 

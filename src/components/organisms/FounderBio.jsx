@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { Typography, Image, Badge } from '../atoms';
-import portraitImg from '@assets/charli-photo-download-1of1/Highlights/IMG_0213.jpg';
-import candid1 from '@assets/charli-photo-download-1of1/Highlights/IMG_0002.jpg';
-import lifestyle from '@assets/charli-photo-download-1of1/Highlights/IMG_0291.jpg';
+import portraitImg from '@assets/images/IMG_0213.jpg';
+import candid1 from '@assets/images/IMG_0002.jpg';
+import lifestyle from '@assets/images/IMG_0291.jpg';
 
 export default function FounderBio() {
   return (

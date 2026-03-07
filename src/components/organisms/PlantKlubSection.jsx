@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { Typography, Button, Icon, Logo, Image } from '../atoms';
 import { Card, EventCard } from '../molecules';
-import img1 from '@assets/charli-photo-download-1of1/Highlights/IMG_0268.jpg';
-import img2 from '@assets/charli-photo-download-1of1/Highlights/IMG_0310.jpg';
-import img3 from '@assets/charli-photo-download-1of1/Highlights/IMG_0319.jpg';
-import img4 from '@assets/charli-photo-download-1of1/Highlights/IMG_0094.jpg';
+import img1 from '@assets/images/IMG_0268.jpg';
+import img2 from '@assets/images/IMG_0310.jpg';
+import img3 from '@assets/images/IMG_0319.jpg';
+import img4 from '@assets/images/IMG_0094.jpg';
 
 const offerings = [
   {

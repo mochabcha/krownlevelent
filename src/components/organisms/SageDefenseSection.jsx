@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Typography, Button, Icon } from '../atoms';
 import { AccordionItem, TimelineItem } from '../molecules';
-import charliImg from '@assets/charli-photo-download-1of1/Highlights/IMG_0227.jpg';
+import charliImg from '@assets/images/IMG_0227.jpg';
 
 const trainingLevels = [
   {

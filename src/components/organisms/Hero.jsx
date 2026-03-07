@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Logo, Typography, Button, Badge } from '../atoms';
 import { TrustRibbon } from '../molecules';
-import heroImg from '@assets/charli-photo-download-1of1/Highlights/IMG_0050.jpg';
+import heroImg from '@assets/images/IMG_0050.jpg';
 
 export default function Hero() {
   return (
