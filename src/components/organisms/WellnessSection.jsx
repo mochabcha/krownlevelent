@@ -100,11 +100,11 @@ export default function WellnessSection() {
           </motion.div>
         </div>
 
-        <div className="max-w-3xl mx-auto mb-20">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
+        <div className="max-w-3xl mx-auto mb-20 text-center">
+          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
             The Process
           </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-8 text-center">
+          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-8">
             How the Wellness Process Works
           </Typography>
           <motion.div

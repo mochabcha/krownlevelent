@@ -16,14 +16,14 @@ export default function TrustRibbon({ className = '' }) {
           {items.map((item, i) => (
             <motion.div
               key={item.label}
-              className="flex items-center gap-2 text-ink-muted"
+              className="flex items-center gap-2 text-white dark:text-white/70"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
               <Icon name={item.icon} size={16} className="text-brand-gold" />
-              <Typography variant="eyebrow" className="text-ink-muted text-xs">
+              <Typography variant="eyebrow" className="text-white text-xs">
                 {item.label}
               </Typography>
             </motion.div>

@@ -50,7 +50,7 @@ export default function PlantKlubSection() {
           >
             <Logo variant="pk-wordmark" size="lg" className="mx-auto" />
           </motion.div>
-          <Typography variant="eyebrow" animate delay={0.1} className="text-brand-green mb-3">
+          <Typography variant="eyebrow" animate delay={0.1} className="text-brand-green mb-3 text-center">
             Learn to Grow Your Own Food
           </Typography>
           <Typography variant="lead" animate delay={0.2} className="text-ink-muted max-w-3xl mx-auto">
@@ -102,11 +102,11 @@ export default function PlantKlubSection() {
           ))}
         </div>
 
-        <div className="mb-20">
-          <Typography variant="eyebrow" animate className="text-brand-green mb-3 text-center">
+        <div className="mb-20 text-center">
+          <Typography variant="eyebrow" animate className="text-brand-green mb-3">
             Cultivate Your Skills
           </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-10 text-center">
+          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-10">
             What You Can Learn in Plant Klub
           </Typography>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

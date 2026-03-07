@@ -44,7 +44,7 @@ export default function SignUpForm() {
       <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
+          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
             Get Connected
           </Typography>
           <Typography variant="h2" animate delay={0.1} className="text-white mb-4">
