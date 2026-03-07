@@ -110,11 +110,11 @@ export default function SageDefenseSection() {
           </motion.div>
         </div>
 
-        <div className="max-w-3xl mx-auto mb-20">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
+        <div className="max-w-3xl mx-auto mb-20 text-center">
+          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
             Progression System
           </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-white mb-10 text-center">
+          <Typography variant="h3" animate delay={0.1} className="text-white mb-10">
             Training Pathways
           </Typography>
           <div>
@@ -133,11 +133,11 @@ export default function SageDefenseSection() {
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
+        <div className="max-w-3xl mx-auto text-center">
+          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
             Common Questions
           </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-white mb-8 text-center">
+          <Typography variant="h3" animate delay={0.1} className="text-white mb-8">
             Self-Defense Questions
           </Typography>
           <motion.div

@@ -172,11 +172,11 @@ export default function PlantKlubSection() {
           </div>
         </motion.div>
 
-        <div id="events">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
+        <div id="events" className="text-center">
+          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
             Don&apos;t Miss Out
           </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-4 text-center">
+          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-4">
             Upcoming Plant Klub Events
           </Typography>
           <Typography variant="body" animate delay={0.2} className="text-ink-muted max-w-2xl mx-auto text-center mb-10">
