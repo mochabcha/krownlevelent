@@ -85,7 +85,7 @@ export default function BrandEcosystem() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <Typography variant="lead" className="text-ink-light dark:text-ink-muted italic">
+          <Typography variant="lead" className="text-ink-light dark:text-white/75 italic">
             Different paths. One mission: helping people reclaim alignment, resilience, and independence.
           </Typography>
         </motion.div>

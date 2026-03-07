@@ -10,7 +10,7 @@ export default function FormField({
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
       {label && (
-        <label className="font-eyebrow tracking-wider uppercase text-sm text-ink-light dark:text-ink-muted">
+        <label className="font-eyebrow tracking-wider uppercase text-sm text-ink-light dark:text-white/75">
           {label}
           {required && <span className="text-brand-gold ml-1">*</span>}
         </label>

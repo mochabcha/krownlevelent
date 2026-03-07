@@ -15,7 +15,7 @@ export default function TestimonialCard({
         &ldquo;
       </div>
       <div className="relative z-10 pt-6">
-        <Typography variant="body" className="text-ink-light dark:text-ink-muted italic leading-relaxed mb-6">
+        <Typography variant="body" className="text-ink-light dark:text-white/75 italic leading-relaxed mb-6">
           {quote}
         </Typography>
         <div className="flex items-center gap-3">

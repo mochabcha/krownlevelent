@@ -77,15 +77,15 @@ export default function FounderBio() {
               </div>
             </motion.div>
 
-            <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-ink-muted mb-4 leading-relaxed">
+            <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               Charli Smith is the founder of <strong className="text-ink dark:text-white">Krown Level Enterprises</strong>, a Jacksonville-based initiative focused on community sustainability through wellness education, agriculture, and self-defense.
             </Typography>
 
-            <Typography variant="body" animate delay={0.4} className="text-ink-light dark:text-ink-muted mb-4 leading-relaxed">
+            <Typography variant="body" animate delay={0.4} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               Her work blends generations of agricultural wisdom, military training, and holistic wellness practices to help people take control of their lives from the ground up.
             </Typography>
 
-            <Typography variant="body" animate delay={0.5} className="text-ink-light dark:text-ink-muted mb-6 leading-relaxed">
+            <Typography variant="body" animate delay={0.5} className="text-ink-light dark:text-white/75 mb-6 leading-relaxed">
               Charli believes true sustainability requires three essential forms of sovereignty:
             </Typography>
 
@@ -104,7 +104,7 @@ export default function FounderBio() {
               ))}
             </motion.div>
 
-            <Typography variant="body" animate delay={0.7} className="text-ink-light dark:text-ink-muted leading-relaxed">
+            <Typography variant="body" animate delay={0.7} className="text-ink-light dark:text-white/75 leading-relaxed">
               She teaches through a blend of science, lived experience, and ancestral knowledge, helping people make meaningful changes that are practical, disciplined, and sustainable.
             </Typography>
           </div>

@@ -36,13 +36,13 @@ export default function WellnessSection() {
             <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-6">
               Genie&apos;s Healing Elements
             </Typography>
-            <Typography variant="body" animate delay={0.2} className="text-ink-light dark:text-ink-muted mb-4 leading-relaxed">
+            <Typography variant="body" animate delay={0.2} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               Genie&apos;s Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.
             </Typography>
-            <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-ink-muted mb-4 leading-relaxed">
+            <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               This work is designed for people who want a more natural, intentional approach to healing and wellness support.
             </Typography>
-            <Typography variant="body" animate delay={0.4} className="text-ink-light dark:text-ink-muted mb-6 leading-relaxed">
+            <Typography variant="body" animate delay={0.4} className="text-ink-light dark:text-white/75 mb-6 leading-relaxed">
               Charli helps clients assess where they are now, identify what may be throwing them out of alignment, and create a realistic wellness path forward.
             </Typography>
 
@@ -89,7 +89,7 @@ export default function WellnessSection() {
                     'Anyone wanting more intentional health habits',
                     'Those looking for personalized guidance',
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-ink-light dark:text-ink-muted text-sm">
+                    <li key={i} className="flex items-start gap-2 text-ink-light dark:text-white/75 text-sm">
                       <Icon name="check" size={14} className="text-brand-green mt-0.5 flex-shrink-0" />
                       <span>{item}</span>
                     </li>

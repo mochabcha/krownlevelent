@@ -24,7 +24,7 @@ export default function TimelineItem({
         <Typography variant="h5" className="text-ink dark:text-white mb-1">
           {title}
         </Typography>
-        <Typography variant="body" className="text-ink-light dark:text-ink-muted leading-relaxed">
+        <Typography variant="body" className="text-ink-light dark:text-white/75 leading-relaxed">
           {description}
         </Typography>
       </div>

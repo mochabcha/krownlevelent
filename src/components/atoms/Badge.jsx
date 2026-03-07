@@ -5,7 +5,7 @@ const colorMap = {
   purple: 'bg-brand-purple-100 dark:bg-brand-purple-900 text-brand-purple-700 dark:text-brand-purple-300',
   gold: 'bg-brand-gold-100 dark:bg-brand-gold-900 text-brand-gold-700 dark:text-brand-gold-300',
   green: 'bg-brand-green-100 dark:bg-brand-green-900 text-brand-green-700 dark:text-brand-green-300',
-  neutral: 'bg-surface-cream dark:bg-dark-elevated text-ink-light dark:text-ink-muted',
+  neutral: 'bg-surface-cream dark:bg-dark-elevated text-ink-light dark:text-white/75',
 };
 
 export default function Badge({

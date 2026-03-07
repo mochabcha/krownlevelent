@@ -20,7 +20,7 @@ export default function CredentialCard({
       </Typography>
       <ul className="space-y-2.5">
         {items.map((item, i) => (
-          <li key={i} className="flex items-start gap-2 text-ink-light dark:text-ink-muted">
+          <li key={i} className="flex items-start gap-2 text-ink-light dark:text-white/75">
             <Icon name="check" size={16} className="text-brand-gold mt-0.5 flex-shrink-0" />
             <span className="font-body text-sm leading-relaxed">{item}</span>
           </li>

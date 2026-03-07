@@ -58,7 +58,7 @@ export default function PlantKlubSection() {
           </Typography>
         </div>
 
-        <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-ink-muted max-w-3xl mx-auto text-center mb-6 leading-relaxed">
+        <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 max-w-3xl mx-auto text-center mb-6 leading-relaxed">
           Members learn how to grow herbs, vegetables, and medicinal plants while building confidence, community, and self-sufficiency.
         </Typography>
 
@@ -142,10 +142,10 @@ export default function PlantKlubSection() {
             <Typography variant="h3" className="text-ink dark:text-white mb-4">
               Need Help Starting at Home?
             </Typography>
-            <Typography variant="body" className="text-ink-light dark:text-ink-muted mb-4 leading-relaxed">
+            <Typography variant="body" className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.
             </Typography>
-            <Typography variant="body" className="text-ink-light dark:text-ink-muted mb-6 leading-relaxed">
+            <Typography variant="body" className="text-ink-light dark:text-white/75 mb-6 leading-relaxed">
               Each installation begins with an assessment that considers:
             </Typography>
             <div className="grid grid-cols-2 gap-3 mb-6">

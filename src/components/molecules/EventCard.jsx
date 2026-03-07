@@ -45,7 +45,7 @@ export default function EventCard({
         </div>
 
         {description && (
-          <Typography variant="body" className="text-ink-light dark:text-ink-muted mb-4">
+          <Typography variant="body" className="text-ink-light dark:text-white/75 mb-4">
             {description}
           </Typography>
         )}

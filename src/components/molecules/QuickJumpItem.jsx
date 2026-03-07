@@ -17,7 +17,7 @@ export default function QuickJumpItem({
       <div className="w-14 h-14 rounded-xl bg-brand-purple/10 dark:bg-brand-purple/20 flex items-center justify-center text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
         <Icon name={icon} size={28} />
       </div>
-      <Typography variant="eyebrow" className="text-ink-light dark:text-ink-muted group-hover:text-brand-purple dark:group-hover:text-brand-purple-light transition-colors text-center">
+      <Typography variant="eyebrow" className="text-ink-light dark:text-white/75 group-hover:text-brand-purple dark:group-hover:text-brand-purple-light transition-colors text-center">
         {label}
       </Typography>
     </a>

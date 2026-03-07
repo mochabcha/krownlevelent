@@ -21,13 +21,13 @@ export default function VisionBanner() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="space-y-6"
         >
-          <Typography variant="lead" className="text-ink-light dark:text-ink-muted text-center leading-relaxed">
+          <Typography variant="lead" className="text-ink-light dark:text-white/75 text-center leading-relaxed">
             Krown Level Enterprises exists to help communities reclaim the skills that create resilience.
           </Typography>
-          <Typography variant="body" className="text-ink-light dark:text-ink-muted text-center leading-relaxed">
+          <Typography variant="body" className="text-ink-light dark:text-white/75 text-center leading-relaxed">
             By teaching wellness, agriculture, and self-defense together, Charli Smith is building more than programs. She is building pathways for people to become healthier, more capable, and more connected to the resources around them.
           </Typography>
-          <Typography variant="body" className="text-ink-light dark:text-ink-muted text-center leading-relaxed">
+          <Typography variant="body" className="text-ink-light dark:text-white/75 text-center leading-relaxed">
             This work is about more than information. It is about restoration, discipline, and long-term empowerment.
           </Typography>
         </motion.div>
