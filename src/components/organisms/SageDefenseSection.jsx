@@ -110,14 +110,14 @@ export default function SageDefenseSection() {
           </motion.div>
         </div>
 
-        <div className="max-w-3xl mx-auto mb-20 text-center">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
+        <div className="max-w-3xl mx-auto mb-20">
+          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
             Progression System
           </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-white mb-10">
+          <Typography variant="h3" animate delay={0.1} className="text-white mb-10 text-center">
             Training Pathways
           </Typography>
-          <div>
+          <div className="text-left">
             {trainingLevels.map((level, i) => (
               <TimelineItem
                 key={level.level}
