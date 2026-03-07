@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-purple: #7B5EA7;
+    --color-purple-light: #9B7FC7;
+    --color-purple-dark: #5B3E87;
+    --color-indigo: #2D1B69;
+    --color-indigo-light: #3D2B89;
+    --color-indigo-dark: #1D0B49;
+    --color-gold: #D4A843;
+    --color-gold-light: #E4C873;
+    --color-gold-dark: #B48823;
+    --color-green: #1A7D45;
+    --color-green-light: #2AAD65;
+    --color-green-dark: #0A5D25;
+
+    --surface-bg: #FAF7F2;
+    --surface-warm: #F5F0EB;
+    --surface-cream: #EDE7DE;
+    --surface-muted: #D8D0C4;
+    --ink: #1C1C1E;
+    --ink-light: #3A3A3C;
+    --ink-muted: #636366;
+    --ink-subtle: #8E8E93;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --surface-bg: #0D0A14;
+    --surface-warm: #1A1525;
+    --surface-cream: #251E35;
+    --surface-muted: #3D3450;
+    --ink: #F5F0EB;
+    --ink-light: #D8D0C4;
+    --ink-muted: #A8A0B4;
+    --ink-subtle: #6D6580;
+
+    color-scheme: dark;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Red Hat Text', sans-serif;
+    background-color: var(--surface-bg);
+    color: var(--ink);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: 'Gloock', serif;
+  }
+
+  h6, .eyebrow, blockquote {
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  ::selection {
+    background-color: rgba(123, 94, 167, 0.3);
+    color: var(--ink);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+@layer components {
+  .galaxy-stars {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .galaxy-stars::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.9) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 15% 85%, rgba(212,168,67,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 75%, rgba(212,168,67,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 85% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 35%, rgba(123,94,167,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 55%, rgba(212,168,67,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 5% 50%, rgba(255,255,255,1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 70%, rgba(123,94,167,0.5) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+    animation: twinkleField 8s ease-in-out infinite alternate;
+  }
+
+  .galaxy-stars > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  @keyframes twinkleField {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold), var(--color-gold-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-purple {
+    background: linear-gradient(135deg, var(--color-purple-light), var(--color-purple), var(--color-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+  .animate-delay-600 { animation-delay: 600ms; }
+  .animate-delay-700 { animation-delay: 700ms; }
+  .animate-delay-800 { animation-delay: 800ms; }
+}
