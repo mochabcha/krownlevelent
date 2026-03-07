@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Typography, Icon } from '../atoms';
-import { TestimonialCard } from '../molecules';
+import { Icon } from '../atoms';
+import { TestimonialCard, SectionHeader } from '../molecules';
 
 const testimonials = [
   {
@@ -37,14 +37,13 @@ export default function TestimonialSlider() {
   return (
     <section className="py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-            Real Experiences
-          </Typography>
-          <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-4">
-            What People Are Experiencing
-          </Typography>
-        </div>
+        <SectionHeader
+          eyebrow="Real Experiences"
+          heading="What People Are Experiencing"
+          align="center"
+          animate
+          className="mb-14"
+        />
 
         <div className="hidden md:grid md:grid-cols-3 gap-6 mb-16">
           {testimonials.map((t, i) => (
@@ -111,9 +110,11 @@ export default function TestimonialSlider() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Typography variant="eyebrow" className="text-brand-gold mb-6 text-center">
-            What You&apos;ll Gain
-          </Typography>
+          <SectionHeader
+            eyebrow="What You'll Gain"
+            align="center"
+            className="mb-6"
+          />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {outcomes.map((item, i) => (
               <motion.div

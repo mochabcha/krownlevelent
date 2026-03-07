@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Typography, Button, Icon, Badge } from '../atoms';
-import { AccordionItem, Card } from '../molecules';
+import { Button, Icon, Badge } from '../atoms';
+import { AccordionItem, Card, SectionHeader } from '../molecules';
 import charliImg from '@assets/images/IMG_0155.jpg';
 
 const specialties = ['Chronic Pain', 'Terminal Illness', 'Anxiety', 'Insomnia'];
@@ -30,12 +30,13 @@ export default function WellnessSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 mb-20">
           <div className="flex-1">
-            <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
-              Holistic Wellness Consulting
-            </Typography>
-            <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-6">
-              Genie&apos;s Healing Elements
-            </Typography>
+            <SectionHeader
+              eyebrow="Holistic Wellness Consulting"
+              heading="Genie's Healing Elements"
+              animate
+              headingClassName="mb-6"
+              className="mb-0"
+            />
             <Typography variant="body" animate delay={0.2} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               Genie&apos;s Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.
             </Typography>
@@ -100,13 +101,16 @@ export default function WellnessSection() {
           </motion.div>
         </div>
 
-        <div className="max-w-3xl mx-auto mb-20 text-center">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
-            The Process
-          </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-8">
-            How the Wellness Process Works
-          </Typography>
+        <div className="max-w-3xl mx-auto mb-20">
+          <SectionHeader
+            eyebrow="The Process"
+            heading="How the Wellness Process Works"
+            headingVariant="h3"
+            align="center"
+            animate
+            headingClassName="mb-8"
+            className="mb-0"
+          />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

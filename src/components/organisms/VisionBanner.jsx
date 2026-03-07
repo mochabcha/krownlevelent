@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion';
 import { Typography } from '../atoms';
+import { SectionHeader } from '../molecules';
 
 export default function VisionBanner() {
   return (
     <section className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-            A More Sustainable Way Forward
-          </Typography>
-          <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-8">
-            The Vision
-          </Typography>
-        </div>
+        <SectionHeader
+          eyebrow="A More Sustainable Way Forward"
+          heading="The Vision"
+          align="center"
+          animate
+          headingClassName="mb-8"
+          className="mb-8"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

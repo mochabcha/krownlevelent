@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Typography } from '../atoms';
-import { SocialLink, ContactLink } from '../molecules';
+import { SocialLink, ContactLink, SectionHeader } from '../molecules';
 
 const socialLinks = [
   { icon: 'facebook', label: 'Facebook', href: '#' },
@@ -11,12 +11,14 @@ export default function ContactSection() {
   return (
     <section className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-          Let&apos;s Connect
-        </Typography>
-        <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-10">
-          Connect with Charli
-        </Typography>
+        <SectionHeader
+          eyebrow="Let's Connect"
+          heading="Connect with Charli"
+          align="center"
+          animate
+          headingClassName="mb-10"
+          className="mb-0"
+        />
 
         <motion.div
           className="space-y-4 mb-10"

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Typography, Button, Input, Select, Textarea } from '../atoms';
-import { FormField } from '../molecules';
+import { Button, Input, Select, Textarea } from '../atoms';
+import { FormField, SectionHeader } from '../molecules';
 
 const interestOptions = [
   { value: 'plant-klub', label: 'Plant Klub' },
@@ -43,17 +43,18 @@ export default function SignUpForm() {
     <section id="contact" className="relative py-20 md:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-            Get Connected
-          </Typography>
-          <Typography variant="h2" animate delay={0.1} className="text-white mb-4">
-            Start Your Journey
-          </Typography>
-          <Typography variant="body" animate delay={0.2} className="text-white/70 max-w-xl mx-auto">
-            Whether you want to join Plant Klub, book a consultation, explore self-defense training, or ask a question, start here.
-          </Typography>
-        </div>
+        <SectionHeader
+          eyebrow="Get Connected"
+          heading="Start Your Journey"
+          lead="Whether you want to join Plant Klub, book a consultation, explore self-defense training, or ask a question, start here."
+          align="center"
+          animate
+          onDark
+          eyebrowColor="text-brand-gold"
+          leadColor="text-white/70 max-w-xl mx-auto"
+          headingClassName="mb-4"
+          className="mb-12"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

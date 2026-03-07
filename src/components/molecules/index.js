@@ -10,3 +10,4 @@ export { default as TrustRibbon } from './TrustRibbon';
 export { default as TimelineItem } from './TimelineItem';
 export { default as SocialLink } from './SocialLink';
 export { default as ContactLink } from './ContactLink';
+export { default as SectionHeader } from './SectionHeader';

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Typography, Image, Badge } from '../atoms';
+import { Image, Badge } from '../atoms';
+import { SectionHeader } from '../molecules';
 import portraitImg from '@assets/images/IMG_0213.jpg';
 import candid1 from '@assets/images/IMG_0002.jpg';
 import lifestyle from '@assets/images/IMG_0291.jpg';
@@ -48,20 +49,13 @@ export default function FounderBio() {
           </motion.div>
 
           <div className="flex-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6 }}
-            >
-              <Typography variant="eyebrow" className="text-brand-gold mb-3">
-                The Founder
-              </Typography>
-            </motion.div>
-
-            <Typography variant="h2" animate className="text-ink dark:text-white mb-3">
-              Meet Charli Smith
-            </Typography>
+            <SectionHeader
+              eyebrow="The Founder"
+              heading="Meet Charli Smith"
+              animate
+              headingClassName="mb-3"
+              className="mb-0"
+            />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Typography, Button, Icon } from '../atoms';
-import { AccordionItem, TimelineItem } from '../molecules';
+import { AccordionItem, TimelineItem, SectionHeader } from '../molecules';
 import charliImg from '@assets/images/IMG_0227.jpg';
 
 const trainingLevels = [
@@ -52,15 +52,15 @@ export default function SageDefenseSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 mb-20">
           <div className="flex-1">
-            <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
-              Learn to Defend Your Peace
-            </Typography>
-            <Typography variant="h2" animate delay={0.1} className="text-white mb-6">
-              S.A.G.E. Defense Systems
-            </Typography>
-            <Typography variant="eyebrow" animate delay={0.15} className="text-brand-green mb-4 tracking-[0.2em]">
-              Sacred Alignment Grounding Everything
-            </Typography>
+            <SectionHeader
+              eyebrow="Learn to Defend Your Peace"
+              heading="S.A.G.E. Defense Systems"
+              subtitle="Sacred Alignment Grounding Everything"
+              animate
+              onDark
+              headingClassName="mb-6"
+              className="mb-0"
+            />
             <Typography variant="body" animate delay={0.2} className="text-white/80 mb-4 leading-relaxed">
               S.A.G.E. Defense Systems teaches people how to develop the mindset, awareness, and practical skill needed to protect themselves and others responsibly.
             </Typography>
@@ -111,12 +111,16 @@ export default function SageDefenseSection() {
         </div>
 
         <div className="max-w-3xl mx-auto mb-20">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-            Progression System
-          </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-white mb-10 text-center">
-            Training Pathways
-          </Typography>
+          <SectionHeader
+            eyebrow="Progression System"
+            heading="Training Pathways"
+            headingVariant="h3"
+            align="center"
+            animate
+            onDark
+            headingClassName="mb-10"
+            className="mb-0"
+          />
           <div className="text-left">
             {trainingLevels.map((level, i) => (
               <TimelineItem
@@ -133,13 +137,17 @@ export default function SageDefenseSection() {
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto text-center">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
-            Common Questions
-          </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-white mb-8">
-            Self-Defense Questions
-          </Typography>
+        <div className="max-w-3xl mx-auto">
+          <SectionHeader
+            eyebrow="Common Questions"
+            heading="Self-Defense Questions"
+            headingVariant="h3"
+            align="center"
+            animate
+            onDark
+            headingClassName="mb-8"
+            className="mb-0"
+          />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

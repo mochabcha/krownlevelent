@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Typography, Button, Icon, Logo, Image } from '../atoms';
-import { Card, EventCard } from '../molecules';
+import { Button, Icon, Logo } from '../atoms';
+import { Card, EventCard, SectionHeader } from '../molecules';
 import img1 from '@assets/images/IMG_0268.jpg';
 import img2 from '@assets/images/IMG_0310.jpg';
 import img3 from '@assets/images/IMG_0319.jpg';
@@ -50,12 +50,14 @@ export default function PlantKlubSection() {
           >
             <Logo variant="pk-wordmark" size="lg" className="mx-auto" />
           </motion.div>
-          <Typography variant="eyebrow" animate delay={0.1} className="text-brand-green mb-3 text-center">
-            Learn to Grow Your Own Food
-          </Typography>
-          <Typography variant="lead" animate delay={0.2} className="text-ink-muted max-w-3xl mx-auto">
-            Plant Klub is a community-centered gardening and education initiative designed to reconnect people with the land, their food, and the practical skill of cultivation.
-          </Typography>
+          <SectionHeader
+            eyebrow="Learn to Grow Your Own Food"
+            lead="Plant Klub is a community-centered gardening and education initiative designed to reconnect people with the land, their food, and the practical skill of cultivation."
+            eyebrowColor="text-brand-green"
+            align="center"
+            animate
+            className="mb-0"
+          />
         </div>
 
         <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 max-w-3xl mx-auto text-center mb-6 leading-relaxed">
@@ -102,13 +104,17 @@ export default function PlantKlubSection() {
           ))}
         </div>
 
-        <div className="mb-20 text-center">
-          <Typography variant="eyebrow" animate className="text-brand-green mb-3">
-            Cultivate Your Skills
-          </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-10">
-            What You Can Learn in Plant Klub
-          </Typography>
+        <div className="mb-20">
+          <SectionHeader
+            eyebrow="Cultivate Your Skills"
+            heading="What You Can Learn in Plant Klub"
+            headingVariant="h3"
+            eyebrowColor="text-brand-green"
+            align="center"
+            animate
+            headingClassName="mb-10"
+            className="mb-0"
+          />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {offerings.map((item, i) => (
               <Card
@@ -136,12 +142,14 @@ export default function PlantKlubSection() {
           transition={{ duration: 0.7 }}
         >
           <div className="flex-1">
-            <Typography variant="eyebrow" className="text-brand-green mb-3">
-              Personalized Support
-            </Typography>
-            <Typography variant="h3" className="text-ink dark:text-white mb-4">
-              Need Help Starting at Home?
-            </Typography>
+            <SectionHeader
+              eyebrow="Personalized Support"
+              heading="Need Help Starting at Home?"
+              headingVariant="h3"
+              eyebrowColor="text-brand-green"
+              headingClassName="mb-4"
+              className="mb-0"
+            />
             <Typography variant="body" className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
               Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.
             </Typography>
@@ -172,13 +180,16 @@ export default function PlantKlubSection() {
           </div>
         </motion.div>
 
-        <div id="events" className="text-center">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3">
-            Don&apos;t Miss Out
-          </Typography>
-          <Typography variant="h3" animate delay={0.1} className="text-ink dark:text-white mb-4">
-            Upcoming Plant Klub Events
-          </Typography>
+        <div id="events">
+          <SectionHeader
+            eyebrow="Don't Miss Out"
+            heading="Upcoming Plant Klub Events"
+            headingVariant="h3"
+            align="center"
+            animate
+            headingClassName="mb-4"
+            className="mb-0"
+          />
           <Typography variant="body" animate delay={0.2} className="text-ink-muted max-w-2xl mx-auto text-center mb-10">
             Join the next Plant Klub experience and learn in community.
           </Typography>

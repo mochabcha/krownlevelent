@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Typography, Icon, Logo } from '../atoms';
-import { Card } from '../molecules';
+import { Icon, Logo } from '../atoms';
+import { Card, SectionHeader } from '../molecules';
 
 const pillars = [
   {
@@ -30,17 +30,14 @@ export default function BrandEcosystem() {
   return (
     <section className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-            The Ecosystem
-          </Typography>
-          <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-4">
-            What Is Krown Level Enterprises?
-          </Typography>
-          <Typography variant="lead" animate delay={0.2} className="text-ink-muted max-w-3xl mx-auto">
-            Krown Level Enterprises is a community sustainability platform designed to help people build the skills and habits needed to live healthier, safer, and more self-sufficient lives.
-          </Typography>
-        </div>
+        <SectionHeader
+          eyebrow="The Ecosystem"
+          heading="What Is Krown Level Enterprises?"
+          lead="Krown Level Enterprises is a community sustainability platform designed to help people build the skills and habits needed to live healthier, safer, and more self-sufficient lives."
+          align="center"
+          animate
+          className="mb-14 max-w-3xl mx-auto"
+        />
 
         <motion.div
           className="grid md:grid-cols-3 gap-6 mb-12"

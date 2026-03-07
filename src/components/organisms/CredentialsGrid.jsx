@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { Typography } from '../atoms';
-import { CredentialCard } from '../molecules';
+import { CredentialCard, SectionHeader } from '../molecules';
 
 const credentials = [
   {
@@ -42,17 +41,14 @@ export default function CredentialsGrid() {
   return (
     <section className="py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <Typography variant="eyebrow" animate className="text-brand-gold mb-3 text-center">
-            Rooted in Practice
-          </Typography>
-          <Typography variant="h2" animate delay={0.1} className="text-ink dark:text-white mb-4">
-            Charli&apos;s Background
-          </Typography>
-          <Typography variant="body" animate delay={0.2} className="text-ink-muted max-w-2xl mx-auto">
-            Charli&apos;s approach is rooted in real training, lived discipline, and years of hands-on study.
-          </Typography>
-        </div>
+        <SectionHeader
+          eyebrow="Rooted in Practice"
+          heading="Charli's Background"
+          lead="Charli's approach is rooted in real training, lived discipline, and years of hands-on study."
+          align="center"
+          animate
+          className="mb-14 max-w-2xl mx-auto"
+        />
 
         <div className="grid md:grid-cols-3 gap-6">
           {credentials.map((cred, i) => (
