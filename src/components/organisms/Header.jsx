@@ -63,7 +63,7 @@ export default function Header() {
 
           <nav className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => (
-              <NavLink key={item.label} href={item.href}>
+              <NavLink key={item.label} href={item.href} scrollAware scrolled={scrolled}>
                 {item.label}
               </NavLink>
             ))}
