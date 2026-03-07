@@ -33,7 +33,7 @@ const faqItems = [
   },
   {
     question: 'Is this only firearm training?',
-    answer: 'No. SAGE Defense Systems includes mindset, verbal awareness, self-defense principles, and weapon education where appropriate.',
+    answer: 'No. S.A.G.E. Defense Systems includes mindset, verbal awareness, self-defense principles, and weapon education where appropriate.',
   },
   {
     question: 'Is mindset really that important?',
@@ -48,7 +48,7 @@ const faqItems = [
 export default function SageDefenseSection() {
   return (
     <section id="sage-defense" className="relative py-20 md:py-28 overflow-hidden">
-      <div className="absolute inset-0 bg-galaxy-3 galaxy-stars" />
+      <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 mb-20">
           <div className="flex-1">
@@ -56,10 +56,13 @@ export default function SageDefenseSection() {
               Learn to Defend Your Peace
             </Typography>
             <Typography variant="h2" animate delay={0.1} className="text-white mb-6">
-              SAGE Defense Systems
+              S.A.G.E. Defense Systems
+            </Typography>
+            <Typography variant="eyebrow" animate delay={0.15} className="text-brand-green mb-4 tracking-[0.2em]">
+              Sacred Alignment Grounding Everything
             </Typography>
             <Typography variant="body" animate delay={0.2} className="text-white/80 mb-4 leading-relaxed">
-              SAGE Defense Systems teaches people how to develop the mindset, awareness, and practical skill needed to protect themselves and others responsibly.
+              S.A.G.E. Defense Systems teaches people how to develop the mindset, awareness, and practical skill needed to protect themselves and others responsibly.
             </Typography>
             <Typography variant="body" animate delay={0.3} className="text-white/80 mb-6 leading-relaxed">
               Charli&apos;s training begins with mindset first, because effective self-defense starts before physical action. From there, students build the ability to assess threats, respond appropriately, and protect themselves with confidence and discipline.

@@ -6,8 +6,10 @@ import heroImg from '@assets/images/IMG_0050.jpg';
 export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-brand-green dark:from-brand-green dark:via-brand-green dark:to-brand-green galaxy-stars" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-gold light:to-brand-gold dark:to-transparent" />
+      <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(45,27,105,0.9)_0%,_rgba(123,94,167,0.5)_40%,_transparent_70%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-green dark:to-brand-green" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-gold/60 dark:to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-16">
