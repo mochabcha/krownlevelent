@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button, Input, Select, Textarea } from '../atoms';
-import { FormField, SectionHeader } from '../molecules';
+import { FormField, SectionHeader, CTAGroup } from '../molecules';
 
 const interestOptions = [
   { value: 'plant-klub', label: 'Plant Klub' },
@@ -72,12 +71,16 @@ export default function SignUpForm() {
               <div className="w-16 h-16 rounded-full bg-brand-green/20 flex items-center justify-center mx-auto mb-6">
                 <span className="text-brand-green text-3xl">✓</span>
               </div>
-              <Typography variant="h3" className="text-white mb-4">
-                Thank You!
-              </Typography>
-              <Typography variant="body" className="text-white/70">
-                Your interest has been submitted. Charli will be in touch soon.
-              </Typography>
+              <SectionHeader
+                heading="Thank You!"
+                headingVariant="h3"
+                lead="Your interest has been submitted. Charli will be in touch soon."
+                align="center"
+                onDark
+                leadColor="text-white/70"
+                headingClassName="mb-4"
+                className="mb-0"
+              />
             </motion.div>
           ) : (
             <form
@@ -85,90 +88,24 @@ export default function SignUpForm() {
               className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 md:p-10 space-y-6"
             >
               <div className="grid sm:grid-cols-2 gap-6">
-                <FormField label="Full Name" required onDark>
-                  <Input
-                    name="name"
-                    placeholder="Your full name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
-                  />
-                </FormField>
-                <FormField label="Email" required onDark>
-                  <Input
-                    type="email"
-                    name="email"
-                    placeholder="you@email.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
-                  />
-                </FormField>
+                <FormField label="Full Name" required onDark type="text" name="name" placeholder="Your full name" value={formData.name} onChange={handleChange} />
+                <FormField label="Email" required onDark type="email" name="email" placeholder="you@email.com" value={formData.email} onChange={handleChange} />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                <FormField label="Phone Number" onDark>
-                  <Input
-                    type="tel"
-                    name="phone"
-                    placeholder="(904) 000-0000"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
-                  />
-                </FormField>
-                <FormField label="Area of Interest" required onDark>
-                  <Select
-                    name="interest"
-                    value={formData.interest}
-                    onChange={handleChange}
-                    placeholder="Select your interest"
-                    options={interestOptions}
-                    required
-                    className="bg-white/10 border-white/20 text-white focus:ring-brand-gold/50 focus:border-brand-gold [&_option]:text-ink"
-                  />
-                </FormField>
+                <FormField label="Phone Number" onDark type="tel" name="phone" placeholder="(904) 000-0000" value={formData.phone} onChange={handleChange} />
+                <FormField label="Area of Interest" required onDark type="select" name="interest" placeholder="Select your interest" value={formData.interest} onChange={handleChange} options={interestOptions} />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                <FormField label="Preferred Contact Method" onDark>
-                  <Select
-                    name="contactMethod"
-                    value={formData.contactMethod}
-                    onChange={handleChange}
-                    placeholder="How should we reach you?"
-                    options={contactMethods}
-                    className="bg-white/10 border-white/20 text-white focus:ring-brand-gold/50 focus:border-brand-gold [&_option]:text-ink"
-                  />
-                </FormField>
-                <FormField label="Best Time to Reach You" onDark>
-                  <Input
-                    name="bestTime"
-                    placeholder="e.g. Weekday mornings"
-                    value={formData.bestTime}
-                    onChange={handleChange}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
-                  />
-                </FormField>
+                <FormField label="Preferred Contact Method" onDark type="select" name="contactMethod" placeholder="How should we reach you?" value={formData.contactMethod} onChange={handleChange} options={contactMethods} />
+                <FormField label="Best Time to Reach You" onDark type="text" name="bestTime" placeholder="e.g. Weekday mornings" value={formData.bestTime} onChange={handleChange} />
               </div>
 
-              <FormField label="What are you looking for support with?" onDark>
-                <Textarea
-                  name="message"
-                  placeholder="Tell us a little about what you're looking for..."
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4}
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
-                />
-              </FormField>
+              <FormField label="What are you looking for support with?" onDark type="textarea" name="message" placeholder="Tell us a little about what you're looking for..." value={formData.message} onChange={handleChange} rows={4} />
 
               <div className="text-center pt-4">
-                <Button variant="cta" type="submit">
-                  Submit Your Interest
-                </Button>
+                <CTAGroup primary={{ label: 'Submit Your Interest', variant: 'cta', type: 'submit' }} align="center" />
               </div>
             </form>
           )}

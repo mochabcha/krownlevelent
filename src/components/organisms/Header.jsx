@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Logo, Button, IconButton, ThemeToggle } from '../atoms';
-import { NavLink } from '../molecules';
+import { NavLink, CTAGroup, BrandLockup, MenuToggle, ThemeControl } from '../molecules';
 
 const navItems = [
   { label: 'About', href: '#about' },
@@ -48,15 +47,13 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <a href="#" className="flex-shrink-0">
             <motion.div
-              animate={{
-                height: scrolled ? 40 : 56,
-              }}
+              animate={{ height: scrolled ? 40 : 56 }}
               transition={{ duration: 0.4, ease: 'easeInOut' }}
               className="flex items-center"
             >
-              <Logo
+              <BrandLockup
                 variant="wordmark"
-                className={`transition-all duration-400 ${scrolled ? 'h-10' : 'h-14'} w-auto`}
+                logoClassName={`transition-all duration-400 ${scrolled ? 'h-10' : 'h-14'} w-auto`}
               />
             </motion.div>
           </a>
@@ -70,20 +67,15 @@ export default function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <ThemeToggle />
-            <Button variant="primary" href="#contact" className="text-sm px-6 py-2.5">
-              Join / Book Now
-            </Button>
+            <ThemeControl />
+            <CTAGroup
+              primary={{ label: 'Join / Book Now', href: '#contact', variant: 'primary', className: 'text-sm px-6 py-2.5' }}
+            />
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
-            <ThemeToggle />
-            <IconButton
-              name={mobileOpen ? 'x' : 'menu'}
-              size={24}
-              onClick={() => setMobileOpen(!mobileOpen)}
-              label="Toggle menu"
-            />
+            <ThemeControl />
+            <MenuToggle open={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)} />
           </div>
         </div>
       </motion.header>
@@ -106,13 +98,8 @@ export default function Header() {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <div className="flex items-center justify-between p-6 border-b border-surface-muted dark:border-dark-border">
-                <Logo variant="emblem" size="xs" />
-                <IconButton
-                  name="x"
-                  size={24}
-                  onClick={closeMobile}
-                  label="Close menu"
-                />
+                <BrandLockup variant="emblem" size="xs" />
+                <MenuToggle open onClick={closeMobile} />
               </div>
 
               <div className="flex-1 flex flex-col gap-1 p-6">
@@ -135,9 +122,9 @@ export default function Header() {
               </div>
 
               <div className="p-6 border-t border-surface-muted dark:border-dark-border">
-                <Button variant="cta" href="#contact" className="w-full text-center" onClick={closeMobile}>
-                  Join / Book Now
-                </Button>
+                <CTAGroup
+                  primary={{ label: 'Join / Book Now', href: '#contact', variant: 'cta', className: 'w-full text-center', onClick: closeMobile }}
+                />
               </div>
             </motion.nav>
           </motion.div>

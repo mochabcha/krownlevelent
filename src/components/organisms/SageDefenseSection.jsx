@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { Typography, Button, Icon } from '../atoms';
-import { AccordionItem, TimelineItem, SectionHeader } from '../molecules';
-import charliImg from '@assets/images/IMG_0227.jpg';
+import { AccordionItem, TimelineItem, SectionHeader, ProseBlock, CTAGroup, CheckList } from '../molecules';
+import charliImg from '@assets/images/IMG_0227.webp';
 
 const trainingLevels = [
   {
@@ -61,12 +60,17 @@ export default function SageDefenseSection() {
               headingClassName="mb-6"
               className="mb-0"
             />
-            <Typography variant="body" animate delay={0.2} className="text-white/80 mb-4 leading-relaxed">
-              S.A.G.E. Defense Systems teaches people how to develop the mindset, awareness, and practical skill needed to protect themselves and others responsibly.
-            </Typography>
-            <Typography variant="body" animate delay={0.3} className="text-white/80 mb-6 leading-relaxed">
-              Charli&apos;s training begins with mindset first, because effective self-defense starts before physical action. From there, students build the ability to assess threats, respond appropriately, and protect themselves with confidence and discipline.
-            </Typography>
+            <ProseBlock
+              animate
+              baseDelay={0.2}
+              spacing="mb-4"
+              lastSpacing="mb-6"
+              color="text-white/80"
+              paragraphs={[
+                'S.A.G.E. Defense Systems teaches people how to develop the mindset, awareness, and practical skill needed to protect themselves and others responsibly.',
+                "Charli's training begins with mindset first, because effective self-defense starts before physical action. From there, students build the ability to assess threats, respond appropriately, and protect themselves with confidence and discipline.",
+              ]}
+            />
 
             <motion.div
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6"
@@ -75,17 +79,15 @@ export default function SageDefenseSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="flex items-start gap-3">
-                <Icon name="brain" size={24} className="text-brand-gold flex-shrink-0 mt-1" />
-                <div>
-                  <Typography variant="eyebrow" className="text-brand-gold mb-2">
-                    Philosophy
-                  </Typography>
-                  <Typography variant="body" className="text-white/70 text-sm leading-relaxed">
-                    Not every threat is what it seems. A big part of self-defense is learning the difference between bait and danger, and knowing how to respond lawfully, effectively, and under pressure.
-                  </Typography>
-                </div>
-              </div>
+              <SectionHeader
+                eyebrow="Philosophy"
+                eyebrowColor="text-brand-gold"
+                className="mb-2"
+              />
+              <ProseBlock
+                paragraphs={['Not every threat is what it seems. A big part of self-defense is learning the difference between bait and danger, and knowing how to respond lawfully, effectively, and under pressure.']}
+                color="text-white/70"
+              />
             </motion.div>
           </div>
 

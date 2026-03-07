@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { Typography } from '../atoms';
-import { SocialLink, ContactLink, SectionHeader } from '../molecules';
+import { SocialLink, ContactLink, SectionHeader, ProseBlock } from '../molecules';
 
 const socialLinks = [
   { icon: 'facebook', label: 'Facebook', href: '#' },
@@ -27,12 +26,11 @@ export default function ContactSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Typography variant="h4" className="text-ink dark:text-white">
-            Charli Smith
-          </Typography>
-          <Typography variant="body" className="text-ink-muted">
-            Krown Level Enterprises
-          </Typography>
+          <ProseBlock
+            paragraphs={['Charli Smith', 'Krown Level Enterprises']}
+            color="text-ink dark:text-white"
+            spacing="mb-1"
+          />
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-6">
             <ContactLink href="mailto:krownlevelent31@gmail.com" icon="mail">
@@ -68,9 +66,10 @@ export default function ContactSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <Typography variant="small" className="text-ink-subtle">
-            Serving Jacksonville and surrounding communities through education, wellness, and practical training.
-          </Typography>
+          <ProseBlock
+            paragraphs={['Serving Jacksonville and surrounding communities through education, wellness, and practical training.']}
+            color="text-ink-subtle"
+          />
         </motion.div>
       </div>
     </section>

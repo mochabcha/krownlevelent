@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion';
-import { Button, Icon, Logo } from '../atoms';
-import { Card, EventCard, SectionHeader } from '../molecules';
-import img1 from '@assets/images/IMG_0268.jpg';
-import img2 from '@assets/images/IMG_0310.jpg';
-import img3 from '@assets/images/IMG_0319.jpg';
-import img4 from '@assets/images/IMG_0094.jpg';
+import { Card, EventCard, SectionHeader, ProseBlock, CheckList, CTAGroup, BrandLockup } from '../molecules';
+import img1 from '@assets/images/IMG_0268.webp';
+import img2 from '@assets/images/IMG_0310.webp';
+import img3 from '@assets/images/IMG_0319.webp';
+import img4 from '@assets/images/IMG_0094.webp';
 
 const offerings = [
   {
@@ -48,7 +47,7 @@ export default function PlantKlubSection() {
             transition={{ duration: 0.6 }}
             className="mb-6"
           >
-            <Logo variant="pk-wordmark" size="lg" className="mx-auto" />
+            <BrandLockup variant="pk-wordmark" size="lg" logoClassName="mx-auto" />
           </motion.div>
           <SectionHeader
             eyebrow="Learn to Grow Your Own Food"
@@ -60,9 +59,13 @@ export default function PlantKlubSection() {
           />
         </div>
 
-        <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 max-w-3xl mx-auto text-center mb-6 leading-relaxed">
-          Members learn how to grow herbs, vegetables, and medicinal plants while building confidence, community, and self-sufficiency.
-        </Typography>
+        <ProseBlock
+          paragraphs={['Members learn how to grow herbs, vegetables, and medicinal plants while building confidence, community, and self-sufficiency.']}
+          color="text-ink-light dark:text-white/75"
+          className="max-w-3xl mx-auto text-center mb-6"
+          animate
+          baseDelay={0.3}
+        />
 
         <motion.div
           className="flex flex-wrap justify-center gap-3 mb-14"
@@ -126,9 +129,7 @@ export default function PlantKlubSection() {
                 animate
                 delay={i * 0.1}
               >
-                <Typography variant="body" className="text-ink-muted text-sm">
-                  {item.description}
-                </Typography>
+                <ProseBlock paragraphs={[item.description]} color="text-ink-muted" />
               </Card>
             ))}
           </div>
@@ -150,23 +151,23 @@ export default function PlantKlubSection() {
               headingClassName="mb-4"
               className="mb-0"
             />
-            <Typography variant="body" className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
-              Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.
-            </Typography>
-            <Typography variant="body" className="text-ink-light dark:text-white/75 mb-6 leading-relaxed">
-              Each installation begins with an assessment that considers:
-            </Typography>
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              {['Your available space', 'Your experience level', 'Your lifestyle', 'Your wellness goals'].map((item, i) => (
-                <div key={i} className="flex items-center gap-2 text-ink dark:text-white text-sm">
-                  <Icon name="check" size={14} className="text-brand-green flex-shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-            <Button variant="secondary" href="#contact" className="bg-brand-green hover:bg-brand-green-light">
-              Get Started
-            </Button>
+            <ProseBlock
+              spacing="mb-4"
+              lastSpacing="mb-6"
+              paragraphs={[
+                'Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.',
+                'Each installation begins with an assessment that considers:',
+              ]}
+            />
+            <CheckList
+              columns={2}
+              iconColor="text-brand-green"
+              className="mb-6"
+              items={['Your available space', 'Your experience level', 'Your lifestyle', 'Your wellness goals']}
+            />
+            <CTAGroup
+              primary={{ label: 'Get Started', href: '#contact', variant: 'secondary', className: 'bg-brand-green hover:bg-brand-green-light' }}
+            />
           </div>
           <div className="flex-shrink-0 w-full lg:w-80">
             <div className="rounded-2xl overflow-hidden shadow-lg">
@@ -190,9 +191,13 @@ export default function PlantKlubSection() {
             headingClassName="mb-4"
             className="mb-0"
           />
-          <Typography variant="body" animate delay={0.2} className="text-ink-muted max-w-2xl mx-auto text-center mb-10">
-            Join the next Plant Klub experience and learn in community.
-          </Typography>
+          <ProseBlock
+            paragraphs={['Join the next Plant Klub experience and learn in community.']}
+            color="text-ink-muted"
+            className="max-w-2xl mx-auto text-center mb-10"
+            animate
+            baseDelay={0.2}
+          />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <EventCard

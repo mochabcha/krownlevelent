@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Typography } from '../atoms';
+import { QuoteBlock } from '../molecules';
 
 export default function QuoteBanner({
   quote = '"Grow your food. Heal your body. Defend your peace."',
@@ -22,20 +22,10 @@ export default function QuoteBanner({
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <div className="text-brand-gold/30 text-8xl font-heading leading-none mb-4 select-none">
-            &ldquo;
-          </div>
-          <Typography
-            variant="blockquote"
-            className="text-white mb-6 max-w-3xl mx-auto"
-          >
-            {quote.replace(/"/g, '')}
-          </Typography>
-          {attribution && (
-            <Typography variant="eyebrow" className="text-brand-gold-light tracking-[0.3em]">
-              {attribution}
-            </Typography>
-          )}
+          <QuoteBlock
+            quote={quote}
+            attribution={attribution}
+          />
         </motion.div>
       </div>
     </section>

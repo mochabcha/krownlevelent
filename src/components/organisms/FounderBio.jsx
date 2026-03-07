@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
-import { Image, Badge } from '../atoms';
-import { SectionHeader } from '../molecules';
-import portraitImg from '@assets/images/IMG_0213.jpg';
-import candid1 from '@assets/images/IMG_0002.jpg';
-import lifestyle from '@assets/images/IMG_0291.jpg';
+import { SectionHeader, BadgeGroup, ProseBlock, PhotoGrid, CheckList } from '../molecules';
+import portraitImg from '@assets/images/IMG_0213.webp';
+import candid1 from '@assets/images/IMG_0002.webp';
+import lifestyle from '@assets/images/IMG_0291.webp';
 
 export default function FounderBio() {
   return (
@@ -17,35 +16,13 @@ export default function FounderBio() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2">
-                <Image
-                  src={portraitImg}
-                  alt="Charli Smith — Portrait"
-                  wrapperClass="aspect-[4/3]"
-                  rounded="2xl"
-                  overlay
-                />
-              </div>
-              <Image
-                src={candid1}
-                alt="Charli Smith with Krown Level banner"
-                wrapperClass="aspect-square"
-                rounded="2xl"
-                overlay
-                animate
-                delay={0.2}
-              />
-              <Image
-                src={lifestyle}
-                alt="Charli Smith — Creative portrait"
-                wrapperClass="aspect-square"
-                rounded="2xl"
-                overlay
-                animate
-                delay={0.3}
-              />
-            </div>
+            <PhotoGrid
+              images={[
+                { src: portraitImg, alt: 'Charli Smith — Portrait', span: 'col-span-2', wrapperClass: 'aspect-[4/3]' },
+                { src: candid1, alt: 'Charli Smith with Krown Level banner', wrapperClass: 'aspect-square', animate: true, delay: 0.2 },
+                { src: lifestyle, alt: 'Charli Smith — Creative portrait', wrapperClass: 'aspect-square', animate: true, delay: 0.3 },
+              ]}
+            />
           </motion.div>
 
           <div className="flex-1">
@@ -63,44 +40,52 @@ export default function FounderBio() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="flex flex-wrap gap-2 mb-6">
-                <Badge color="purple">Instructor</Badge>
-                <Badge color="green">Wellness Consultant</Badge>
-                <Badge color="gold">Agricultural Educator</Badge>
-                <Badge color="purple">Self-Defense Trainer</Badge>
-              </div>
+              <BadgeGroup
+                className="mb-6"
+                badges={[
+                  { label: 'Instructor', color: 'purple' },
+                  { label: 'Wellness Consultant', color: 'green' },
+                  { label: 'Agricultural Educator', color: 'gold' },
+                  { label: 'Self-Defense Trainer', color: 'purple' },
+                ]}
+              />
             </motion.div>
 
-            <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
-              Charli Smith is the founder of <strong className="text-ink dark:text-white">Krown Level Enterprises</strong>, a Jacksonville-based initiative focused on community sustainability through wellness education, agriculture, and self-defense.
-            </Typography>
-
-            <Typography variant="body" animate delay={0.4} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
-              Her work blends generations of agricultural wisdom, military training, and holistic wellness practices to help people take control of their lives from the ground up.
-            </Typography>
-
-            <Typography variant="body" animate delay={0.5} className="text-ink-light dark:text-white/75 mb-6 leading-relaxed">
-              Charli believes true sustainability requires three essential forms of sovereignty:
-            </Typography>
+            <ProseBlock
+              animate
+              baseDelay={0.3}
+              spacing="mb-4"
+              lastSpacing="mb-6"
+              paragraphs={[
+                <><strong className="text-ink dark:text-white">Charli Smith</strong> is the founder of <strong className="text-ink dark:text-white">Krown Level Enterprises</strong>, a Jacksonville-based initiative focused on community sustainability through wellness education, agriculture, and self-defense.</>,
+                'Her work blends generations of agricultural wisdom, military training, and holistic wellness practices to help people take control of their lives from the ground up.',
+                'Charli believes true sustainability requires three essential forms of sovereignty:',
+              ]}
+            />
 
             <motion.div
-              className="space-y-3 mb-6"
+              className="mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              {['Health sovereignty', 'Food sovereignty', 'Personal defense'].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 text-ink dark:text-white">
-                  <div className="w-2 h-2 rounded-full bg-brand-gold flex-shrink-0" />
-                  <span className="font-body font-medium">{item}</span>
-                </div>
-              ))}
+              <CheckList
+                items={['Health sovereignty', 'Food sovereignty', 'Personal defense']}
+                iconName="circle"
+                iconColor="text-brand-gold"
+                iconSize={8}
+                textColor="text-ink dark:text-white font-medium"
+              />
             </motion.div>
 
-            <Typography variant="body" animate delay={0.7} className="text-ink-light dark:text-white/75 leading-relaxed">
-              She teaches through a blend of science, lived experience, and ancestral knowledge, helping people make meaningful changes that are practical, disciplined, and sustainable.
-            </Typography>
+            <ProseBlock
+              animate
+              baseDelay={0.7}
+              paragraphs={[
+                'She teaches through a blend of science, lived experience, and ancestral knowledge, helping people make meaningful changes that are practical, disciplined, and sustainable.',
+              ]}
+            />
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Typography, Button } from '../atoms';
+import { SectionHeader, CTAGroup } from '../molecules';
 
 export default function SecondaryCTA() {
   return (
@@ -11,21 +11,19 @@ export default function SecondaryCTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Typography variant="h3" className="text-white mb-6">
-            Ready to grow, heal, and move with intention?
-          </Typography>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="cta" href="#plant-klub">
-              Join Plant Klub
-            </Button>
-            <Button
-              variant="outline"
-              href="#contact"
-              className="border-white/30 text-white hover:bg-white/10 hover:text-white"
-            >
-              Book Now
-            </Button>
-          </div>
+          <SectionHeader
+            heading="Ready to grow, heal, and move with intention?"
+            headingVariant="h3"
+            align="center"
+            onDark
+            headingClassName="mb-6"
+            className="mb-0"
+          />
+          <CTAGroup
+            primary={{ label: 'Join Plant Klub', href: '#plant-klub' }}
+            secondary={{ label: 'Book Now', href: '#contact', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
+            align="center"
+          />
         </motion.div>
       </div>
     </section>

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Icon } from '../atoms';
-import { TestimonialCard, SectionHeader } from '../molecules';
+import { TestimonialCard, SectionHeader, OutcomeChip, SliderControls } from '../molecules';
 
 const testimonials = [
   {
@@ -74,34 +73,13 @@ export default function TestimonialSlider() {
               />
             </motion.div>
           </AnimatePresence>
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button
-              onClick={prev}
-              className="w-10 h-10 rounded-full border border-surface-muted dark:border-dark-border flex items-center justify-center text-ink-muted hover:text-brand-purple hover:border-brand-purple transition-colors"
-              aria-label="Previous testimonial"
-            >
-              <Icon name="chevron-right" size={18} className="rotate-180" />
-            </button>
-            <div className="flex gap-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    i === current ? 'bg-brand-purple w-6' : 'bg-surface-muted dark:bg-dark-border'
-                  }`}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={next}
-              className="w-10 h-10 rounded-full border border-surface-muted dark:border-dark-border flex items-center justify-center text-ink-muted hover:text-brand-purple hover:border-brand-purple transition-colors"
-              aria-label="Next testimonial"
-            >
-              <Icon name="chevron-right" size={18} />
-            </button>
-          </div>
+          <SliderControls
+            onPrev={prev}
+            onNext={next}
+            count={testimonials.length}
+            current={current}
+            onSelect={setCurrent}
+          />
         </div>
 
         <motion.div
@@ -119,14 +97,12 @@ export default function TestimonialSlider() {
             {outcomes.map((item, i) => (
               <motion.div
                 key={item.text}
-                className="flex items-center gap-3 p-4 rounded-xl bg-surface-light dark:bg-dark-elevated border border-surface-muted dark:border-dark-border"
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
               >
-                <Icon name={item.icon} size={20} className="text-brand-purple flex-shrink-0" />
-                <span className="font-body text-sm text-ink dark:text-white">{item.text}</span>
+                <OutcomeChip icon={item.icon} text={item.text} />
               </motion.div>
             ))}
           </div>

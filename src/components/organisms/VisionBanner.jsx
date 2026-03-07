@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { Typography } from '../atoms';
-import { SectionHeader } from '../molecules';
+import { QuoteBlock, SectionHeader, ProseBlock } from '../molecules';
 
 export default function VisionBanner() {
   return (
@@ -20,17 +19,17 @@ export default function VisionBanner() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="space-y-6"
+          className="space-y-6 text-center"
         >
-          <Typography variant="lead" className="text-ink-light dark:text-white/75 text-center leading-relaxed">
-            Krown Level Enterprises exists to help communities reclaim the skills that create resilience.
-          </Typography>
-          <Typography variant="body" className="text-ink-light dark:text-white/75 text-center leading-relaxed">
-            By teaching wellness, agriculture, and self-defense together, Charli Smith is building more than programs. She is building pathways for people to become healthier, more capable, and more connected to the resources around them.
-          </Typography>
-          <Typography variant="body" className="text-ink-light dark:text-white/75 text-center leading-relaxed">
-            This work is about more than information. It is about restoration, discipline, and long-term empowerment.
-          </Typography>
+          <ProseBlock
+            paragraphs={[
+              'Krown Level Enterprises exists to help communities reclaim the skills that create resilience.',
+              'By teaching wellness, agriculture, and self-defense together, Charli Smith is building more than programs. She is building pathways for people to become healthier, more capable, and more connected to the resources around them.',
+              'This work is about more than information. It is about restoration, discipline, and long-term empowerment.',
+            ]}
+            color="text-ink-light dark:text-white/75"
+            spacing="mb-0"
+          />
         </motion.div>
 
         <motion.div
@@ -40,15 +39,12 @@ export default function VisionBanner() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <div className="text-brand-gold/40 text-5xl font-heading leading-none mb-3 select-none">
-            &ldquo;
-          </div>
-          <Typography variant="blockquote" className="text-ink dark:text-white mb-4 text-xl md:text-2xl">
-            Sustainability starts when people can care for themselves, feed themselves, and protect their peace.
-          </Typography>
-          <Typography variant="eyebrow" className="text-brand-gold tracking-[0.3em]">
-            — Charli Smith
-          </Typography>
+          <QuoteBlock
+            quote="Sustainability starts when people can care for themselves, feed themselves, and protect their peace."
+            attribution="— Charli Smith"
+            quoteColor="text-ink dark:text-white"
+            attributionColor="text-brand-gold"
+          />
         </motion.div>
       </div>
     </section>

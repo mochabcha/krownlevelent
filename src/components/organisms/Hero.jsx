@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { Logo, Typography, Button, Badge } from '../atoms';
-import { TrustRibbon } from '../molecules';
-import heroImg from '@assets/images/IMG_0050.jpg';
+import { TrustRibbon, SectionHeader, CTAGroup, BrandLockup } from '../molecules';
+import heroImg from '@assets/images/IMG_0050.webp';
 
 export default function Hero() {
   return (
@@ -19,54 +18,32 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <Logo variant="wordmark" size="hero" className="mx-auto lg:mx-0 mb-8" />
+              <BrandLockup variant="wordmark" size="hero" logoClassName="mx-auto lg:mx-0 mb-8" />
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5 }}
-            >
-              <Typography variant="h1" className="text-white mb-4">
-                Community Sustainability.{' '}
-                <span className="text-gradient-gold">Personal Sovereignty.</span>{' '}
-                Holistic Living.
-              </Typography>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
-            >
-              <Typography variant="eyebrow" className="text-brand-gold-light text-lg mb-6 tracking-[0.25em]">
-                Grow your food. Heal your body. Defend your peace.
-              </Typography>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.9 }}
-            >
-              <Typography variant="lead" className="text-white/80 mb-8 max-w-xl mx-auto lg:mx-0">
-                Led by instructor <strong className="text-brand-gold">Charli Smith</strong>, Krown Level Enterprises helps people reclaim control over their health, food, safety, and sustainability through holistic education, community programs, and practical skill building.
-              </Typography>
-            </motion.div>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.1 }}
-            >
-              <Button variant="cta" href="#plant-klub">
-                Join Plant Klub
-              </Button>
-              <Button variant="outline" href="#wellness" className="border-white/30 text-white hover:bg-white/10 hover:text-white">
-                Book a Consultation
-              </Button>
-            </motion.div>
+            <SectionHeader
+              eyebrow="Grow your food. Heal your body. Defend your peace."
+              heading={
+                <>
+                  Community Sustainability.{' '}
+                  <span className="text-gradient-gold">Personal Sovereignty.</span>{' '}
+                  Holistic Living.
+                </>
+              }
+              lead={<>Led by instructor <strong className="text-brand-gold">Charli Smith</strong>, Krown Level Enterprises helps people reclaim control over their health, food, safety, and sustainability through holistic education, community programs, and practical skill building.</>}
+              align="left"
+              onDark
+              eyebrowColor="text-brand-gold-light text-lg tracking-[0.25em]"
+              headingClassName="mb-4"
+              leadColor="text-white/80 mb-8 max-w-xl"
+              className="mb-8"
+            />
+            <CTAGroup
+              primary={{ label: 'Join Plant Klub', href: '#plant-klub' }}
+              secondary={{ label: 'Book a Consultation', href: '#wellness', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
+              align="center"
+              className="lg:justify-start"
+            />
           </div>
 
           <motion.div

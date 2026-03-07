@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { Icon, Logo } from '../atoms';
-import { Card, SectionHeader } from '../molecules';
+import { PillarCard, SectionHeader, ProseBlock } from '../molecules';
 
 const pillars = [
   {
@@ -50,28 +49,22 @@ export default function BrandEcosystem() {
           }}
         >
           {pillars.map((pillar) => (
-            <motion.a
+            <motion.div
               key={pillar.title}
-              href={pillar.href}
-              className="block"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 },
               }}
               transition={{ duration: 0.6 }}
             >
-              <Card variant="gradient" hover className="h-full text-center">
-                <div className={`w-16 h-16 rounded-2xl bg-white/60 dark:bg-white/10 flex items-center justify-center ${pillar.color} mx-auto mb-5`}>
-                  <Icon name={pillar.icon} size={32} />
-                </div>
-                <Typography variant="h4" className="text-ink dark:text-white mb-3">
-                  {pillar.title}
-                </Typography>
-                <Typography variant="body" className="text-ink-muted">
-                  {pillar.description}
-                </Typography>
-              </Card>
-            </motion.a>
+              <PillarCard
+                icon={pillar.icon}
+                title={pillar.title}
+                description={pillar.description}
+                iconColor={pillar.color}
+                href={pillar.href}
+              />
+            </motion.div>
           ))}
         </motion.div>
 
@@ -82,9 +75,11 @@ export default function BrandEcosystem() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <Typography variant="lead" className="text-ink-light dark:text-white/75 italic">
-            Different paths. One mission: helping people reclaim alignment, resilience, and independence.
-          </Typography>
+          <ProseBlock
+            paragraphs={['Different paths. One mission: helping people reclaim alignment, resilience, and independence.']}
+            color="text-ink-light dark:text-white/75"
+            className="italic"
+          />
         </motion.div>
       </div>
     </section>

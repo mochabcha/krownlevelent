@@ -1,5 +1,4 @@
-import { Logo, Typography } from '../atoms';
-import { NavLink, SocialLink, ContactLink } from '../molecules';
+import { NavLink, SocialLink, ContactLink, BrandLockup, FooterCredit, SectionHeader } from '../molecules';
 
 const quickLinks = [
   { label: 'About', href: '#about' },
@@ -22,17 +21,16 @@ export default function Footer() {
     <footer className="bg-brand-indigo-dark text-white/70 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
-          <div>
-            <Logo variant="wordmark" size="sm" className="mb-4 brightness-0 invert opacity-80" />
-            <Typography variant="body" className="text-white/50 text-sm leading-relaxed">
-              Krown Level Enterprises — Community sustainability through wellness, agriculture, and self-defense.
-            </Typography>
-          </div>
+          <BrandLockup
+            variant="wordmark"
+            size="sm"
+            logoClassName="mb-4 brightness-0 invert opacity-80"
+            tagline="Krown Level Enterprises — Community sustainability through wellness, agriculture, and self-defense."
+            taglineColor="text-white/50"
+          />
 
           <div>
-            <Typography variant="eyebrow" className="text-brand-gold mb-4 tracking-[0.2em]">
-              Quick Links
-            </Typography>
+            <SectionHeader eyebrow="Quick Links" eyebrowColor="text-brand-gold tracking-[0.2em]" className="mb-4" />
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.label}>
@@ -48,9 +46,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <Typography variant="eyebrow" className="text-brand-gold mb-4 tracking-[0.2em]">
-              Connect
-            </Typography>
+            <SectionHeader eyebrow="Connect" eyebrowColor="text-brand-gold tracking-[0.2em]" className="mb-4" />
             <div className="space-y-3 mb-6">
               <ContactLink href="mailto:krownlevelent31@gmail.com" icon="mail" iconSize={14} className="text-white/50 hover:text-brand-gold">
                 krownlevelent31@gmail.com
@@ -84,14 +80,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Typography variant="small" className="text-white/30 text-xs">
-            &copy; {year} Krown Level Enterprises. All rights reserved.
-          </Typography>
-          <Typography variant="small" className="text-white/30 text-xs">
-            Community sustainability through wellness, agriculture, and self-defense.
-          </Typography>
-        </div>
+        <FooterCredit
+          year={year}
+          tagline="Community sustainability through wellness, agriculture, and self-defense."
+        />
       </div>
     </footer>
   );

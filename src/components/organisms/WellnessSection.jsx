@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { Button, Icon, Badge } from '../atoms';
-import { AccordionItem, Card, SectionHeader } from '../molecules';
-import charliImg from '@assets/images/IMG_0155.jpg';
+import { AccordionItem, Card, SectionHeader, CTAGroup, ProseBlock, CheckList, BadgeGroup } from '../molecules';
+import charliImg from '@assets/images/IMG_0155.webp';
 
 const specialties = ['Chronic Pain', 'Terminal Illness', 'Anxiety', 'Insomnia'];
 
@@ -37,29 +36,28 @@ export default function WellnessSection() {
               headingClassName="mb-6"
               className="mb-0"
             />
-            <Typography variant="body" animate delay={0.2} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
-              Genie&apos;s Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.
-            </Typography>
-            <Typography variant="body" animate delay={0.3} className="text-ink-light dark:text-white/75 mb-4 leading-relaxed">
-              This work is designed for people who want a more natural, intentional approach to healing and wellness support.
-            </Typography>
-            <Typography variant="body" animate delay={0.4} className="text-ink-light dark:text-white/75 mb-6 leading-relaxed">
-              Charli helps clients assess where they are now, identify what may be throwing them out of alignment, and create a realistic wellness path forward.
-            </Typography>
+            <ProseBlock
+              animate
+              baseDelay={0.2}
+              spacing="mb-4"
+              lastSpacing="mb-6"
+              paragraphs={[
+                "Genie's Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.",
+                'This work is designed for people who want a more natural, intentional approach to healing and wellness support.',
+                'Charli helps clients assess where they are now, identify what may be throwing them out of alignment, and create a realistic wellness path forward.',
+              ]}
+            />
 
             <motion.div
-              className="flex flex-wrap gap-2"
+              className="flex flex-wrap gap-2 items-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <Typography variant="eyebrow" className="text-ink-muted mr-2 self-center">
-                Specialty Areas:
-              </Typography>
-              {specialties.map((s) => (
-                <Badge key={s} color="gold" icon="heart">{s}</Badge>
-              ))}
+              <BadgeGroup
+                badges={specialties.map((s) => ({ label: s, color: 'gold' }))}
+              />
             </motion.div>
           </div>
 
@@ -80,22 +78,16 @@ export default function WellnessSection() {
                 />
               </div>
               <Card variant="accent" padding="p-5">
-                <Typography variant="eyebrow" className="text-brand-purple mb-2">
-                  Who This Is For
-                </Typography>
-                <ul className="space-y-2">
-                  {[
+                <SectionHeader eyebrow="Who This Is For" eyebrowColor="text-brand-purple" className="mb-2" />
+                <CheckList
+                  items={[
                     'People seeking natural wellness approaches',
                     'Those dealing with chronic conditions',
                     'Anyone wanting more intentional health habits',
                     'Those looking for personalized guidance',
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-ink-light dark:text-white/75 text-sm">
-                      <Icon name="check" size={14} className="text-brand-green mt-0.5 flex-shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                  ]}
+                  textColor="text-ink-light dark:text-white/75"
+                />
               </Card>
             </div>
           </motion.div>
@@ -133,15 +125,20 @@ export default function WellnessSection() {
           transition={{ duration: 0.7 }}
         >
           <div className="bg-gradient-to-r from-brand-purple to-brand-indigo p-10 md:p-14 text-center">
-            <Typography variant="h3" className="text-white mb-4">
-              Book a Wellness Consultation
-            </Typography>
-            <Typography variant="body" className="text-white/80 max-w-2xl mx-auto mb-8">
-              Ready to take a more intentional approach to your health? Start with a one-on-one consultation tailored to your goals and current wellness needs.
-            </Typography>
-            <Button variant="cta" href="#contact">
-              Book Your Consultation
-            </Button>
+            <SectionHeader
+              heading="Book a Wellness Consultation"
+              headingVariant="h3"
+              lead="Ready to take a more intentional approach to your health? Start with a one-on-one consultation tailored to your goals and current wellness needs."
+              align="center"
+              onDark
+              leadColor="text-white/80 max-w-2xl mx-auto"
+              headingClassName="mb-4"
+              className="mb-8"
+            />
+            <CTAGroup
+              primary={{ label: 'Book Your Consultation', href: '#contact' }}
+              align="center"
+            />
           </div>
         </motion.div>
       </div>
