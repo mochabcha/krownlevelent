@@ -8,3 +8,5 @@ export { default as CredentialCard } from './CredentialCard';
 export { default as TestimonialCard } from './TestimonialCard';
 export { default as TrustRibbon } from './TrustRibbon';
 export { default as TimelineItem } from './TimelineItem';
+export { default as SocialLink } from './SocialLink';
+export { default as ContactLink } from './ContactLink';

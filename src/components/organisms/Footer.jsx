@@ -1,4 +1,5 @@
-import { Logo, Typography, Icon } from '../atoms';
+import { Logo, Typography } from '../atoms';
+import { NavLink, SocialLink, ContactLink } from '../molecules';
 
 const quickLinks = [
   { label: 'About', href: '#about' },
@@ -35,12 +36,12 @@ export default function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <NavLink
                     href={link.href}
-                    className="font-body text-sm text-white/50 hover:text-brand-gold transition-colors"
+                    className="text-white/50 hover:text-brand-gold"
                   >
                     {link.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -51,39 +52,34 @@ export default function Footer() {
               Connect
             </Typography>
             <div className="space-y-3 mb-6">
-              <a href="mailto:krownlevelent31@gmail.com" className="flex items-center gap-2 text-sm text-white/50 hover:text-brand-gold transition-colors">
-                <Icon name="mail" size={14} />
+              <ContactLink href="mailto:krownlevelent31@gmail.com" icon="mail" iconSize={14} className="text-white/50 hover:text-brand-gold">
                 krownlevelent31@gmail.com
-              </a>
-              <a href="tel:+19044423737" className="flex items-center gap-2 text-sm text-white/50 hover:text-brand-gold transition-colors">
-                <Icon name="phone" size={14} />
+              </ContactLink>
+              <ContactLink href="tel:+19044423737" icon="phone" iconSize={14} className="text-white/50 hover:text-brand-gold">
                 904-442-3737
-              </a>
-              <div className="flex items-center gap-2 text-sm text-white/50">
-                <Icon name="map-pin" size={14} />
+              </ContactLink>
+              <ContactLink icon="map-pin" iconSize={14} className="text-white/50 pointer-events-none">
                 Jacksonville, FL
-              </div>
+              </ContactLink>
             </div>
             <div className="flex gap-3">
               {socialLinks.map((link) => (
-                <a
+                <SocialLink
                   key={link.label}
                   href={link.href}
-                  aria-label={link.label}
-                  className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/40 hover:text-brand-gold hover:border-brand-gold transition-all"
-                >
-                  <Icon name={link.icon} size={16} />
-                </a>
+                  label={link.label}
+                  icon={link.icon}
+                  size="sm"
+                  className="border-white/20 text-white/40 hover:text-brand-gold hover:border-brand-gold dark:hover:text-brand-gold dark:hover:border-brand-gold"
+                />
               ))}
-              <a
+              <SocialLink
                 href="#"
-                aria-label="TikTok"
-                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/40 hover:text-brand-gold hover:border-brand-gold transition-all"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-                </svg>
-              </a>
+                label="TikTok"
+                icon="tiktok"
+                size="sm"
+                className="border-white/20 text-white/40 hover:text-brand-gold hover:border-brand-gold dark:hover:text-brand-gold dark:hover:border-brand-gold"
+              />
             </div>
           </div>
         </div>

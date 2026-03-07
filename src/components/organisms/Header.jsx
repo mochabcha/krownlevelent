@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Logo, Button, Icon, ThemeToggle } from '../atoms';
+import { Logo, Button, IconButton, ThemeToggle } from '../atoms';
 import { NavLink } from '../molecules';
 
 const navItems = [
@@ -78,13 +78,12 @@ export default function Header() {
 
           <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
-            <button
+            <IconButton
+              name={mobileOpen ? 'x' : 'menu'}
+              size={24}
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-purple/10 transition-colors text-ink dark:text-white"
-              aria-label="Toggle menu"
-            >
-              <Icon name={mobileOpen ? 'x' : 'menu'} size={24} />
-            </button>
+              label="Toggle menu"
+            />
           </div>
         </div>
       </motion.header>
@@ -108,12 +107,12 @@ export default function Header() {
             >
               <div className="flex items-center justify-between p-6 border-b border-surface-muted dark:border-dark-border">
                 <Logo variant="emblem" size="xs" />
-                <button
+                <IconButton
+                  name="x"
+                  size={24}
                   onClick={closeMobile}
-                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-purple/10 text-ink dark:text-white"
-                >
-                  <Icon name="x" size={24} />
-                </button>
+                  label="Close menu"
+                />
               </div>
 
               <div className="flex-1 flex flex-col gap-1 p-6">
@@ -124,13 +123,13 @@ export default function Header() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: i * 0.05 }}
                   >
-                    <a
+                    <NavLink
                       href={item.href}
                       onClick={closeMobile}
-                      className="block py-3 px-4 font-eyebrow tracking-wider uppercase text-lg text-ink dark:text-white hover:text-brand-purple dark:hover:text-brand-purple-light hover:bg-brand-purple/5 rounded-xl transition-all"
+                      className="block py-3 px-4 text-lg text-ink dark:text-white hover:text-brand-purple dark:hover:text-brand-purple-light hover:bg-brand-purple/5 rounded-xl"
                     >
                       {item.label}
-                    </a>
+                    </NavLink>
                   </motion.div>
                 ))}
               </div>

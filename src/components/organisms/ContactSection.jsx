@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Typography, Icon } from '../atoms';
+import { Typography } from '../atoms';
+import { SocialLink, ContactLink } from '../molecules';
 
 const socialLinks = [
   { icon: 'facebook', label: 'Facebook', href: '#' },
@@ -32,20 +33,12 @@ export default function ContactSection() {
           </Typography>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-6">
-            <a
-              href="mailto:krownlevelent31@gmail.com"
-              className="flex items-center gap-2 text-brand-purple hover:text-brand-purple-light transition-colors"
-            >
-              <Icon name="mail" size={18} />
-              <span className="font-body">krownlevelent31@gmail.com</span>
-            </a>
-            <a
-              href="tel:+19044423737"
-              className="flex items-center gap-2 text-brand-purple hover:text-brand-purple-light transition-colors"
-            >
-              <Icon name="phone" size={18} />
-              <span className="font-body">904-442-3737</span>
-            </a>
+            <ContactLink href="mailto:krownlevelent31@gmail.com" icon="mail">
+              krownlevelent31@gmail.com
+            </ContactLink>
+            <ContactLink href="tel:+19044423737" icon="phone">
+              904-442-3737
+            </ContactLink>
           </div>
         </motion.div>
 
@@ -57,24 +50,14 @@ export default function ContactSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           {socialLinks.map((link) => (
-            <a
+            <SocialLink
               key={link.label}
               href={link.href}
-              aria-label={link.label}
-              className="w-12 h-12 rounded-full border border-surface-muted dark:border-dark-border flex items-center justify-center text-ink-muted hover:text-brand-purple hover:border-brand-purple dark:hover:text-brand-purple-light dark:hover:border-brand-purple-light transition-all hover:shadow-lg"
-            >
-              <Icon name={link.icon} size={20} />
-            </a>
+              label={link.label}
+              icon={link.icon}
+            />
           ))}
-          <a
-            href="#"
-            aria-label="TikTok"
-            className="w-12 h-12 rounded-full border border-surface-muted dark:border-dark-border flex items-center justify-center text-ink-muted hover:text-brand-purple hover:border-brand-purple dark:hover:text-brand-purple-light dark:hover:border-brand-purple-light transition-all hover:shadow-lg"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-            </svg>
-          </a>
+          <SocialLink href="#" label="TikTok" icon="tiktok" />
         </motion.div>
 
         <motion.div

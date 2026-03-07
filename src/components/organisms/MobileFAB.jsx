@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Icon } from '../atoms';
+import { Button, Icon } from '../atoms';
 import { downloadVCF } from '@/utils/vcf';
 
 export default function MobileFAB() {
@@ -26,33 +26,37 @@ export default function MobileFAB() {
           <AnimatePresence>
             {expanded && (
               <>
-                <motion.button
+                <motion.div
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.8 }}
                   transition={{ duration: 0.2, delay: 0.1 }}
-                  onClick={() => {
-                    downloadVCF();
-                    setExpanded(false);
-                  }}
-                  className="flex items-center gap-2 bg-brand-green text-white px-4 py-3 rounded-full shadow-xl shadow-brand-green/30 font-eyebrow tracking-wider text-sm"
-                  aria-label="Download Contact Card"
                 >
-                  <Icon name="download" size={18} />
-                  Save Contact
-                </motion.button>
-                <motion.a
-                  href="#contact"
+                  <Button
+                    variant="secondary"
+                    onClick={() => { downloadVCF(); setExpanded(false); }}
+                    className="gap-2 shadow-xl shadow-brand-green/30 !bg-brand-green px-4 py-3 text-sm"
+                  >
+                    <Icon name="download" size={18} />
+                    Save Contact
+                  </Button>
+                </motion.div>
+                <motion.div
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.8 }}
                   transition={{ duration: 0.2 }}
-                  onClick={() => setExpanded(false)}
-                  className="flex items-center gap-2 bg-brand-purple text-white px-4 py-3 rounded-full shadow-xl shadow-brand-purple/30 font-eyebrow tracking-wider text-sm"
                 >
-                  <Icon name="mail" size={18} />
-                  Book Now
-                </motion.a>
+                  <Button
+                    variant="secondary"
+                    href="#contact"
+                    onClick={() => setExpanded(false)}
+                    className="gap-2 shadow-xl shadow-brand-purple/30 px-4 py-3 text-sm"
+                  >
+                    <Icon name="mail" size={18} />
+                    Book Now
+                  </Button>
+                </motion.div>
               </>
             )}
           </AnimatePresence>

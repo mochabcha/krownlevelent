@@ -84,7 +84,7 @@ export default function SignUpForm() {
               className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 md:p-10 space-y-6"
             >
               <div className="grid sm:grid-cols-2 gap-6">
-                <FormField label="Full Name" required>
+                <FormField label="Full Name" required onDark>
                   <Input
                     name="name"
                     placeholder="Your full name"
@@ -94,7 +94,7 @@ export default function SignUpForm() {
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
                   />
                 </FormField>
-                <FormField label="Email" required>
+                <FormField label="Email" required onDark>
                   <Input
                     type="email"
                     name="email"
@@ -108,7 +108,7 @@ export default function SignUpForm() {
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                <FormField label="Phone Number">
+                <FormField label="Phone Number" onDark>
                   <Input
                     type="tel"
                     name="phone"
@@ -118,7 +118,7 @@ export default function SignUpForm() {
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:ring-brand-gold/50 focus:border-brand-gold"
                   />
                 </FormField>
-                <FormField label="Area of Interest" required>
+                <FormField label="Area of Interest" required onDark>
                   <Select
                     name="interest"
                     value={formData.interest}
@@ -132,7 +132,7 @@ export default function SignUpForm() {
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                <FormField label="Preferred Contact Method">
+                <FormField label="Preferred Contact Method" onDark>
                   <Select
                     name="contactMethod"
                     value={formData.contactMethod}
@@ -142,7 +142,7 @@ export default function SignUpForm() {
                     className="bg-white/10 border-white/20 text-white focus:ring-brand-gold/50 focus:border-brand-gold [&_option]:text-ink"
                   />
                 </FormField>
-                <FormField label="Best Time to Reach You">
+                <FormField label="Best Time to Reach You" onDark>
                   <Input
                     name="bestTime"
                     placeholder="e.g. Weekday mornings"
@@ -153,7 +153,7 @@ export default function SignUpForm() {
                 </FormField>
               </div>
 
-              <FormField label="What are you looking for support with?">
+              <FormField label="What are you looking for support with?" onDark>
                 <Textarea
                   name="message"
                   placeholder="Tell us a little about what you're looking for..."
