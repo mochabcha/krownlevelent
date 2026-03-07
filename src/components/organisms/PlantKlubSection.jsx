@@ -239,9 +239,10 @@ export default function PlantKlubSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Button variant="cta" href="#contact">
-              Buy Tickets to Plant Klub
-            </Button>
+            <CTAGroup
+              primary={{ label: 'Buy Tickets to Plant Klub', href: '#contact', variant: 'cta' }}
+              align="center"
+            />
           </motion.div>
         </div>
       </div>
