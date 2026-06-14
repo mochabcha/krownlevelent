@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type Model } from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
@@ -35,4 +35,4 @@ const eventSchema = new Schema<EventDocument>(
 
 eventSchema.index({ active: 1, sortOrder: 1 });
 
-export const Event = models.Event || model<EventDocument>('Event', eventSchema);
+export const Event = (models.Event || model<EventDocument>('Event', eventSchema)) as Model<any>;

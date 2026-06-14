@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type Model } from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
@@ -24,4 +24,4 @@ const siteSettingsSchema = new Schema<SiteSettingsDocument>(
 );
 
 export const SiteSettings =
-  models.SiteSettings || model<SiteSettingsDocument>('SiteSettings', siteSettingsSchema);
+  (models.SiteSettings || model<SiteSettingsDocument>('SiteSettings', siteSettingsSchema)) as Model<any>;

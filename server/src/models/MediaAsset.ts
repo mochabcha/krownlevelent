@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type Model } from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
@@ -57,4 +57,4 @@ const mediaAssetSchema = new Schema<MediaAssetDocument>(
 );
 
 export const MediaAsset =
-  models.MediaAsset || model<MediaAssetDocument>('MediaAsset', mediaAssetSchema);
+  (models.MediaAsset || model<MediaAssetDocument>('MediaAsset', mediaAssetSchema)) as Model<any>;

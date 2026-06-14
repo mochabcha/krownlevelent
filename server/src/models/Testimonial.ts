@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type Model } from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
@@ -26,4 +26,4 @@ const testimonialSchema = new Schema<TestimonialDocument>(
 testimonialSchema.index({ active: 1, sortOrder: 1 });
 
 export const Testimonial =
-  models.Testimonial || model<TestimonialDocument>('Testimonial', testimonialSchema);
+  (models.Testimonial || model<TestimonialDocument>('Testimonial', testimonialSchema)) as Model<any>;

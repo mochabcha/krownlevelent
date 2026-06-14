@@ -1,8 +1,11 @@
-import defaultSiteContent from '../../../shared/defaultSiteContent.json' with { type: 'json' };
+import { createRequire } from 'node:module';
 import { ContentBlock, Event, MediaAsset, SiteSettings, Testimonial } from '../models/index.js';
 import { isDatabaseConnected } from '../db/connect.js';
 import { HttpError } from '../utils/http.js';
 import { eventSchema, settingsSchema, testimonialSchema } from '../schemas/siteSchemas.js';
+
+const require = createRequire(import.meta.url);
+const defaultSiteContent = require('../../../shared/defaultSiteContent.json') as any;
 
 function labelFromKey(key: string) {
   return key

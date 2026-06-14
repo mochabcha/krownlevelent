@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type Model } from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
@@ -19,4 +19,4 @@ const adminUserSchema = new Schema<AdminUserDocument>(
   { timestamps: true }
 );
 
-export const AdminUser = models.AdminUser || model<AdminUserDocument>('AdminUser', adminUserSchema);
+export const AdminUser = (models.AdminUser || model<AdminUserDocument>('AdminUser', adminUserSchema)) as Model<any>;

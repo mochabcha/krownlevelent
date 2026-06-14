@@ -1,11 +1,14 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import fs from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import sharp from 'sharp';
-import defaultSiteContent from '../../../shared/defaultSiteContent.json' with { type: 'json' };
 import { env, requireEnv } from '../config/env.js';
 import { connectDatabase } from '../db/connect.js';
 import { AdminUser, ContentBlock, Event, MediaAsset, SiteSettings, Testimonial } from '../models/index.js';
+
+const require = createRequire(import.meta.url);
+const defaultSiteContent = require('../../../shared/defaultSiteContent.json') as any;
 
 const assetFiles: Record<string, { file: string; alt: string }> = {
   img0002: { file: 'src/assets/images/IMG_0002.webp', alt: 'Charli Smith with Krown Level banner' },

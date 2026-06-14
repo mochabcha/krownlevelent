@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type Model } from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
@@ -20,4 +20,4 @@ const contentBlockSchema = new Schema<ContentBlockDocument>(
 );
 
 export const ContentBlock =
-  models.ContentBlock || model<ContentBlockDocument>('ContentBlock', contentBlockSchema);
+  (models.ContentBlock || model<ContentBlockDocument>('ContentBlock', contentBlockSchema)) as Model<any>;
