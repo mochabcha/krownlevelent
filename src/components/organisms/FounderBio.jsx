@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { SectionHeader, BadgeGroup, ProseBlock, PhotoGrid, CheckList } from '../molecules';
-import portraitImg from '@assets/images/IMG_0213.webp';
-import candid1 from '@assets/images/IMG_0002.webp';
-import lifestyle from '@assets/images/IMG_0291.webp';
+import { resolveImage } from '../../content/imageRegistry';
+import AdminEditButton from '../admin/AdminEditButton';
 
-export default function FounderBio() {
+export default function FounderBio({ content = {}, mediaById = {} }) {
+  const images = (content.images || []).map((image) => resolveImage(image, mediaById));
+
   return (
-    <section id="about" className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+    <section id="about" className="relative py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+      <AdminEditButton target={{ group: 'founder-bio' }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           <motion.div
@@ -17,18 +19,19 @@ export default function FounderBio() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <PhotoGrid
-              images={[
-                { src: portraitImg, alt: 'Charli Smith — Portrait', span: 'col-span-2', wrapperClass: 'aspect-[4/3]' },
-                { src: candid1, alt: 'Charli Smith with Krown Level banner', wrapperClass: 'aspect-square', animate: true, delay: 0.2 },
-                { src: lifestyle, alt: 'Charli Smith — Creative portrait', wrapperClass: 'aspect-square', animate: true, delay: 0.3 },
-              ]}
+              images={images.map((image, i) => ({
+                ...image,
+                animate: i > 0,
+                delay: i * 0.1,
+                editTarget: { blockKey: 'founder-bio', path: ['images', String(i)] },
+              }))}
             />
           </motion.div>
 
           <div className="flex-1">
             <SectionHeader
-              eyebrow="The Founder"
-              heading="Meet Charli Smith"
+              eyebrow={content.eyebrow || 'The Founder'}
+              heading={content.heading || 'Meet Charli Smith'}
               animate
               headingClassName="mb-3"
               className="mb-0"
@@ -43,10 +46,8 @@ export default function FounderBio() {
               <BadgeGroup
                 className="mb-6"
                 badges={[
-                  { label: 'Instructor', color: 'purple' },
-                  { label: 'Wellness Consultant', color: 'green' },
-                  { label: 'Agricultural Educator', color: 'gold' },
-                  { label: 'Self-Defense Trainer', color: 'purple' },
+                  ...(content.badges || ['Instructor', 'Wellness Consultant', 'Agricultural Educator', 'Self-Defense Trainer'])
+                    .map((label, i) => ({ label, color: i % 2 ? 'green' : 'purple' })),
                 ]}
               />
             </motion.div>
@@ -57,9 +58,11 @@ export default function FounderBio() {
               spacing="mb-4"
               lastSpacing="mb-6"
               paragraphs={[
-                <><strong className="text-ink dark:text-white">Charli Smith</strong> is the founder of <strong className="text-ink dark:text-white">Krown Level Enterprises</strong>, a Jacksonville-based initiative focused on community sustainability through wellness education, agriculture, and self-defense.</>,
-                'Her work blends generations of agricultural wisdom, military training, and holistic wellness practices to help people take control of their lives from the ground up.',
-                'Charli believes true sustainability requires three essential forms of sovereignty:',
+                ...(content.paragraphs || [
+                  'Charli Smith is the founder of Krown Level Enterprises, a Jacksonville-based initiative focused on community sustainability through agriculture education, wellness education, financial literacy, and self-defense.',
+                  'Her work blends generations of agricultural wisdom, military training, practical education, and holistic wellness practices to help people take control of their lives from the ground up.',
+                  'Charli believes true sustainability requires four essential forms of sovereignty:',
+                ]),
               ]}
             />
 
@@ -71,7 +74,7 @@ export default function FounderBio() {
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <CheckList
-                items={['Health sovereignty', 'Food sovereignty', 'Personal defense']}
+                items={content.sovereignty || ['Food sovereignty', 'Health sovereignty', 'Financial sovereignty', 'Personal defense']}
                 iconName="circle"
                 iconColor="text-brand-gold"
                 iconSize={8}
@@ -83,7 +86,7 @@ export default function FounderBio() {
               animate
               baseDelay={0.7}
               paragraphs={[
-                'She teaches through a blend of science, lived experience, and ancestral knowledge, helping people make meaningful changes that are practical, disciplined, and sustainable.',
+                content.closing || 'She teaches through a blend of science, lived experience, and ancestral knowledge, helping people make meaningful changes that are practical, disciplined, and sustainable.',
               ]}
             />
           </div>

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FormField, SectionHeader, CTAGroup } from '../molecules';
+import AdminEditButton from '../admin/AdminEditButton';
 
 const interestOptions = [
   { value: 'plant-klub', label: 'Plant Klub' },
   { value: 'plant-klub-tickets', label: 'Plant Klub Tickets' },
   { value: 'wellness', label: 'Wellness Consultation' },
   { value: 'home-garden', label: 'Home Garden Installation' },
+  { value: 'financial-literacy', label: 'Financial Literacy' },
   { value: 'sage-defense', label: 'SAGE Defense Systems' },
   { value: 'general', label: 'General Inquiry' },
 ];
@@ -17,7 +19,7 @@ const contactMethods = [
   { value: 'text', label: 'Text Message' },
 ];
 
-export default function SignUpForm() {
+export default function SignUpForm({ content = {} }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,26 +28,40 @@ export default function SignUpForm() {
     contactMethod: '',
     message: '',
     bestTime: '',
+    company: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError('');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) throw new Error('Unable to submit your interest right now.');
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <section id="contact" className="relative py-20 md:py-28 overflow-hidden">
+      <AdminEditButton target={{ group: 'sign-up' }} />
       <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Get Connected"
-          heading="Start Your Journey"
-          lead="Whether you want to join Plant Klub, book a consultation, explore self-defense training, or ask a question, start here."
+          eyebrow={content.eyebrow || 'Get Connected'}
+          heading={content.heading || 'Start Your Journey'}
+          lead={content.lead || 'Whether you want to join Plant Klub, book a consultation, explore financial literacy or self-defense training, or ask a question, start here.'}
           align="center"
           animate
           onDark
@@ -72,9 +88,9 @@ export default function SignUpForm() {
                 <span className="text-brand-green text-3xl">✓</span>
               </div>
               <SectionHeader
-                heading="Thank You!"
+                heading={content.successHeading || 'Thank You!'}
                 headingVariant="h3"
-                lead="Your interest has been submitted. Charli will be in touch soon."
+                lead={content.successLead || 'Your interest has been submitted. Charli will be in touch soon.'}
                 align="center"
                 onDark
                 leadColor="text-white/70"
@@ -103,6 +119,8 @@ export default function SignUpForm() {
               </div>
 
               <FormField label="What are you looking for support with?" onDark type="textarea" name="message" placeholder="Tell us a little about what you're looking for..." value={formData.message} onChange={handleChange} rows={4} />
+              <input type="text" name="company" value={formData.company} onChange={handleChange} className="hidden" tabIndex="-1" autoComplete="off" />
+              {error && <p className="text-center text-sm text-red-200">{error}</p>}
 
               <div className="text-center pt-4">
                 <CTAGroup primary={{ label: 'Submit Your Interest', variant: 'cta', type: 'submit' }} align="center" />

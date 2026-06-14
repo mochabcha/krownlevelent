@@ -31,6 +31,14 @@ import {
   Instagram,
   Play,
   Check,
+  CircleDollarSign,
+  Pencil,
+  Image as ImageIcon,
+  Upload,
+  Save,
+  LogOut,
+  FolderOpen,
+  Music2,
 } from 'lucide-react';
 
 const iconMap = {
@@ -66,6 +74,14 @@ const iconMap = {
   instagram: Instagram,
   play: Play,
   check: Check,
+  'circle-dollar': CircleDollarSign,
+  pencil: Pencil,
+  image: ImageIcon,
+  upload: Upload,
+  save: Save,
+  logout: LogOut,
+  folder: FolderOpen,
+  tiktok: Music2,
 };
 
 export default function Icon({

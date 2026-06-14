@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { SectionHeader, CTAGroup } from '../molecules';
+import AdminEditButton from '../admin/AdminEditButton';
 
-export default function SecondaryCTA() {
+export default function SecondaryCTA({ content = {} }) {
   return (
-    <section className="py-14 bg-gradient-to-r from-brand-purple to-brand-indigo">
+    <section className="relative py-14 bg-gradient-to-r from-brand-purple to-brand-indigo">
+      <AdminEditButton target={{ group: 'secondary-cta' }} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -12,7 +14,7 @@ export default function SecondaryCTA() {
           transition={{ duration: 0.6 }}
         >
           <SectionHeader
-            heading="Ready to grow, heal, and move with intention?"
+            heading={content.heading || 'Ready to grow, heal, and move with intention?'}
             headingVariant="h3"
             align="center"
             onDark
@@ -20,8 +22,8 @@ export default function SecondaryCTA() {
             className="mb-0"
           />
           <CTAGroup
-            primary={{ label: 'Join Plant Klub', href: '#plant-klub' }}
-            secondary={{ label: 'Book Now', href: '#contact', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
+            primary={{ label: content.primaryLabel || 'Join Plant Klub', href: '#plant-klub' }}
+            secondary={{ label: content.secondaryLabel || 'Book Now', href: '#contact', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
             align="center"
           />
         </motion.div>

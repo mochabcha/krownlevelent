@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TestimonialCard, SectionHeader, OutcomeChip, SliderControls } from '../molecules';
+import AdminEditButton from '../admin/AdminEditButton';
 
-const testimonials = [
+const defaultTestimonials = [
   {
     quote: 'Plant Klub opened my eyes to what growing your own food really means. It is more than gardening — it is about taking control of your health and your table.',
     author: 'Plant Klub Participant',
@@ -20,34 +21,41 @@ const testimonials = [
   },
 ];
 
-const outcomes = [
+const defaultOutcomes = [
   { icon: 'sprout', text: 'Confidence in growing your own food' },
   { icon: 'heart', text: 'A more intentional approach to wellness' },
   { icon: 'shield', text: 'Awareness and personal safety skills' },
   { icon: 'users', text: 'A supportive, like-minded community' },
 ];
 
-export default function TestimonialSlider() {
+export default function TestimonialSlider({ content = {}, siteContent = {} }) {
+  const testimonials = siteContent.testimonials || defaultTestimonials;
+  const outcomes = content.outcomes || defaultOutcomes;
   const [current, setCurrent] = useState(0);
+  const visibleTestimonials = testimonials.length > 3
+    ? [testimonials[current], testimonials[(current + 1) % testimonials.length], testimonials[(current + 2) % testimonials.length]]
+    : testimonials;
 
   const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
   return (
-    <section className="py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
+    <section className="relative py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
+      <AdminEditButton target={{ group: 'testimonials' }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Real Experiences"
-          heading="What People Are Experiencing"
+          eyebrow={content.eyebrow || 'Real Experiences'}
+          heading={content.heading || 'What People Are Experiencing'}
           align="center"
           animate
           className="mb-14"
         />
 
-        <div className="hidden md:grid md:grid-cols-3 gap-6 mb-16">
-          {testimonials.map((t, i) => (
+        <div className="hidden md:block mb-16">
+          <div className="grid md:grid-cols-3 gap-6">
+          {visibleTestimonials.map((t, i) => (
             <TestimonialCard
-              key={i}
+              key={t.id || `${t.author}-${i}`}
               quote={t.quote}
               author={t.author}
               role={t.role}
@@ -55,6 +63,16 @@ export default function TestimonialSlider() {
               delay={i * 0.15}
             />
           ))}
+          </div>
+          {testimonials.length > 3 && (
+            <SliderControls
+              onPrev={prev}
+              onNext={next}
+              count={testimonials.length}
+              current={current}
+              onSelect={setCurrent}
+            />
+          )}
         </div>
 
         <div className="md:hidden relative mb-16">
@@ -89,7 +107,7 @@ export default function TestimonialSlider() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <SectionHeader
-            eyebrow="What You'll Gain"
+            eyebrow={content.outcomesEyebrow || "What You'll Gain"}
             align="center"
             className="mb-6"
           />

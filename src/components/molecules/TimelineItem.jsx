@@ -8,16 +8,18 @@ export default function TimelineItem({
   isLast = false,
   animate = false,
   delay = 0,
+  markerClassName = 'bg-brand-purple text-white',
+  lineClassName = 'from-brand-purple/60 to-brand-purple/10',
   className = '',
 }) {
   const content = (
     <div className={`flex gap-4 md:gap-6 ${className}`}>
       <div className="flex flex-col items-center">
-        <div className="w-10 h-10 rounded-full bg-brand-purple flex items-center justify-center text-white font-eyebrow text-sm tracking-wider flex-shrink-0">
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-eyebrow text-sm tracking-wider flex-shrink-0 ${markerClassName}`}>
           {level}
         </div>
         {!isLast && (
-          <div className="w-px flex-1 bg-gradient-to-b from-brand-purple/60 to-brand-purple/10 mt-2" />
+          <div className={`w-px flex-1 bg-gradient-to-b mt-2 ${lineClassName}`} />
         )}
       </div>
       <div className="pb-8">

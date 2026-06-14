@@ -16,6 +16,12 @@
     --color-green: #1A7D45;
     --color-green-light: #2AAD65;
     --color-green-dark: #0A5D25;
+    --color-sage: #7C9A72;
+    --color-sage-light: #A8BE9F;
+    --color-sage-dark: #536D4A;
+    --color-aqua: #2CB7B0;
+    --color-aqua-light: #76D7D2;
+    --color-aqua-dark: #167A75;
 
     --surface-bg: #FAF7F2;
     --surface-warm: #F5F0EB;
@@ -250,6 +256,13 @@
 
   .text-gradient-purple {
     background: linear-gradient(135deg, var(--color-purple-light), var(--color-purple), var(--color-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-sage-aqua {
+    background: linear-gradient(135deg, var(--color-sage-light), var(--color-sage), var(--color-aqua-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

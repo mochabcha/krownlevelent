@@ -1,0 +1,220 @@
+{
+  "meta": {
+    "title": "Krown Level Enterprises - Community Sustainability. Personal Sovereignty. Holistic Living.",
+    "description": "Charli Smith is the founder of Krown Level Enterprises, a Jacksonville-based community sustainability platform offering agriculture education, wellness education, financial literacy, and self-defense training."
+  },
+  "settings": {
+    "contact": {
+      "name": "Charli Smith",
+      "organization": "Krown Level Enterprises",
+      "email": "krownlevelent31@gmail.com",
+      "phone": "904-442-3737",
+      "phoneHref": "+19044423737",
+      "location": "Jacksonville, FL"
+    },
+    "socialLinks": [
+      { "platform": "facebook", "label": "Facebook", "href": "#" },
+      { "platform": "instagram", "label": "Instagram", "href": "#" },
+      { "platform": "tiktok", "label": "TikTok", "href": "#" }
+    ],
+    "calendlyUrl": "",
+    "logos": {
+      "primary": { "assetKey": "krownWordMark", "alt": "Krown Level Enterprises" },
+      "emblem": { "assetKey": "krownEmblem", "alt": "Krown Level Enterprises emblem" },
+      "plantKlub": { "assetKey": "plantKlubWordMark", "alt": "Plant Klub" }
+    }
+  },
+  "blocks": {
+    "hero": {
+      "eyebrow": "Grow your food. Heal your body. Defend your peace.",
+      "headingPrefix": "Community Sustainability.",
+      "headingAccent": "Personal Sovereignty.",
+      "headingSuffix": "Holistic Living.",
+      "lead": "Led by instructor Charli Smith, Krown Level Enterprises helps people reclaim control over their food, health, resources, safety, and sustainability through holistic education, community programs, and practical skill building.",
+      "primaryCta": "Join Plant Klub",
+      "secondaryCta": "Book a Consultation",
+      "image": { "assetKey": "img0050", "alt": "Charli Smith - Founder of Krown Level Enterprises" },
+      "trustRibbon": [
+        { "icon": "sprout", "label": "Agriculture Education" },
+        { "icon": "heart", "label": "Wellness Education" },
+        { "icon": "circle-dollar", "label": "Financial Literacy" },
+        { "icon": "shield", "label": "Self-Defense" },
+        { "icon": "map-pin", "label": "Jacksonville Based" }
+      ]
+    },
+    "brand-ecosystem": {
+      "eyebrow": "The Ecosystem",
+      "heading": "What Is Krown Level Enterprises?",
+      "lead": "Krown Level Enterprises is a community sustainability platform designed to help people build the skills and habits needed to live healthier, safer, and more self-sufficient lives.",
+      "pillars": [
+        { "icon": "sprout", "title": "Agriculture Education", "description": "Hands-on gardening, food systems, plant stewardship, and community growing skills.", "color": "text-brand-green", "href": "#plant-klub" },
+        { "icon": "heart", "title": "Wellness Education", "description": "Holistic habits for herbs, nutrition, movement, recovery, and whole-person alignment.", "color": "text-brand-gold", "href": "#wellness" },
+        { "icon": "circle-dollar", "title": "Financial Literacy", "description": "Practical education that supports independent decisions, preparedness, and long-term stability.", "color": "text-brand-aqua", "href": "#contact" },
+        { "icon": "shield", "title": "Self-Defense", "description": "Mindset-first personal safety, awareness, lawful response, and responsible protection skills.", "color": "text-brand-sage", "href": "#sage-defense" }
+      ],
+      "closing": "Different paths. One mission: helping people reclaim alignment, resilience, and independence."
+    },
+    "founder-bio": {
+      "eyebrow": "The Founder",
+      "heading": "Meet Charli Smith",
+      "badges": ["Instructor", "Wellness Consultant", "Agricultural Educator", "Self-Defense Trainer"],
+      "paragraphs": [
+        "Charli Smith is the founder of Krown Level Enterprises, a Jacksonville-based initiative focused on community sustainability through agriculture education, wellness education, financial literacy, and self-defense.",
+        "Her work blends generations of agricultural wisdom, military training, practical education, and holistic wellness practices to help people take control of their lives from the ground up.",
+        "Charli believes true sustainability requires four essential forms of sovereignty:"
+      ],
+      "sovereignty": ["Food sovereignty", "Health sovereignty", "Financial sovereignty", "Personal defense"],
+      "closing": "She teaches through a blend of science, lived experience, and ancestral knowledge, helping people make meaningful changes that are practical, disciplined, and sustainable.",
+      "images": [
+        { "assetKey": "img0213", "alt": "Charli Smith - Portrait", "span": "col-span-2", "wrapperClass": "aspect-[4/3]" },
+        { "assetKey": "img0002", "alt": "Charli Smith with Krown Level banner", "wrapperClass": "aspect-square" },
+        { "assetKey": "img0291", "alt": "Charli Smith - Creative portrait", "wrapperClass": "aspect-square" }
+      ]
+    },
+    "vision": {
+      "eyebrow": "A More Sustainable Way Forward",
+      "heading": "The Vision",
+      "paragraphs": [
+        "Krown Level Enterprises exists to help communities reclaim the skills that create resilience.",
+        "By teaching agriculture education, wellness education, financial literacy, and self-defense together, Charli Smith is building more than programs. She is building pathways for people to become healthier, more capable, and more connected to the resources around them.",
+        "This work is about more than information. It is about restoration, discipline, and long-term empowerment."
+      ],
+      "quote": "Sustainability starts when people can feed themselves, care for themselves, manage their resources, and protect their peace.",
+      "attribution": "- Charli Smith"
+    },
+    "credentials": {
+      "eyebrow": "Rooted in Practice",
+      "heading": "Charli's Background",
+      "lead": "Charli's approach is rooted in real training, lived discipline, and years of hands-on study.",
+      "items": [
+        { "icon": "shield", "title": "Military & Self-Defense", "iconColor": "text-brand-purple", "items": ["15 years, United States Air Force - Security Forces", "USCCA Certified Concealed Carry Instructor", "NRA Range Safety Officer", "NRA Certified Pistol Instructor"] },
+        { "icon": "leaf", "title": "Agriculture & Food Systems", "iconColor": "text-brand-green", "items": ["Family-rooted agricultural practice", "North-South Institute Incubator Business Program", "UF/IFAS coursework and ongoing study", "Certified Community Garden Leader (2025)", "Irrigation and sustainable growing training"] },
+        { "icon": "flower", "title": "Holistic Wellness", "iconColor": "text-brand-gold", "items": ["Wellness consulting through Genie's Healing Elements", "Focus on herbs, exercise, behavioral habits, and natural alignment", "Specialty support for chronic pain, terminal illness, anxiety, and insomnia"] }
+      ]
+    },
+    "quote-banner": {
+      "quote": "\"Grow your food. Heal your body. Defend your peace.\"",
+      "attribution": "- Charli Smith",
+      "variant": "galaxy"
+    },
+    "wellness": {
+      "eyebrow": "Holistic Wellness Consulting",
+      "heading": "Genie's Healing Elements",
+      "paragraphs": [
+        "Genie's Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.",
+        "This work is designed for people who want a more natural, intentional approach to healing and wellness support.",
+        "Charli helps clients assess where they are now, identify what may be throwing them out of alignment, and create a realistic wellness path forward."
+      ],
+      "specialties": ["Chronic Pain", "Terminal Illness", "Anxiety", "Insomnia"],
+      "image": { "assetKey": "img0155", "alt": "Charli Smith - Wellness & Style" },
+      "audienceEyebrow": "Who This Is For",
+      "audienceItems": ["People seeking natural wellness approaches", "Those dealing with chronic conditions", "Anyone wanting more intentional health habits", "Those looking for personalized guidance"],
+      "processEyebrow": "The Process",
+      "processHeading": "How the Wellness Process Works",
+      "processItems": [
+        { "title": "Assessment", "content": "We begin by understanding where you are in your health journey, what challenges you're facing, and what level of support you need." },
+        { "title": "Alignment", "content": "We identify habits, lifestyle patterns, stressors, and physical needs that may be affecting your wellness." },
+        { "title": "Natural Support", "content": "Herbs, movement, nutritional shifts, and behavioral strategies are considered based on your goals and condition." },
+        { "title": "Ongoing Practice", "content": "Healing is a process. The goal is to build sustainable wellness habits that support long-term change." }
+      ],
+      "ctaHeading": "Book a Wellness Consultation",
+      "ctaLead": "Ready to take a more intentional approach to your health? Start with a one-on-one consultation tailored to your goals and current wellness needs.",
+      "ctaLabel": "Book Your Consultation"
+    },
+    "plant-klub": {
+      "eyebrow": "Learn to Grow Your Own Food",
+      "lead": "Plant Klub is a community-centered gardening and education initiative designed to reconnect people with the land, their food, and the practical skill of cultivation.",
+      "intro": "Members learn how to grow herbs, vegetables, and medicinal plants while building confidence, community, and self-sufficiency.",
+      "chips": ["Gardening education", "Plant trading", "Information sharing", "Fellowship", "Hands-on workshops", "Green thumb development"],
+      "gallery": [
+        { "assetKey": "img0268", "alt": "Charli Smith - Creative spirit", "span": "col-span-2 row-span-2" },
+        { "assetKey": "img0310", "alt": "Charli Smith - Many hats", "span": "" },
+        { "assetKey": "img0319", "alt": "Charli Smith - Gold hat detail", "span": "" },
+        { "assetKey": "img0094", "alt": "Charli Smith - Styled portrait", "span": "col-span-2" }
+      ],
+      "offeringsHeading": "What You Can Learn in Plant Klub",
+      "offerings": [
+        { "icon": "flower", "title": "Herbal Gardening", "description": "Learn how to grow herbs that support wellness and everyday use." },
+        { "icon": "sprout", "title": "Food Growing Basics", "description": "Understand soil, watering, planting cycles, and what it takes to grow your own food." },
+        { "icon": "users", "title": "Community Exchange", "description": "Trade plants, share knowledge, and build your skills alongside others." },
+        { "icon": "tree", "title": "Home Installations", "description": "Get support designing and installing a personalized herb or food garden at home." }
+      ],
+      "supportEyebrow": "Personalized Support",
+      "supportHeading": "Need Help Starting at Home?",
+      "supportParagraphs": [
+        "Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.",
+        "Each installation begins with an assessment that considers:"
+      ],
+      "supportItems": ["Your available space", "Your experience level", "Your lifestyle", "Your wellness goals"],
+      "supportImage": { "assetKey": "img0268", "alt": "Charli Smith - Grounded and creative" },
+      "eventsEyebrow": "Don't Miss Out",
+      "eventsHeading": "Upcoming Plant Klub Events",
+      "eventsLead": "Join the next Plant Klub experience and learn in community."
+    },
+    "sage-defense": {
+      "eyebrow": "Learn to Defend Your Peace",
+      "heading": "S.A.G.E. Defense Systems",
+      "subtitle": "Sacred Alignment Grounding Everything",
+      "paragraphs": [
+        "S.A.G.E. Defense Systems teaches people how to develop the mindset, awareness, and practical skill needed to protect themselves and others responsibly.",
+        "Charli's training begins with mindset first, because effective self-defense starts before physical action. From there, students build the ability to assess threats, respond appropriately, and protect themselves with confidence and discipline."
+      ],
+      "philosophy": "Not every threat is what it seems. A big part of self-defense is learning the difference between bait and danger, and knowing how to respond lawfully, effectively, and under pressure.",
+      "image": { "assetKey": "img0227", "alt": "Charli Smith - Disciplined and grounded" },
+      "trainingLevels": [
+        { "level": 1, "title": "Defend Yourself", "description": "Situational awareness, mindset, and personal protection basics." },
+        { "level": 2, "title": "Defend Others", "description": "Skills for protecting family members and vulnerable people." },
+        { "level": 3, "title": "Coordinated Defense", "description": "Learning how to move effectively when others are involved." },
+        { "level": 4, "title": "Advanced Readiness", "description": "For those seeking a deeper level of preparedness and survival training." }
+      ],
+      "faqItems": [
+        { "question": "Do I need prior experience?", "answer": "No. Training can begin at a foundational level and grow with your comfort and skill." },
+        { "question": "Is this only firearm training?", "answer": "No. S.A.G.E. Defense Systems includes mindset, verbal awareness, self-defense principles, and weapon education where appropriate." },
+        { "question": "Is mindset really that important?", "answer": "Yes. Awareness, decision making, lawful response, and emotional control are all essential parts of defense." },
+        { "question": "Can beginners join?", "answer": "Yes. The training path is designed to meet people where they are." }
+      ]
+    },
+    "testimonials": {
+      "eyebrow": "Real Experiences",
+      "heading": "What People Are Experiencing",
+      "outcomesEyebrow": "What You'll Gain",
+      "outcomes": [
+        { "icon": "sprout", "text": "Confidence in growing your own food" },
+        { "icon": "heart", "text": "A more intentional approach to wellness" },
+        { "icon": "shield", "text": "Awareness and personal safety skills" },
+        { "icon": "users", "text": "A supportive, like-minded community" }
+      ]
+    },
+    "sign-up": {
+      "eyebrow": "Get Connected",
+      "heading": "Start Your Journey",
+      "lead": "Whether you want to join Plant Klub, book a consultation, explore financial literacy or self-defense training, or ask a question, start here.",
+      "successHeading": "Thank You!",
+      "successLead": "Your interest has been submitted. Charli will be in touch soon."
+    },
+    "contact": {
+      "eyebrow": "Let's Build Together",
+      "heading": "Connect with Charli",
+      "description": "Serving Jacksonville and surrounding communities through education, wellness, and practical training."
+    },
+    "footer": {
+      "tagline": "Krown Level Enterprises - Community sustainability through agriculture education, wellness education, financial literacy, and self-defense.",
+      "creditTagline": "Community sustainability through agriculture education, wellness education, financial literacy, and self-defense."
+    },
+    "secondary-cta": {
+      "heading": "Ready to grow, heal, and move with intention?",
+      "primaryLabel": "Join Plant Klub",
+      "secondaryLabel": "Book Now"
+    }
+  },
+  "events": [
+    { "title": "Plant Klub Spring Workshop", "date": "April 2025", "time": "10:00 AM - 2:00 PM", "location": "Jacksonville, FL", "description": "Hands-on gardening workshop covering soil prep, herb planting, and sustainable growing.", "price": "$25", "ctaText": "Reserve Your Spot", "ctaHref": "#contact", "active": true, "sortOrder": 0 },
+    { "title": "Community Garden Day", "date": "May 2025", "time": "9:00 AM - 1:00 PM", "location": "Jacksonville, FL", "description": "A community gathering focused on plant exchange, garden tours, and fellowship.", "price": "Free", "ctaText": "Reserve Your Spot", "ctaHref": "#contact", "active": true, "sortOrder": 1 },
+    { "title": "Herbal Wellness Workshop", "date": "June 2025", "time": "11:00 AM - 3:00 PM", "location": "Jacksonville, FL", "description": "Learn to grow and use medicinal herbs for everyday wellness.", "price": "$30", "ctaText": "Reserve Your Spot", "ctaHref": "#contact", "active": true, "sortOrder": 2 }
+  ],
+  "testimonials": [
+    { "quote": "Plant Klub opened my eyes to what growing your own food really means. It is more than gardening - it is about taking control of your health and your table.", "author": "Plant Klub Participant", "role": "Community Member", "active": true, "sortOrder": 0 },
+    { "quote": "Charli approaches wellness with such intention and care. She helped me understand my body in ways no one else had.", "author": "Wellness Client", "role": "Consultation Participant", "active": true, "sortOrder": 1 },
+    { "quote": "The self-defense training changed my mindset completely. I feel more aware, more confident, and more prepared.", "author": "SAGE Student", "role": "Training Participant", "active": true, "sortOrder": 2 }
+  ]
+}

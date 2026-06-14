@@ -51,6 +51,8 @@ export default function Typography({
       ? 'text-gradient-gold'
       : gradient === 'purple'
       ? 'text-gradient-purple'
+      : gradient === 'sage-aqua'
+      ? 'text-gradient-sage-aqua'
       : '';
 
   const combinedClass = `${baseStyle} ${gradientClass} ${className}`.trim();

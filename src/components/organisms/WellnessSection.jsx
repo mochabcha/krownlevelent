@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { AccordionItem, Card, SectionHeader, CTAGroup, ProseBlock, CheckList, BadgeGroup } from '../molecules';
-import charliImg from '@assets/images/IMG_0155.webp';
+import { resolveImage } from '../../content/imageRegistry';
+import AdminEditButton from '../admin/AdminEditButton';
+import AdminImageButton from '../admin/AdminImageButton';
 
 const specialties = ['Chronic Pain', 'Terminal Illness', 'Anxiety', 'Insomnia'];
 
@@ -23,15 +25,20 @@ const accordionItems = [
   },
 ];
 
-export default function WellnessSection() {
+export default function WellnessSection({ content = {}, mediaById = {} }) {
+  const image = resolveImage(content.image, mediaById);
+  const specialties = content.specialties || ['Chronic Pain', 'Terminal Illness', 'Anxiety', 'Insomnia'];
+  const accordionItems = content.processItems || [];
+
   return (
-    <section id="wellness" className="py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
+    <section id="wellness" className="relative py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
+      <AdminEditButton target={{ group: 'wellness' }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 mb-20">
           <div className="flex-1">
             <SectionHeader
-              eyebrow="Holistic Wellness Consulting"
-              heading="Genie's Healing Elements"
+              eyebrow={content.eyebrow || 'Holistic Wellness Consulting'}
+              heading={content.heading || "Genie's Healing Elements"}
               animate
               headingClassName="mb-6"
               className="mb-0"
@@ -41,11 +48,7 @@ export default function WellnessSection() {
               baseDelay={0.2}
               spacing="mb-4"
               lastSpacing="mb-6"
-              paragraphs={[
-                "Genie's Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.",
-                'This work is designed for people who want a more natural, intentional approach to healing and wellness support.',
-                'Charli helps clients assess where they are now, identify what may be throwing them out of alignment, and create a realistic wellness path forward.',
-              ]}
+              paragraphs={content.paragraphs || []}
             />
 
             <motion.div
@@ -69,23 +72,19 @@ export default function WellnessSection() {
             transition={{ duration: 0.8 }}
           >
             <div className="space-y-4">
-              <div className="rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                <AdminImageButton target={{ blockKey: 'wellness', path: ['image'] }} />
                 <img
-                  src={charliImg}
-                  alt="Charli Smith — Wellness & Style"
+                  src={image.src}
+                  alt={image.alt}
                   className="w-full h-auto object-cover"
                   loading="lazy"
                 />
               </div>
               <Card variant="accent" padding="p-5">
-                <SectionHeader eyebrow="Who This Is For" eyebrowColor="text-brand-purple" className="mb-2" />
+                <SectionHeader eyebrow={content.audienceEyebrow || 'Who This Is For'} eyebrowColor="text-brand-purple" className="mb-2" />
                 <CheckList
-                  items={[
-                    'People seeking natural wellness approaches',
-                    'Those dealing with chronic conditions',
-                    'Anyone wanting more intentional health habits',
-                    'Those looking for personalized guidance',
-                  ]}
+                  items={content.audienceItems || []}
                   textColor="text-ink-light dark:text-white/75"
                 />
               </Card>
@@ -95,8 +94,8 @@ export default function WellnessSection() {
 
         <div className="max-w-3xl mx-auto mb-20">
           <SectionHeader
-            eyebrow="The Process"
-            heading="How the Wellness Process Works"
+            eyebrow={content.processEyebrow || 'The Process'}
+            heading={content.processHeading || 'How the Wellness Process Works'}
             headingVariant="h3"
             align="center"
             animate
@@ -126,9 +125,9 @@ export default function WellnessSection() {
         >
           <div className="bg-gradient-to-r from-brand-purple to-brand-indigo p-10 md:p-14 text-center">
             <SectionHeader
-              heading="Book a Wellness Consultation"
+              heading={content.ctaHeading || 'Book a Wellness Consultation'}
               headingVariant="h3"
-              lead="Ready to take a more intentional approach to your health? Start with a one-on-one consultation tailored to your goals and current wellness needs."
+              lead={content.ctaLead || 'Ready to take a more intentional approach to your health? Start with a one-on-one consultation tailored to your goals and current wellness needs.'}
               align="center"
               onDark
               leadColor="text-white/80 max-w-2xl mx-auto"
@@ -136,7 +135,7 @@ export default function WellnessSection() {
               className="mb-8"
             />
             <CTAGroup
-              primary={{ label: 'Book Your Consultation', href: '#contact' }}
+              primary={{ label: content.ctaLabel || 'Book Your Consultation', href: '#contact' }}
               align="center"
             />
           </div>

@@ -1,18 +1,23 @@
 import { motion } from 'framer-motion';
 import { SocialLink, ContactLink, SectionHeader, ProseBlock } from '../molecules';
+import AdminEditButton from '../admin/AdminEditButton';
 
-const socialLinks = [
+const defaultSocialLinks = [
   { icon: 'facebook', label: 'Facebook', href: '#' },
   { icon: 'instagram', label: 'Instagram', href: '#' },
 ];
 
-export default function ContactSection() {
+export default function ContactSection({ content = {}, siteContent = {} }) {
+  const contact = siteContent.settings?.contact || {};
+  const socialLinks = siteContent.settings?.socialLinks || defaultSocialLinks;
+
   return (
-    <section className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+    <section className="relative py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+      <AdminEditButton target={{ group: 'contact' }} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <SectionHeader
-          eyebrow="Let's Connect"
-          heading="Connect with Charli"
+          eyebrow={content.eyebrow || "Let's Connect"}
+          heading={content.heading || 'Connect with Charli'}
           align="center"
           animate
           headingClassName="mb-10"
@@ -27,17 +32,17 @@ export default function ContactSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <ProseBlock
-            paragraphs={['Charli Smith', 'Krown Level Enterprises']}
+            paragraphs={[contact.name || 'Charli Smith', contact.organization || 'Krown Level Enterprises']}
             color="text-ink dark:text-white"
             spacing="mb-1"
           />
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-6">
-            <ContactLink href="mailto:krownlevelent31@gmail.com" icon="mail">
-              krownlevelent31@gmail.com
+            <ContactLink href={`mailto:${contact.email || 'krownlevelent31@gmail.com'}`} icon="mail">
+              {contact.email || 'krownlevelent31@gmail.com'}
             </ContactLink>
-            <ContactLink href="tel:+19044423737" icon="phone">
-              904-442-3737
+            <ContactLink href={`tel:${contact.phoneHref || '+19044423737'}`} icon="phone">
+              {contact.phone || '904-442-3737'}
             </ContactLink>
           </div>
         </motion.div>
@@ -54,10 +59,9 @@ export default function ContactSection() {
               key={link.label}
               href={link.href}
               label={link.label}
-              icon={link.icon}
+              icon={link.icon || link.platform}
             />
           ))}
-          <SocialLink href="#" label="TikTok" icon="tiktok" />
         </motion.div>
 
         <motion.div
@@ -67,7 +71,7 @@ export default function ContactSection() {
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           <ProseBlock
-            paragraphs={['Serving Jacksonville and surrounding communities through education, wellness, and practical training.']}
+            paragraphs={[content.description || 'Serving Jacksonville and surrounding communities through education, wellness, and practical training.']}
             color="text-ink-subtle"
           />
         </motion.div>

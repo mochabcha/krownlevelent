@@ -9,7 +9,7 @@ TEL;TYPE=CELL:+19044423737
 EMAIL;TYPE=INTERNET:krownlevelent31@gmail.com
 URL:https://krownlevelenterprises.com
 ADR;TYPE=WORK:;;;;;;Jacksonville, FL
-NOTE:Holistic Wellness Consulting | Community Agriculture | Self-Defense Training
+NOTE:Agriculture Education | Wellness Education | Financial Literacy | Self-Defense
 END:VCARD`;
 
   const blob = new Blob([vcfContent], { type: 'text/vcard;charset=utf-8' });

@@ -17,6 +17,7 @@ import {
   ContactSection,
   Footer,
   MobileFAB,
+  AdminOverlay,
 } from '../organisms';
 
 export default function PageTemplate({
@@ -24,6 +25,8 @@ export default function PageTemplate({
   description,
   children,
   sections = [],
+  content,
+  mediaById = {},
 }) {
   const sectionMap = {
     hero: Hero,
@@ -48,7 +51,7 @@ export default function PageTemplate({
     name: 'Krown Level Enterprises',
     url: 'https://krownlevelenterprises.com',
     logo: '/images/krown-emblem.png',
-    description: 'Community sustainability through wellness, agriculture, and self-defense.',
+    description: 'Community sustainability through agriculture education, wellness education, financial literacy, and self-defense.',
     founder: {
       '@type': 'Person',
       name: 'Charli Smith',
@@ -86,13 +89,21 @@ export default function PageTemplate({
           ? sections.map((sectionKey, i) => {
               const SectionComponent = sectionMap[sectionKey];
               if (!SectionComponent) return null;
-              return <SectionComponent key={`${sectionKey}-${i}`} />;
+              return (
+                <SectionComponent
+                  key={`${sectionKey}-${i}`}
+                  content={content?.blocks?.[sectionKey]}
+                  siteContent={content}
+                  mediaById={mediaById}
+                />
+              );
             })
           : children}
       </main>
 
-      <Footer />
+      <Footer content={content?.blocks?.footer} settings={content?.settings} />
       <MobileFAB />
+      <AdminOverlay />
     </>
   );
 }

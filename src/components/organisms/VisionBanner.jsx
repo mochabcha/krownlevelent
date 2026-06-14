@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion';
 import { QuoteBlock, SectionHeader, ProseBlock } from '../molecules';
+import AdminEditButton from '../admin/AdminEditButton';
 
-export default function VisionBanner() {
+export default function VisionBanner({ content = {} }) {
   return (
-    <section className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+    <section className="relative py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+      <AdminEditButton target={{ group: 'vision' }} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          eyebrow="A More Sustainable Way Forward"
-          heading="The Vision"
+          eyebrow={content.eyebrow || 'A More Sustainable Way Forward'}
+          heading={content.heading || 'The Vision'}
           align="center"
           animate
           headingClassName="mb-8"
@@ -23,9 +25,11 @@ export default function VisionBanner() {
         >
           <ProseBlock
             paragraphs={[
-              'Krown Level Enterprises exists to help communities reclaim the skills that create resilience.',
-              'By teaching wellness, agriculture, and self-defense together, Charli Smith is building more than programs. She is building pathways for people to become healthier, more capable, and more connected to the resources around them.',
-              'This work is about more than information. It is about restoration, discipline, and long-term empowerment.',
+              ...(content.paragraphs || [
+                'Krown Level Enterprises exists to help communities reclaim the skills that create resilience.',
+                'By teaching agriculture education, wellness education, financial literacy, and self-defense together, Charli Smith is building more than programs. She is building pathways for people to become healthier, more capable, and more connected to the resources around them.',
+                'This work is about more than information. It is about restoration, discipline, and long-term empowerment.',
+              ]),
             ]}
             color="text-ink-light dark:text-white/75"
             spacing="mb-0"
@@ -40,8 +44,8 @@ export default function VisionBanner() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <QuoteBlock
-            quote="Sustainability starts when people can care for themselves, feed themselves, and protect their peace."
-            attribution="— Charli Smith"
+            quote={content.quote || 'Sustainability starts when people can feed themselves, care for themselves, manage their resources, and protect their peace.'}
+            attribution={content.attribution || '— Charli Smith'}
             quoteColor="text-ink dark:text-white"
             attributionColor="text-brand-gold"
           />

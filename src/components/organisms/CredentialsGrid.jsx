@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { CredentialCard, SectionHeader } from '../molecules';
+import AdminEditButton from '../admin/AdminEditButton';
 
-const credentials = [
+const defaultCredentials = [
   {
     icon: 'shield',
     title: 'Military & Self-Defense',
@@ -37,14 +38,17 @@ const credentials = [
   },
 ];
 
-export default function CredentialsGrid() {
+export default function CredentialsGrid({ content = {} }) {
+  const credentials = content.items || defaultCredentials;
+
   return (
-    <section className="py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
+    <section className="relative py-20 md:py-28 bg-surface-warm dark:bg-dark-surface">
+      <AdminEditButton target={{ group: 'credentials' }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Rooted in Practice"
-          heading="Charli's Background"
-          lead="Charli's approach is rooted in real training, lived discipline, and years of hands-on study."
+          eyebrow={content.eyebrow || 'Rooted in Practice'}
+          heading={content.heading || "Charli's Background"}
+          lead={content.lead || "Charli's approach is rooted in real training, lived discipline, and years of hands-on study."}
           align="center"
           animate
           className="mb-14 max-w-2xl mx-auto"

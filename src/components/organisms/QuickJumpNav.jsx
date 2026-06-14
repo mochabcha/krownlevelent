@@ -5,7 +5,14 @@ const items = [
   { icon: 'users', label: 'Meet Charli', href: '#about' },
   { icon: 'sprout', label: 'Plant Klub', href: '#plant-klub' },
   { icon: 'flower', label: "Genie's Healing Elements", href: '#wellness' },
-  { icon: 'shield', label: 'SAGE Defense Systems', href: '#sage-defense' },
+  {
+    icon: 'shield',
+    label: 'SAGE Defense Systems',
+    href: '#sage-defense',
+    borderHoverClassName: 'hover:border-brand-aqua/50 dark:hover:border-brand-aqua/50',
+    iconClassName: 'bg-brand-sage/10 dark:bg-brand-sage/20 text-brand-sage group-hover:bg-brand-sage group-hover:text-white',
+    labelClassName: 'group-hover:text-brand-aqua dark:group-hover:text-brand-aqua-light',
+  },
 ];
 
 export default function QuickJumpNav() {
@@ -30,6 +37,9 @@ export default function QuickJumpNav() {
               href={item.href}
               animate
               delay={i * 0.1}
+              borderHoverClassName={item.borderHoverClassName}
+              iconClassName={item.iconClassName}
+              labelClassName={item.labelClassName}
             />
           ))}
         </motion.div>

@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
 import { Card, EventCard, SectionHeader, ProseBlock, CheckList, CTAGroup, BrandLockup } from '../molecules';
-import img1 from '@assets/images/IMG_0268.webp';
-import img2 from '@assets/images/IMG_0310.webp';
-import img3 from '@assets/images/IMG_0319.webp';
-import img4 from '@assets/images/IMG_0094.webp';
+import { resolveImage } from '../../content/imageRegistry';
+import AdminEditButton from '../admin/AdminEditButton';
+import AdminImageButton from '../admin/AdminImageButton';
 
-const offerings = [
+const defaultOfferings = [
   {
     icon: 'flower',
     title: 'Herbal Gardening',
@@ -28,16 +27,15 @@ const offerings = [
   },
 ];
 
-const galleryImages = [
-  { src: img1, alt: 'Charli Smith — Creative spirit', span: 'col-span-2 row-span-2' },
-  { src: img2, alt: 'Charli Smith — Many hats', span: '' },
-  { src: img3, alt: 'Charli Smith — Gold hat detail', span: '' },
-  { src: img4, alt: 'Charli Smith — Styled portrait', span: 'col-span-2' },
-];
+export default function PlantKlubSection({ content = {}, siteContent = {}, mediaById = {} }) {
+  const offerings = content.offerings || defaultOfferings;
+  const galleryImages = (content.gallery || []).map((image) => resolveImage(image, mediaById));
+  const supportImage = resolveImage(content.supportImage, mediaById);
+  const events = siteContent.events || [];
 
-export default function PlantKlubSection() {
   return (
-    <section id="plant-klub" className="py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+    <section id="plant-klub" className="relative py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
+      <AdminEditButton target={{ group: 'plant-klub' }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <motion.div
@@ -50,8 +48,8 @@ export default function PlantKlubSection() {
             <BrandLockup variant="pk-wordmark" size="lg" logoClassName="mx-auto" />
           </motion.div>
           <SectionHeader
-            eyebrow="Learn to Grow Your Own Food"
-            lead="Plant Klub is a community-centered gardening and education initiative designed to reconnect people with the land, their food, and the practical skill of cultivation."
+            eyebrow={content.eyebrow || 'Learn to Grow Your Own Food'}
+            lead={content.lead || 'Plant Klub is a community-centered gardening and education initiative designed to reconnect people with the land, their food, and the practical skill of cultivation.'}
             eyebrowColor="text-brand-green"
             align="center"
             animate
@@ -60,7 +58,7 @@ export default function PlantKlubSection() {
         </div>
 
         <ProseBlock
-          paragraphs={['Members learn how to grow herbs, vegetables, and medicinal plants while building confidence, community, and self-sufficiency.']}
+          paragraphs={[content.intro || 'Members learn how to grow herbs, vegetables, and medicinal plants while building confidence, community, and self-sufficiency.']}
           color="text-ink-light dark:text-white/75"
           className="max-w-3xl mx-auto text-center mb-6"
           animate
@@ -74,7 +72,7 @@ export default function PlantKlubSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          {['Gardening education', 'Plant trading', 'Information sharing', 'Fellowship', 'Hands-on workshops', 'Green thumb development'].map((item) => (
+          {(content.chips || []).map((item) => (
             <span
               key={item}
               className="px-4 py-2 rounded-full text-sm font-body bg-brand-green-50 dark:bg-brand-green-900/30 text-brand-green-700 dark:text-brand-green-300 border border-brand-green-200/50 dark:border-brand-green-800/50"
@@ -95,6 +93,7 @@ export default function PlantKlubSection() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
               <div className="relative aspect-square overflow-hidden group">
+                <AdminImageButton target={{ blockKey: 'plant-klub', path: ['gallery', String(i)] }} />
                 <img
                   src={img.src}
                   alt={img.alt}
@@ -110,7 +109,7 @@ export default function PlantKlubSection() {
         <div className="mb-20">
           <SectionHeader
             eyebrow="Cultivate Your Skills"
-            heading="What You Can Learn in Plant Klub"
+            heading={content.offeringsHeading || 'What You Can Learn in Plant Klub'}
             headingVariant="h3"
             eyebrowColor="text-brand-green"
             align="center"
@@ -145,7 +144,7 @@ export default function PlantKlubSection() {
           <div className="flex-1">
             <SectionHeader
               eyebrow="Personalized Support"
-              heading="Need Help Starting at Home?"
+              heading={content.supportHeading || 'Need Help Starting at Home?'}
               headingVariant="h3"
               eyebrowColor="text-brand-green"
               headingClassName="mb-4"
@@ -155,15 +154,17 @@ export default function PlantKlubSection() {
               spacing="mb-4"
               lastSpacing="mb-6"
               paragraphs={[
-                'Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.',
-                'Each installation begins with an assessment that considers:',
+                ...(content.supportParagraphs || [
+                  'Plant Klub also offers personalized home garden installations for people who want the benefits of growing herbs and food but need help getting started.',
+                  'Each installation begins with an assessment that considers:',
+                ]),
               ]}
             />
             <CheckList
               columns={2}
               iconColor="text-brand-green"
               className="mb-6"
-              items={['Your available space', 'Your experience level', 'Your lifestyle', 'Your wellness goals']}
+              items={content.supportItems || ['Your available space', 'Your experience level', 'Your lifestyle', 'Your wellness goals']}
             />
             <CTAGroup
               primary={{ label: 'Get Started', href: '#contact', variant: 'secondary', className: 'bg-brand-green hover:bg-brand-green-light' }}
@@ -171,9 +172,10 @@ export default function PlantKlubSection() {
           </div>
           <div className="flex-shrink-0 w-full lg:w-80">
             <div className="rounded-2xl overflow-hidden shadow-lg">
+              <AdminImageButton target={{ blockKey: 'plant-klub', path: ['supportImage'] }} />
               <img
-                src={img1}
-                alt="Charli Smith — Grounded and creative"
+                src={supportImage.src}
+                alt={supportImage.alt}
                 className="w-full h-auto object-cover"
                 loading="lazy"
               />
@@ -184,7 +186,7 @@ export default function PlantKlubSection() {
         <div id="events">
           <SectionHeader
             eyebrow="Don't Miss Out"
-            heading="Upcoming Plant Klub Events"
+            heading={content.eventsHeading || 'Upcoming Plant Klub Events'}
             headingVariant="h3"
             align="center"
             animate
@@ -192,7 +194,7 @@ export default function PlantKlubSection() {
             className="mb-0"
           />
           <ProseBlock
-            paragraphs={['Join the next Plant Klub experience and learn in community.']}
+            paragraphs={[content.eventsLead || 'Join the next Plant Klub experience and learn in community.']}
             color="text-ink-muted"
             className="max-w-2xl mx-auto text-center mb-10"
             animate
@@ -200,36 +202,9 @@ export default function PlantKlubSection() {
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            <EventCard
-              title="Plant Klub Spring Workshop"
-              date="April 2025"
-              time="10:00 AM — 2:00 PM"
-              location="Jacksonville, FL"
-              description="Hands-on gardening workshop covering soil prep, herb planting, and sustainable growing."
-              price="$25"
-              animate
-              delay={0}
-            />
-            <EventCard
-              title="Community Garden Day"
-              date="May 2025"
-              time="9:00 AM — 1:00 PM"
-              location="Jacksonville, FL"
-              description="A community gathering focused on plant exchange, garden tours, and fellowship."
-              price="Free"
-              animate
-              delay={0.15}
-            />
-            <EventCard
-              title="Herbal Wellness Workshop"
-              date="June 2025"
-              time="11:00 AM — 3:00 PM"
-              location="Jacksonville, FL"
-              description="Learn to grow and use medicinal herbs for everyday wellness."
-              price="$30"
-              animate
-              delay={0.3}
-            />
+            {events.map((event, i) => (
+              <EventCard key={event.id || event.title} {...event} animate delay={i * 0.15} />
+            ))}
           </div>
 
           <motion.div

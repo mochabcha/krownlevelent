@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion';
 import { Icon, Typography } from '../atoms';
 
-const items = [
-  { icon: 'heart', label: 'Holistic Wellness' },
-  { icon: 'sprout', label: 'Community Agriculture' },
-  { icon: 'shield', label: 'Self-Defense Training' },
+const defaultItems = [
+  { icon: 'sprout', label: 'Agriculture Education' },
+  { icon: 'heart', label: 'Wellness Education' },
+  { icon: 'circle-dollar', label: 'Financial Literacy' },
+  { icon: 'shield', label: 'Self-Defense' },
   { icon: 'map-pin', label: 'Jacksonville Based' },
 ];
 
-export default function TrustRibbon({ className = '' }) {
+export default function TrustRibbon({ items = defaultItems, className = '' }) {
   return (
     <div className={`w-full py-4 border-t border-b border-surface-muted/50 dark:border-dark-border/50 ${className}`}>
       <div className="max-w-6xl mx-auto px-4">

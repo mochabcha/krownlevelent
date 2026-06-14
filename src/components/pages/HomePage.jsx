@@ -17,12 +17,14 @@ const pageSections = [
   'contact',
 ];
 
-export default function HomePage() {
+export default function HomePage({ content, mediaById }) {
   return (
     <PageTemplate
-      title="Krown Level Enterprises — Community Sustainability. Personal Sovereignty. Holistic Living."
-      description="Charli Smith is the founder of Krown Level Enterprises, a Jacksonville-based community sustainability platform offering holistic wellness consulting, gardening education, and self-defense training through Genie's Healing Elements, Plant Klub, and SAGE Defense Systems."
+      title={content?.meta?.title || 'Krown Level Enterprises — Community Sustainability. Personal Sovereignty. Holistic Living.'}
+      description={content?.meta?.description || 'Charli Smith is the founder of Krown Level Enterprises, a Jacksonville-based community sustainability platform offering agriculture education, wellness education, financial literacy, and self-defense training.'}
       sections={pageSections}
+      content={content}
+      mediaById={mediaById}
     />
   );
 }

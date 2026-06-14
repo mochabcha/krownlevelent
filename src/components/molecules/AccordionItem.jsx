@@ -8,6 +8,9 @@ export default function AccordionItem({
   defaultOpen = false,
   className = '',
   index,
+  indexClassName = 'text-brand-gold',
+  titleClassName = 'group-hover:text-brand-purple dark:group-hover:text-brand-purple-light',
+  iconClassName = 'text-brand-purple',
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -20,18 +23,18 @@ export default function AccordionItem({
       >
         <div className="flex items-center gap-3">
           {index !== undefined && (
-            <span className="font-eyebrow text-brand-gold text-lg tracking-wider">
+            <span className={`font-eyebrow text-lg tracking-wider ${indexClassName}`}>
               {String(index).padStart(2, '0')}
             </span>
           )}
-          <Typography variant="h5" className="text-ink dark:text-white group-hover:text-brand-purple dark:group-hover:text-brand-purple-light transition-colors">
+          <Typography variant="h5" className={`text-ink dark:text-white transition-colors ${titleClassName}`}>
             {title}
           </Typography>
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
-          className="text-brand-purple flex-shrink-0 ml-4"
+          className={`flex-shrink-0 ml-4 ${iconClassName}`}
         >
           <Icon name="chevron-down" size={20} />
         </motion.div>

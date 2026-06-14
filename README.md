@@ -1,6 +1,6 @@
 # Krown Level Enterprises
 
-Community sustainability through wellness, agriculture, and self-defense.
+Community sustainability through agriculture education, wellness education, financial literacy, and self-defense.
 
 ## Tech Stack
 
@@ -11,6 +11,9 @@ Community sustainability through wellness, agriculture, and self-defense.
 - **Lucide React** — Icons
 - **React Helmet Async** — SEO / meta tags
 - **React Intersection Observer** — Scroll-triggered animations
+- **Express + MongoDB** — Admin backend, sessions, editable content
+- **Amazon S3 + Sharp** — Media library storage and image optimization
+- **Resend** — Contact form email delivery
 
 ## Design System
 
@@ -38,12 +41,30 @@ npm install
 npm run dev
 ```
 
+The Vite dev server still runs the frontend only. Run the API/server separately when working on backend behavior:
+
+```bash
+cp .env.example .env
+npm run dev:server
+```
+
 ## Build
 
 ```bash
 npm run build
-npm run preview
+npm start
 ```
+
+`npm start` serves the built Vite app from `dist/` and all `/api/*` routes from Express.
+
+## Admin Backend
+
+- Visit `/?edit` to open the admin portal.
+- First setup requires `ADMIN_USERNAME` and `ADMIN_SETUP_CODE`, then saves a 12+ character password.
+- MongoDB stores editable content, events, testimonials, settings, sessions, and media metadata.
+- S3 stores uploaded originals and optimized WebP variants.
+- Resend sends contact form submissions to `info@krownlevelent.com` with the visitor email as `replyTo`.
+- If `MONGODB_URI` is missing, public pages fall back to the bundled default content and admin writes are disabled.
 
 ## Features
 

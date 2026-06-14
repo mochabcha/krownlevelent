@@ -15,3 +15,4 @@ export { default as SecondaryCTA } from './SecondaryCTA';
 export { default as ContactSection } from './ContactSection';
 export { default as Footer } from './Footer';
 export { default as MobileFAB } from './MobileFAB';
+export { default as AdminOverlay } from './AdminOverlay';

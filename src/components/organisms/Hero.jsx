@@ -1,10 +1,15 @@
 import { motion } from 'framer-motion';
 import { TrustRibbon, SectionHeader, CTAGroup, BrandLockup } from '../molecules';
-import heroImg from '@assets/images/IMG_0050.webp';
+import { resolveImage } from '../../content/imageRegistry';
+import AdminEditButton from '../admin/AdminEditButton';
+import AdminImageButton from '../admin/AdminImageButton';
 
-export default function Hero() {
+export default function Hero({ content = {}, mediaById = {} }) {
+  const image = resolveImage(content.image, mediaById);
+
   return (
     <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+      <AdminEditButton target={{ group: 'hero' }} />
       <div className="absolute inset-0 bg-galaxy-1 galaxy-stars" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(45,27,105,0.9)_0%,_rgba(123,94,167,0.5)_40%,_transparent_70%)]" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-green dark:to-brand-green" />
@@ -22,15 +27,15 @@ export default function Hero() {
             </motion.div>
 
             <SectionHeader
-              eyebrow="Grow your food. Heal your body. Defend your peace."
+              eyebrow={content.eyebrow}
               heading={
                 <>
-                  Community Sustainability.{' '}
-                  <span className="text-gradient-gold">Personal Sovereignty.</span>{' '}
-                  Holistic Living.
+                  {content.headingPrefix}{' '}
+                  <span className="text-gradient-gold">{content.headingAccent}</span>{' '}
+                  {content.headingSuffix}
                 </>
               }
-              lead={<>Led by instructor <strong className="text-brand-gold">Charli Smith</strong>, Krown Level Enterprises helps people reclaim control over their health, food, safety, and sustainability through holistic education, community programs, and practical skill building.</>}
+              lead={content.lead}
               align="left"
               onDark
               eyebrowColor="text-brand-gold-light text-lg tracking-[0.25em]"
@@ -39,8 +44,8 @@ export default function Hero() {
               className="mb-8"
             />
             <CTAGroup
-              primary={{ label: 'Join Plant Klub', href: '#plant-klub' }}
-              secondary={{ label: 'Book a Consultation', href: '#wellness', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
+              primary={{ label: content.primaryCta || 'Join Plant Klub', href: '#plant-klub' }}
+              secondary={{ label: content.secondaryCta || 'Book a Consultation', href: '#wellness', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
               align="center"
               className="lg:justify-start"
             />
@@ -55,9 +60,10 @@ export default function Hero() {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/30 via-brand-gold/20 to-brand-green/20 rounded-3xl blur-2xl" />
               <div className="relative rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl">
+                <AdminImageButton target={{ blockKey: 'hero', path: ['image'] }} />
                 <img
-                  src={heroImg}
-                  alt="Charli Smith — Founder of Krown Level Enterprises"
+                  src={image.src}
+                  alt={image.alt}
                   className="w-full h-auto object-cover"
                   loading="eager"
                 />
@@ -74,7 +80,7 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 1.4 }}
         className="relative z-10"
       >
-        <TrustRibbon className="border-white/10" />
+        <TrustRibbon items={content.trustRibbon} className="border-white/10" />
       </motion.div>
     </section>
   );
