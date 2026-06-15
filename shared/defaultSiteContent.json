@@ -99,6 +99,7 @@
     },
     "wellness": {
       "eyebrow": "Holistic Wellness Consulting",
+      "logo": { "assetKey": "gheLogo", "alt": "Genie's Healing Elements logo" },
       "heading": "Genie's Healing Elements",
       "paragraphs": [
         "Genie's Healing Elements helps clients restore optimal wellness through personalized strategies built around herbs, nutrition, movement, and habit alignment.",

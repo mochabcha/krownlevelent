@@ -24,6 +24,12 @@ const editableGroups = [
   { key: 'footer', label: 'Footer', kind: 'content', section: 'Page Components' },
 ];
 
+const editableFallbacks = {
+  wellness: {
+    logo: { assetKey: 'gheLogo', alt: "Genie's Healing Elements logo" },
+  },
+};
+
 function api(path, options = {}) {
   return fetch(path, {
     credentials: 'include',
@@ -928,7 +934,10 @@ function RightDrawer() {
 
   const currentValue = selectedGroup?.kind === 'settings'
     ? admin.content.settings
-    : admin.content.blocks?.[selectedGroup?.key];
+    : {
+        ...(editableFallbacks[selectedGroup?.key] || {}),
+        ...(admin.content.blocks?.[selectedGroup?.key] || {}),
+      };
 
   return (
     <aside className="fixed right-0 top-0 z-[90] h-screen w-full max-w-xl bg-dark-surface text-white border-l border-white/10 shadow-2xl overflow-y-auto">

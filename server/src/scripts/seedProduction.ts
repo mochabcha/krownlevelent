@@ -25,6 +25,7 @@ const assetFiles: Record<string, { file: string; alt: string }> = {
   krownWordMark: { file: 'src/assets/logos/Krown_WordMark.png', alt: 'Krown Level Enterprises' },
   pkEmblem: { file: 'src/assets/logos/PK_Emblem.png', alt: 'Plant Klub emblem' },
   plantKlubWordMark: { file: 'src/assets/logos/PlantKlub_WordMark.png', alt: 'Plant Klub' },
+  gheLogo: { file: 'src/assets/logos/GHE_Logo.webp', alt: "Genie's Healing Elements logo" },
 };
 
 function s3Client() {

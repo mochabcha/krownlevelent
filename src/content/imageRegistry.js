@@ -12,6 +12,7 @@ import krownEmblem from '@assets/logos/Krown_Emblem.png';
 import krownWordMark from '@assets/logos/Krown_WordMark.png';
 import pkEmblem from '@assets/logos/PK_Emblem.png';
 import plantKlubWordMark from '@assets/logos/PlantKlub_WordMark.png';
+import gheLogo from '@assets/logos/GHE_Logo.webp';
 
 export const imageRegistry = {
   img0002,
@@ -28,6 +29,7 @@ export const imageRegistry = {
   krownWordMark,
   pkEmblem,
   plantKlubWordMark,
+  gheLogo,
 };
 
 export function resolveImage(image, mediaById = {}) {

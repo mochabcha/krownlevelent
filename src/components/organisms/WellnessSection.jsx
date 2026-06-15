@@ -27,6 +27,8 @@ const accordionItems = [
 
 export default function WellnessSection({ content = {}, mediaById = {} }) {
   const image = resolveImage(content.image, mediaById);
+  const logoRef = content.logo || { assetKey: 'gheLogo', alt: "Genie's Healing Elements logo" };
+  const logo = resolveImage(logoRef, mediaById);
   const specialties = content.specialties || ['Chronic Pain', 'Terminal Illness', 'Anxiety', 'Insomnia'];
   const accordionItems = content.processItems || [];
 
@@ -36,6 +38,17 @@ export default function WellnessSection({ content = {}, mediaById = {} }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 mb-20">
           <div className="flex-1">
+            {logo.src && (
+              <div className="relative mb-6 inline-block">
+                <AdminImageButton target={{ blockKey: 'wellness', path: ['logo'], currentImageRef: logoRef }} />
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-28 w-auto object-contain md:h-36"
+                  loading="lazy"
+                />
+              </div>
+            )}
             <SectionHeader
               eyebrow={content.eyebrow || 'Holistic Wellness Consulting'}
               heading={content.heading || "Genie's Healing Elements"}
