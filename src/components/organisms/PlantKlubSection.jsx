@@ -32,6 +32,7 @@ export default function PlantKlubSection({ content = {}, siteContent = {}, media
   const galleryImages = (content.gallery || []).map((image) => resolveImage(image, mediaById));
   const supportImage = resolveImage(content.supportImage, mediaById);
   const events = siteContent.events || [];
+  const plantKlubLogo = siteContent?.settings?.logos?.plantKlub;
 
   return (
     <section id="plant-klub" className="relative py-20 md:py-28 bg-surface-light dark:bg-dark-bg">
@@ -45,7 +46,7 @@ export default function PlantKlubSection({ content = {}, siteContent = {}, media
             transition={{ duration: 0.6 }}
             className="mb-6"
           >
-            <BrandLockup variant="pk-wordmark" size="lg" logoClassName="mx-auto" />
+            <BrandLockup variant="pk-wordmark" image={plantKlubLogo} mediaById={mediaById} size="lg" logoClassName="mx-auto" />
           </motion.div>
           <SectionHeader
             eyebrow={content.eyebrow || 'Learn to Grow Your Own Food'}

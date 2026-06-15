@@ -4,8 +4,9 @@ import { resolveImage } from '../../content/imageRegistry';
 import AdminEditButton from '../admin/AdminEditButton';
 import AdminImageButton from '../admin/AdminImageButton';
 
-export default function Hero({ content = {}, mediaById = {} }) {
+export default function Hero({ content = {}, siteContent = {}, mediaById = {} }) {
   const image = resolveImage(content.image, mediaById);
+  const logo = siteContent?.settings?.logos?.primary;
 
   return (
     <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
@@ -23,7 +24,7 @@ export default function Hero({ content = {}, mediaById = {} }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <BrandLockup variant="wordmark" size="hero" logoClassName="mx-auto lg:mx-0 mb-8" />
+              <BrandLockup variant="wordmark" image={logo} mediaById={mediaById} size="hero" logoClassName="mx-auto lg:mx-0 mb-8" />
             </motion.div>
 
             <SectionHeader

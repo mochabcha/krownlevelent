@@ -14,6 +14,8 @@ const logos = {
 export default function Logo({
   variant = 'wordmark',
   size = 'md',
+  src,
+  alt = 'Krown Level Enterprises',
   className = '',
   animate = false,
   ...props
@@ -29,12 +31,12 @@ export default function Logo({
   };
 
   const sizeClass = sizeMap[size] || sizeMap.md;
-  const src = logos[variant] || logos.wordmark;
+  const resolvedSrc = src || logos[variant] || logos.wordmark;
 
   const img = (
     <img
-      src={src}
-      alt="Krown Level Enterprises"
+      src={resolvedSrc}
+      alt={alt}
       className={`${sizeClass} w-auto object-contain ${className}`}
       loading={size === 'hero' ? 'eager' : 'lazy'}
       {...props}

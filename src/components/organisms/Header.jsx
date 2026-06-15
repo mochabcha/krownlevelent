@@ -11,9 +11,10 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Header() {
+export default function Header({ settings = {}, mediaById = {} }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const logos = settings.logos || {};
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
@@ -53,6 +54,8 @@ export default function Header() {
             >
               <BrandLockup
                 variant="wordmark"
+                image={logos.primary}
+                mediaById={mediaById}
                 logoClassName={`transition-all duration-400 ${scrolled ? 'h-10' : 'h-14'} w-auto`}
               />
             </motion.div>
@@ -98,7 +101,7 @@ export default function Header() {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <div className="flex items-center justify-between p-6 border-b border-surface-muted dark:border-dark-border">
-                <BrandLockup variant="emblem" size="xs" />
+                <BrandLockup variant="emblem" image={logos.emblem} mediaById={mediaById} size="xs" />
                 <MenuToggle open onClick={closeMobile} />
               </div>
 

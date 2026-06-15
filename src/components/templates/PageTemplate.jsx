@@ -82,7 +82,7 @@ export default function PageTemplate({
         </script>
       </Helmet>
 
-      <Header />
+      <Header settings={content?.settings} mediaById={mediaById} />
 
       <main>
         {sections.length > 0
@@ -101,7 +101,7 @@ export default function PageTemplate({
           : children}
       </main>
 
-      <Footer content={content?.blocks?.footer} settings={content?.settings} />
+      <Footer content={content?.blocks?.footer} settings={content?.settings} mediaById={mediaById} />
       <MobileFAB />
       <AdminOverlay />
     </>

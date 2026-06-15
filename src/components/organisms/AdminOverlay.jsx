@@ -424,6 +424,49 @@ function ButtonEditor({ label, data, onChange }) {
   );
 }
 
+function ImageEditor({ label, value, path, onChange, storage = 'content', blockKey }) {
+  const admin = useAdmin();
+  const image = resolveImage(value, admin.mediaById);
+
+  return (
+    <div className="space-y-3 border-l border-white/10 pl-4">
+      <div className="flex items-center justify-between gap-3">
+        <Typography variant="eyebrow" className="text-white/45">{label}</Typography>
+        <button
+          type="button"
+          onClick={() => {
+            const target = storage === 'settings'
+              ? { storage: 'settings', path, currentImageRef: value }
+              : { storage: 'content', blockKey, path, currentImageRef: value };
+            admin.openMedia(target);
+          }}
+          className="inline-flex items-center gap-2 rounded-md border border-brand-aqua/30 px-3 py-2 text-sm text-brand-aqua-light hover:bg-brand-aqua/10 hover:text-white"
+        >
+          <Icon name="image" size={15} />
+          Change
+        </button>
+      </div>
+      {image.src ? (
+        <div className="grid grid-cols-[96px_1fr] gap-3">
+          <img src={image.src} alt={image.alt || ''} className="aspect-square w-24 rounded-md border border-white/10 object-cover" />
+          <div className="min-w-0 space-y-2">
+            <span className="block truncate text-xs text-white/45">{image.mediaId || image.assetKey || image.url || 'Current image'}</span>
+            <AdminTextField
+              label="Alt text"
+              value={value?.alt || ''}
+              onChange={(event) => onChange([...path, 'alt'], event.target.value)}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="rounded-md border border-dashed border-white/15 px-3 py-5 text-sm text-white/45">
+          No image selected.
+        </div>
+      )}
+    </div>
+  );
+}
+
 function RichTextField({ label, value, onChange }) {
   const editorRef = useRef(null);
 
@@ -565,7 +608,7 @@ function AuthPanel() {
   );
 }
 
-function StructuredFields({ value, path = [], onChange, depth = 0 }) {
+function StructuredFields({ value, path = [], onChange, depth = 0, storage = 'content', blockKey }) {
   if (Array.isArray(value)) {
     const knownTemplate = templateForPath(path);
     const hasKnownObjectTemplate = knownTemplate && typeof knownTemplate === 'object' && !Array.isArray(knownTemplate) && Object.keys(knownTemplate).length > 0;
@@ -594,7 +637,7 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
                 onChange={(event) => onChange([...path, index], event.target.value)}
               />
             ) : (
-              <StructuredFields value={item || {}} path={[...path, index]} onChange={onChange} depth={depth + 1} />
+              <StructuredFields value={item || {}} path={[...path, index]} onChange={onChange} depth={depth + 1} storage={storage} blockKey={blockKey} />
             )}
           </div>
         ))}
@@ -615,14 +658,14 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
   if (value && typeof value === 'object') {
     if (isImageRef(value)) {
       return (
-        <div className="space-y-2">
-          <AdminTextField
-            label="Alt text"
-            value={value.alt || ''}
-            onChange={(event) => onChange([...path, 'alt'], event.target.value)}
-            helper="Image file changes happen from the image library."
-          />
-        </div>
+        <ImageEditor
+          label={labelFromKey(path[path.length - 1] || 'Image')}
+          value={value}
+          path={path}
+          onChange={onChange}
+          storage={storage}
+          blockKey={blockKey}
+        />
       );
     }
 
@@ -658,14 +701,13 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
           if (isImageRef(item)) {
             return (
               <div key={fieldPath.join('.')} className={depth === 0 ? 'py-4' : ''}>
-                <Typography variant="eyebrow" className="mb-2 text-white/45">
-                  {labelFromKey(key)}
-                </Typography>
-                <AdminTextField
-                  label="Alt text"
-                  value={item.alt || ''}
-                  onChange={(event) => onChange([...fieldPath, 'alt'], event.target.value)}
-                  helper="Image file changes happen from the image library."
+                <ImageEditor
+                  label={labelFromKey(key)}
+                  value={item}
+                  path={fieldPath}
+                  onChange={onChange}
+                  storage={storage}
+                  blockKey={blockKey}
                 />
               </div>
             );
@@ -677,7 +719,7 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
                 <Typography variant="eyebrow" className="mb-3 text-brand-aqua-light">
                   {labelFromKey(key)}
                 </Typography>
-                <StructuredFields value={item} path={fieldPath} onChange={onChange} depth={depth + 1} />
+                <StructuredFields value={item} path={fieldPath} onChange={onChange} depth={depth + 1} storage={storage} blockKey={blockKey} />
               </div>
             );
           }
@@ -743,7 +785,7 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
   return null;
 }
 
-function FieldEditor({ title, value, onSave }) {
+function FieldEditor({ title, value, onSave, storage = 'content', blockKey }) {
   const [draft, setDraft] = useState(() => cloneValue(value || {}));
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
@@ -772,7 +814,7 @@ function FieldEditor({ title, value, onSave }) {
   return (
     <div className="space-y-4" data-dirty={dirty ? 'true' : undefined}>
       <Typography variant="h4" className="text-white">{title}</Typography>
-      <StructuredFields value={draft} onChange={update} />
+      <StructuredFields value={draft} onChange={update} storage={storage} blockKey={blockKey} />
       {error && <Typography variant="small" className="text-red-300">{error}</Typography>}
       <div className="flex gap-3">
         <Button variant="cta" type="button" onClick={save}>
@@ -951,7 +993,13 @@ function RightDrawer() {
           </div>
         )}
         {level === 'edit' && selectedGroup && (
-          <FieldEditor title={selectedGroup.label} value={currentValue} onSave={saveContent} />
+          <FieldEditor
+            title={selectedGroup.label}
+            value={currentValue}
+            onSave={saveContent}
+            storage={selectedGroup.kind === 'settings' ? 'settings' : 'content'}
+            blockKey={selectedGroup.key}
+          />
         )}
         {level === 'itemEdit' && selectedGroup?.item && (
           <ItemEditor kind={selectedGroup.kind} item={selectedGroup.item} onSave={saveItem} />
@@ -974,11 +1022,17 @@ function MediaDrawer() {
   const [currentAlt, setCurrentAlt] = useState('');
   const [assetAltDrafts, setAssetAltDrafts] = useState({});
 
-  const currentImageRef = admin.mediaTarget?.blockKey
+  const currentImageRef = admin.mediaTarget?.currentImageRef || (admin.mediaTarget?.storage === 'settings'
+    ? getPathValue(admin.content.settings, admin.mediaTarget.path)
+    : admin.mediaTarget?.blockKey
     ? getPathValue(admin.content.blocks?.[admin.mediaTarget.blockKey], admin.mediaTarget.path)
-    : null;
+    : null);
   const currentImage = currentImageRef ? resolveImage(currentImageRef, admin.mediaById) : null;
-  const currentBlock = admin.mediaTarget?.blockKey ? admin.content.blocks?.[admin.mediaTarget.blockKey] : null;
+  const currentRoot = admin.mediaTarget?.storage === 'settings'
+    ? admin.content.settings
+    : admin.mediaTarget?.blockKey
+    ? admin.content.blocks?.[admin.mediaTarget.blockKey]
+    : null;
 
   const load = async () => {
     setLoading(true);
@@ -1039,7 +1093,19 @@ function MediaDrawer() {
   };
 
   const select = async (asset) => {
-    if (admin.mediaTarget?.blockKey && admin.mediaTarget?.path) {
+    if (admin.mediaTarget?.storage === 'settings' && admin.mediaTarget?.path) {
+      const nextSettings = updatePathValue(currentRoot, admin.mediaTarget.path, {
+        ...(currentImageRef || {}),
+        mediaId: asset.id,
+        alt: currentAlt,
+      });
+      await api('/api/admin/settings', {
+        method: 'PATCH',
+        body: JSON.stringify(nextSettings),
+      });
+      await admin.refreshContent();
+      admin.closeMedia();
+    } else if (admin.mediaTarget?.blockKey && admin.mediaTarget?.path) {
       await api(`/api/admin/content/${admin.mediaTarget.blockKey}/image`, {
         method: 'POST',
         body: JSON.stringify({ path: admin.mediaTarget.path, mediaId: asset.id, alt: currentAlt }),
@@ -1050,14 +1116,21 @@ function MediaDrawer() {
   };
 
   const saveCurrentAlt = async () => {
-    if (!admin.mediaTarget?.blockKey || !currentBlock || !currentImageRef) return;
+    if (!currentRoot || !currentImageRef || !admin.mediaTarget?.path) return;
     setError('');
     try {
-      const nextBlock = updatePathValue(currentBlock, admin.mediaTarget.path, { ...currentImageRef, alt: currentAlt });
-      await api(`/api/admin/content/${admin.mediaTarget.blockKey}`, {
-        method: 'PATCH',
-        body: JSON.stringify({ data: nextBlock }),
-      });
+      const nextRoot = updatePathValue(currentRoot, admin.mediaTarget.path, { ...currentImageRef, alt: currentAlt });
+      if (admin.mediaTarget.storage === 'settings') {
+        await api('/api/admin/settings', {
+          method: 'PATCH',
+          body: JSON.stringify(nextRoot),
+        });
+      } else {
+        await api(`/api/admin/content/${admin.mediaTarget.blockKey}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ data: nextRoot }),
+        });
+      }
       await admin.refreshContent();
     } catch (err) {
       setError(err.message);

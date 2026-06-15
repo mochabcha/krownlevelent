@@ -14,10 +14,11 @@ const defaultSocialLinks = [
   { icon: 'instagram', label: 'Instagram', href: '#' },
 ];
 
-export default function Footer({ content = {}, settings = {} }) {
+export default function Footer({ content = {}, settings = {}, mediaById = {} }) {
   const year = new Date().getFullYear();
   const contact = settings.contact || {};
   const socialLinks = settings.socialLinks || defaultSocialLinks;
+  const logos = settings.logos || {};
 
   return (
     <footer className="bg-brand-indigo-dark text-white/70 pt-16 pb-8">
@@ -25,6 +26,8 @@ export default function Footer({ content = {}, settings = {} }) {
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           <BrandLockup
             variant="wordmark"
+            image={logos.primary}
+            mediaById={mediaById}
             size="sm"
             logoClassName="mb-4 brightness-0 invert opacity-80"
             tagline={content.tagline || 'Krown Level Enterprises — Community sustainability through agriculture education, wellness education, financial literacy, and self-defense.'}
