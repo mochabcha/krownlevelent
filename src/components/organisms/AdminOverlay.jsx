@@ -28,7 +28,11 @@ function api(path, options = {}) {
     ...options,
   }).then(async (response) => {
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || 'Request failed');
+    if (!response.ok) {
+      const error = new Error(data.error || 'Request failed');
+      error.status = response.status;
+      throw error;
+    }
     return data;
   });
 }
@@ -289,8 +293,23 @@ function MediaDrawer() {
   const admin = useAdmin();
   const [media, setMedia] = useState([]);
   const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const [error, setError] = useState('');
 
-  const load = () => api('/api/admin/media').then(setMedia).catch(() => setMedia([]));
+  const load = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      setMedia(await api('/api/admin/media'));
+    } catch (err) {
+      setMedia([]);
+      setError(err.message);
+      if (err.status === 401) admin.setAuthenticated(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (admin.leftOpen) load();
@@ -299,15 +318,35 @@ function MediaDrawer() {
   if (!admin.leftOpen) return null;
 
   const upload = async (files) => {
+    const imageFiles = Array.from(files || []).filter((file) => file.type.startsWith('image/'));
+    if (!imageFiles.length) return;
     const form = new FormData();
-    Array.from(files).forEach((file) => form.append('images', file));
+    imageFiles.forEach((file) => form.append('images', file));
     setBusy(true);
+    setError('');
     try {
       await api('/api/admin/media/batch', { method: 'POST', body: form });
       await load();
+    } catch (err) {
+      setError(err.message);
+      if (err.status === 401) admin.setAuthenticated(false);
     } finally {
       setBusy(false);
     }
+  };
+
+  const handleDrag = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.type === 'dragenter' || event.type === 'dragover') setDragActive(true);
+    if (event.type === 'dragleave') setDragActive(false);
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragActive(false);
+    upload(event.dataTransfer.files);
   };
 
   const select = async (asset) => {
@@ -322,7 +361,15 @@ function MediaDrawer() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 z-[90] h-screen w-full max-w-md bg-dark-surface text-white border-r border-white/10 shadow-2xl overflow-y-auto">
+    <aside
+      onDragEnter={handleDrag}
+      onDragOver={handleDrag}
+      onDragLeave={handleDrag}
+      onDrop={handleDrop}
+      className={`fixed left-0 top-0 z-[90] h-screen w-full max-w-md bg-dark-surface text-white border-r shadow-2xl overflow-y-auto transition-colors ${
+        dragActive ? 'border-brand-aqua bg-brand-aqua/10' : 'border-white/10'
+      }`}
+    >
       <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-dark-surface/95 px-5 py-4">
         <Typography variant="eyebrow" className="text-brand-sage-light">Library</Typography>
         <button type="button" onClick={admin.closeMedia} className="text-white/70 hover:text-white">Close</button>
@@ -333,6 +380,23 @@ function MediaDrawer() {
           <span>{busy ? 'Uploading...' : 'Drag or select images'}</span>
           <input type="file" multiple accept="image/*" className="hidden" onChange={(e) => upload(e.target.files)} />
         </label>
+        {error && (
+          <div className="rounded-xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+            {error}
+          </div>
+        )}
+        <div className="flex items-center justify-between">
+          <Typography variant="eyebrow" className="text-white/60">
+            Stored Images
+          </Typography>
+          <span className="text-xs text-white/45">{media.length} total</span>
+        </div>
+        {loading && <Typography variant="small" className="text-white/60">Loading library...</Typography>}
+        {!loading && !error && media.length === 0 && (
+          <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-6 text-center text-sm text-white/60">
+            No images are stored yet.
+          </div>
+        )}
         <div className="grid grid-cols-2 gap-3">
           {media.map((asset) => (
             <button key={asset.id} type="button" onClick={() => select(asset)} className="group overflow-hidden rounded-xl border border-white/10 bg-white/5 text-left">

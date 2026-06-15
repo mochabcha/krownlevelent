@@ -12,6 +12,15 @@ declare module 'express-session' {
   }
 }
 
+function saveSession(req: Request) {
+  return new Promise<void>((resolve, reject) => {
+    req.session.save((error) => {
+      if (error) reject(error);
+      else resolve();
+    });
+  });
+}
+
 export async function getAuthState() {
   if (!isDatabaseConnected()) {
     return { setupRequired: true, authenticated: false, mongoRequired: true };
@@ -44,6 +53,7 @@ export async function setupAdmin(input: unknown, req: Request) {
   );
 
   req.session.adminUserId = String(user._id);
+  await saveSession(req);
   return { id: String(user._id), username: user.username };
 }
 
@@ -58,6 +68,7 @@ export async function loginAdmin(input: unknown, req: Request) {
   if (!valid) throw new HttpError(401, 'Invalid username or password');
 
   req.session.adminUserId = String(user._id);
+  await saveSession(req);
   return { id: String(user._id), username: user.username };
 }
 
