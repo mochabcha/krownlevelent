@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Button, Icon, Input, Textarea, Typography } from '../atoms';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Icon, Input, Typography } from '../atoms';
+import { iconNames } from '../atoms/Icon';
 import { useAdmin } from '../admin/AdminContext';
 import { resolveImage } from '../../content/imageRegistry';
+import { normalizeRichText } from '../../utils/richText';
 
 const editableGroups = [
   { key: 'general', label: 'General Settings', kind: 'settings', section: 'Site Settings' },
@@ -72,6 +74,169 @@ function groupedEditableItems() {
     groups[section].push(item);
     return groups;
   }, {});
+}
+
+const sectionIdsByGroup = {
+  hero: 'hero',
+  'founder-bio': 'about',
+  wellness: 'wellness',
+  'plant-klub': 'plant-klub',
+  'sage-defense': 'sage-defense',
+  'sign-up': 'contact',
+  events: 'events',
+};
+
+function findEditableElement(groupKey) {
+  const editButton = document.querySelector(`[data-admin-group="${groupKey}"]`);
+  if (editButton) return editButton.closest('section') || editButton.closest('[id]') || editButton;
+  const id = sectionIdsByGroup[groupKey];
+  return id ? document.getElementById(id) : null;
+}
+
+function highlightEditableGroup(groupKey) {
+  if (!groupKey) return;
+  const element = findEditableElement(groupKey);
+  if (!element) return;
+  element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const previousOutline = element.style.outline;
+  const previousOffset = element.style.outlineOffset;
+  const previousTransition = element.style.transition;
+  element.style.transition = 'outline-color 180ms ease, outline-offset 180ms ease';
+  element.style.outline = '3px solid rgba(68, 214, 197, 0.85)';
+  element.style.outlineOffset = '-6px';
+  window.setTimeout(() => {
+    element.style.outline = previousOutline;
+    element.style.outlineOffset = previousOffset;
+    element.style.transition = previousTransition;
+  }, 1800);
+}
+
+function AdminTextField({ label, value, onChange, type = 'text', multiline = false, rows = 3, helper = '', error = '', children }) {
+  const fieldClass = `peer w-full rounded-md border border-white/15 bg-white/[0.035] px-3 pb-2 pt-5 text-sm text-white outline-none transition-colors placeholder:text-transparent focus:border-brand-aqua/70 focus:bg-white/[0.055] ${
+    multiline ? 'resize-y' : 'h-11'
+  }`;
+
+  return (
+    <label className="relative block">
+      {multiline ? (
+        <textarea
+          rows={rows}
+          value={value}
+          onChange={onChange}
+          placeholder={label}
+          className={fieldClass}
+        />
+      ) : (
+        <input
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={label}
+          className={fieldClass}
+        />
+      )}
+      <span className="pointer-events-none absolute left-3 top-1.5 text-[11px] uppercase tracking-wide text-white/45 transition-colors peer-focus:text-brand-aqua-light">
+        {label}
+      </span>
+      {children}
+      {(helper || error) && (
+        <span className={`mt-1 block text-xs ${error ? 'text-red-200' : 'text-white/45'}`}>
+          {error || helper}
+        </span>
+      )}
+    </label>
+  );
+}
+
+function IconSelector({ label, value, onChange }) {
+  const [query, setQuery] = useState('');
+  const filteredIcons = iconNames.filter((name) => name.includes(query.trim().toLowerCase()));
+
+  return (
+    <div className="space-y-2">
+      <AdminTextField label={label} value={query} onChange={(event) => setQuery(event.target.value)} helper={`Selected: ${value || 'none'}`}>
+        <Icon name="search" size={15} className="absolute right-3 top-4 text-white/35" />
+      </AdminTextField>
+      <div className="grid max-h-44 grid-cols-4 gap-1 overflow-y-auto border-l border-white/10 pl-3">
+        {filteredIcons.map((name) => (
+          <button
+            key={name}
+            type="button"
+            onClick={() => onChange(name)}
+            className={`flex h-14 flex-col items-center justify-center gap-1 rounded-md text-[10px] transition-colors ${
+              value === name ? 'bg-brand-aqua text-dark-bg' : 'text-white/65 hover:bg-white/[0.06] hover:text-white'
+            }`}
+            title={name}
+          >
+            <Icon name={name} size={18} />
+            <span className="max-w-full truncate px-1">{name}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RichTextField({ label, value, onChange }) {
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== (value || '')) {
+      editorRef.current.innerHTML = value || '';
+    }
+  }, [value]);
+
+  const run = (command, input = null) => {
+    document.execCommand(command, false, input);
+    onChange(normalizeRichText(editorRef.current?.innerHTML || ''));
+  };
+
+  const toolbar = [
+    { icon: 'bold', label: 'Bold', command: 'bold' },
+    { icon: 'italic', label: 'Italic', command: 'italic' },
+    { icon: 'list', label: 'Bullets', command: 'insertUnorderedList' },
+    { icon: 'list-ordered', label: 'Numbers', command: 'insertOrderedList' },
+  ];
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <Typography variant="eyebrow" className="text-white/45">{label}</Typography>
+        <div className="flex items-center gap-1">
+          {toolbar.map((item) => (
+            <button
+              key={item.command}
+              type="button"
+              onClick={() => run(item.command)}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/10 text-white/70 hover:bg-white/[0.06] hover:text-white"
+              title={item.label}
+            >
+              <Icon name={item.icon} size={15} />
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => {
+              const href = window.prompt('Link URL');
+              if (href) run('createLink', href);
+            }}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/10 text-white/70 hover:bg-white/[0.06] hover:text-white"
+            title="Link"
+          >
+            <Icon name="link" size={15} />
+          </button>
+        </div>
+      </div>
+      <div
+        ref={editorRef}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={(event) => onChange(normalizeRichText(event.currentTarget.innerHTML))}
+        onBlur={(event) => onChange(normalizeRichText(event.currentTarget.innerHTML))}
+        className="min-h-28 rounded-md border border-white/15 bg-white/[0.035] px-3 py-3 text-sm leading-relaxed text-white outline-none focus:border-brand-aqua/70 focus:bg-white/[0.055] [&_a]:text-brand-aqua-light [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5"
+      />
+    </div>
+  );
 }
 
 function AuthPanel() {
@@ -157,7 +322,7 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
   if (Array.isArray(value)) {
     const isPrimitiveList = value.every((item) => item === null || typeof item !== 'object');
     return (
-      <div className="divide-y divide-white/10">
+      <div className="border-l border-white/10 pl-4">
         {value.map((item, index) => (
           <div key={`${path.join('.')}.${index}`} className="py-4">
             <div className="mb-3 flex items-center justify-between gap-3">
@@ -167,16 +332,17 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
               <button
                 type="button"
                 onClick={() => onChange(path, value.filter((_, itemIndex) => itemIndex !== index))}
-                className="text-xs text-red-200 hover:text-red-100"
+                className="inline-flex items-center gap-1 rounded-md border border-red-200/20 px-2 py-1 text-xs text-red-200 hover:bg-red-500/10 hover:text-red-100"
               >
+                <Icon name="trash" size={13} />
                 Remove
               </button>
             </div>
             {isPrimitiveList ? (
-              <Input
+              <AdminTextField
+                label={`Item ${index + 1}`}
                 value={item || ''}
                 onChange={(event) => onChange([...path, index], event.target.value)}
-                className="bg-white/5 text-white border-white/15"
               />
             ) : (
               <StructuredFields value={item || {}} path={[...path, index]} onChange={onChange} depth={depth + 1} />
@@ -187,8 +353,9 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
           <button
             type="button"
             onClick={() => onChange(path, [...value, isPrimitiveList ? '' : {}])}
-            className="text-sm text-brand-aqua-light hover:text-white"
+            className="inline-flex items-center gap-2 rounded-md border border-brand-aqua/30 px-3 py-2 text-sm text-brand-aqua-light hover:bg-brand-aqua/10 hover:text-white"
           >
+            <Icon name="plus" size={15} />
             Add {labelFromKey(path[path.length - 1] || 'item')}
           </button>
         </div>
@@ -200,21 +367,18 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
     if (isImageRef(value)) {
       return (
         <div className="space-y-2">
-          <Input
+          <AdminTextField
+            label="Alt text"
             value={value.alt || ''}
             onChange={(event) => onChange([...path, 'alt'], event.target.value)}
-            placeholder="Alt text"
-            className="bg-white/5 text-white border-white/15"
+            helper="Image file changes happen from the image library."
           />
-          <Typography variant="small" className="text-white/40">
-            Image file changes happen from the image library.
-          </Typography>
         </div>
       );
     }
 
     return (
-      <div className={depth === 0 ? 'divide-y divide-white/10' : 'space-y-4'}>
+      <div className={depth === 0 ? 'space-y-5' : 'space-y-4'}>
         {Object.entries(value).map(([key, item]) => {
           const fieldPath = [...path, key];
           if (key === 'id' || key === '_id' || key === '__v' || key === 'singletonKey') return null;
@@ -225,22 +389,19 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
                 <Typography variant="eyebrow" className="mb-2 text-white/45">
                   {labelFromKey(key)}
                 </Typography>
-                <Input
+                <AdminTextField
+                  label="Alt text"
                   value={item.alt || ''}
                   onChange={(event) => onChange([...fieldPath, 'alt'], event.target.value)}
-                  placeholder="Alt text"
-                  className="bg-white/5 text-white border-white/15"
+                  helper="Image file changes happen from the image library."
                 />
-                <Typography variant="small" className="mt-2 text-white/40">
-                  Image file changes happen from the image library.
-                </Typography>
               </div>
             );
           }
 
           if (Array.isArray(item) || (item && typeof item === 'object')) {
             return (
-              <div key={fieldPath.join('.')} className={depth === 0 ? 'py-5' : 'border-l border-white/10 pl-4'}>
+              <div key={fieldPath.join('.')} className={depth === 0 ? 'border-t border-white/10 pt-5 first:border-t-0 first:pt-0' : 'border-l border-white/10 pl-4'}>
                 <Typography variant="eyebrow" className="mb-3 text-brand-aqua-light">
                   {labelFromKey(key)}
                 </Typography>
@@ -251,7 +412,7 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
 
           if (typeof item === 'boolean') {
             return (
-              <label key={fieldPath.join('.')} className={`flex items-center justify-between gap-4 ${depth === 0 ? 'py-4' : ''}`}>
+              <label key={fieldPath.join('.')} className="flex items-center justify-between gap-4 rounded-md px-1 py-2 hover:bg-white/[0.04]">
                 <span className="text-sm text-white/75">{labelFromKey(key)}</span>
                 <input type="checkbox" checked={item} onChange={(event) => onChange(fieldPath, event.target.checked)} />
               </label>
@@ -260,25 +421,29 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
 
           const stringValue = item ?? '';
           const isLong = String(stringValue).length > 90 || ['lead', 'description', 'content', 'quote', 'philosophy', 'tagline', 'creditTagline'].includes(key);
+          const isIcon = key === 'icon' || key.endsWith('Icon');
+
+          if (isIcon) {
+            return (
+              <div key={fieldPath.join('.')} className="py-1">
+                <IconSelector label={labelFromKey(key)} value={stringValue} onChange={(nextIcon) => onChange(fieldPath, nextIcon)} />
+              </div>
+            );
+          }
+
           return (
-            <label key={fieldPath.join('.')} className={`block ${depth === 0 ? 'py-4' : ''}`}>
-              <span className="mb-2 block text-sm text-white/65">{labelFromKey(key)}</span>
+            <div key={fieldPath.join('.')} className="py-1">
               {isLong ? (
-                <Textarea
-                  rows={4}
-                  value={stringValue}
-                  onChange={(event) => onChange(fieldPath, event.target.value)}
-                  className="bg-white/5 text-white border-white/15"
-                />
+                <RichTextField label={labelFromKey(key)} value={stringValue} onChange={(nextValue) => onChange(fieldPath, nextValue)} />
               ) : (
-                <Input
+                <AdminTextField
+                  label={labelFromKey(key)}
                   type={typeof item === 'number' ? 'number' : 'text'}
                   value={stringValue}
                   onChange={(event) => onChange(fieldPath, typeof item === 'number' ? Number(event.target.value) : event.target.value)}
-                  className="bg-white/5 text-white border-white/15"
                 />
               )}
-            </label>
+            </div>
           );
         })}
       </div>
@@ -347,14 +512,14 @@ function ItemEditor({ kind, item, onSave }) {
       <Typography variant="h4" className="text-white">{draft.id ? 'Edit Item' : 'New Item'}</Typography>
       {fields.map((field) => (
         field === 'description' || field === 'quote' ? (
-          <Textarea key={field} rows={4} value={draft[field] || ''} onChange={(e) => update(field, e.target.value)} placeholder={field} className="bg-white/10 text-white border-white/20" />
+          <RichTextField key={field} label={labelFromKey(field)} value={draft[field] || ''} onChange={(nextValue) => update(field, nextValue)} />
         ) : (
-          <Input key={field} value={draft[field] || ''} onChange={(e) => update(field, e.target.value)} placeholder={field} className="bg-white/10 text-white border-white/20" />
+          <AdminTextField key={field} label={labelFromKey(field)} value={draft[field] || ''} onChange={(e) => update(field, e.target.value)} />
         )
       ))}
-      <label className="flex items-center gap-2 text-white/80">
+      <label className="flex items-center justify-between gap-4 rounded-md px-1 py-2 text-white/80 hover:bg-white/[0.04]">
+        <span>Active</span>
         <input type="checkbox" checked={draft.active !== false} onChange={(e) => update('active', e.target.checked)} />
-        Active
       </label>
       <Button variant="cta" type="button" onClick={() => onSave(draft).then(() => setDirty(false))}>
         <Icon name="save" size={16} className="mr-2" />
@@ -379,6 +544,7 @@ function RightDrawer() {
       const group = editableGroups.find((item) => item.key === target.group);
       setSelectedGroup(group);
       setLevel(group?.kind === 'events' || group?.kind === 'testimonials' ? 'items' : 'edit');
+      highlightEditableGroup(target.group);
     }
   }, [admin.editorTarget]);
 
@@ -436,11 +602,15 @@ function RightDrawer() {
                       onClick={() => {
                         setSelectedGroup(group);
                         setLevel(group.kind === 'events' || group.kind === 'testimonials' ? 'items' : 'edit');
+                        highlightEditableGroup(group.key);
                       }}
                       className="flex w-full items-center justify-between px-1 py-4 text-left transition-colors hover:bg-white/[0.04]"
                     >
                       <span>{group.label}</span>
-                      <Icon name="chevron-right" size={16} className="text-white/35" />
+                      <span className="inline-flex items-center gap-2 text-white/40">
+                        <Icon name="pencil" size={14} />
+                        <Icon name="chevron-right" size={16} />
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -450,7 +620,8 @@ function RightDrawer() {
         )}
         {level === 'items' && selectedGroup && (
           <div className="space-y-4">
-            <Button type="button" variant="cta" onClick={() => setLevel('new')}>
+            <Button type="button" variant="cta" onClick={() => setLevel('new')} className="rounded-md px-4 py-3 text-sm">
+              <Icon name="plus" size={16} className="mr-2" />
               Add {selectedGroup.label.slice(0, -1)}
             </Button>
             <div className="divide-y divide-white/10 border-y border-white/10">
@@ -460,7 +631,10 @@ function RightDrawer() {
                     <span className="block font-semibold">{item.title || item.author}</span>
                     <span className="block text-sm text-white/50">{item.date || item.role}</span>
                   </span>
-                  <Icon name="chevron-right" size={16} className="text-white/35" />
+                  <span className="inline-flex items-center gap-2 text-white/40">
+                    <Icon name="pencil" size={14} />
+                    <Icon name="chevron-right" size={16} />
+                  </span>
                 </button>
               ))}
             </div>

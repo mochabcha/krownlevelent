@@ -10,3 +10,4 @@ export { default as ThemeToggle } from './ThemeToggle';
 export { default as Image } from './Image';
 export { default as Divider } from './Divider';
 export { default as IconButton } from './IconButton';
+export { default as RichText } from './RichText';

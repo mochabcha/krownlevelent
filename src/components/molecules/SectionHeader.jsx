@@ -1,4 +1,5 @@
-import { Typography } from '../atoms';
+import { RichText, Typography } from '../atoms';
+import { hasRichText } from '../../utils/richText';
 
 export default function SectionHeader({
   eyebrow,
@@ -50,11 +51,12 @@ export default function SectionHeader({
       {lead && (
         <Typography
           variant="lead"
+          as={hasRichText(lead) ? 'div' : undefined}
           animate={animate}
           delay={animate ? 0.2 : 0}
           className={resolvedLeadColor}
         >
-          {lead}
+          <RichText value={lead} />
         </Typography>
       )}
     </div>

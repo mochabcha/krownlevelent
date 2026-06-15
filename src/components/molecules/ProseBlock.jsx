@@ -1,4 +1,5 @@
-import { Typography } from '../atoms';
+import { RichText, Typography } from '../atoms';
+import { hasRichText } from '../../utils/richText';
 
 export default function ProseBlock({
   paragraphs = [],
@@ -16,12 +17,12 @@ export default function ProseBlock({
         <Typography
           key={i}
           variant={variant}
+          as={hasRichText(text) ? 'div' : undefined}
           animate={animate}
           delay={animate ? baseDelay + i * 0.1 : 0}
           className={`${color} leading-relaxed ${i < paragraphs.length - 1 ? spacing : lastSpacing} ${className}`}
-          dangerouslySetInnerHTML={typeof text === 'string' ? undefined : undefined}
         >
-          {text}
+          <RichText value={text} />
         </Typography>
       ))}
     </>

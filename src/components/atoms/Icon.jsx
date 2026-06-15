@@ -11,6 +11,7 @@ import {
   ExternalLink,
   ChevronDown,
   ChevronRight,
+  Circle,
   Menu,
   X,
   Sun,
@@ -39,6 +40,16 @@ import {
   LogOut,
   FolderOpen,
   Music2,
+  Plus,
+  Trash2,
+  Search,
+  Type,
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Link,
+  Undo2,
 } from 'lucide-react';
 
 const iconMap = {
@@ -54,6 +65,7 @@ const iconMap = {
   'external-link': ExternalLink,
   'chevron-down': ChevronDown,
   'chevron-right': ChevronRight,
+  circle: Circle,
   menu: Menu,
   x: X,
   sun: Sun,
@@ -82,7 +94,19 @@ const iconMap = {
   logout: LogOut,
   folder: FolderOpen,
   tiktok: Music2,
+  plus: Plus,
+  trash: Trash2,
+  search: Search,
+  type: Type,
+  bold: Bold,
+  italic: Italic,
+  list: List,
+  'list-ordered': ListOrdered,
+  link: Link,
+  undo: Undo2,
 };
+
+export const iconNames = Object.keys(iconMap).sort();
 
 export default function Icon({
   name,

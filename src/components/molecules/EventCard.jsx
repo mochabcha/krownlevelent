@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Icon, Typography, Button } from '../atoms';
+import { Icon, RichText, Typography, Button } from '../atoms';
+import { hasRichText } from '../../utils/richText';
 
 export default function EventCard({
   title,
@@ -45,8 +46,8 @@ export default function EventCard({
         </div>
 
         {description && (
-          <Typography variant="body" className="text-ink-light dark:text-white/75 mb-4">
-            {description}
+          <Typography variant="body" as={hasRichText(description) ? 'div' : undefined} className="text-ink-light dark:text-white/75 mb-4">
+            <RichText value={description} />
           </Typography>
         )}
 

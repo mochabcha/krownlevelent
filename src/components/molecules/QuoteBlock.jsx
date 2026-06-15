@@ -1,4 +1,4 @@
-import { Typography } from '../atoms';
+import { RichText, Typography } from '../atoms';
 
 export default function QuoteBlock({
   quote,
@@ -13,7 +13,7 @@ export default function QuoteBlock({
         &ldquo;
       </div>
       <Typography variant="blockquote" className={`${quoteColor} mb-6 max-w-3xl mx-auto`}>
-        {quote.replace(/"/g, '')}
+        <RichText value={quote.replace(/"/g, '')} />
       </Typography>
       {attribution && (
         <Typography variant="eyebrow" className={`${attributionColor} tracking-[0.3em]`}>

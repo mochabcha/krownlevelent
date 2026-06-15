@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Icon, Typography } from '../atoms';
+import { Icon, RichText, Typography } from '../atoms';
+import { hasRichText } from '../../utils/richText';
 
 export default function TestimonialCard({
   quote,
@@ -15,8 +16,8 @@ export default function TestimonialCard({
         &ldquo;
       </div>
       <div className="relative z-10 pt-6">
-        <Typography variant="body" className="text-ink-light dark:text-white/75 italic leading-relaxed mb-6">
-          {quote}
+        <Typography variant="body" as={hasRichText(quote) ? 'div' : undefined} className="text-ink-light dark:text-white/75 italic leading-relaxed mb-6">
+          <RichText value={quote} />
         </Typography>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple">
