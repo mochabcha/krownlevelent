@@ -56,9 +56,9 @@ adminRoutes.patch(
 adminRoutes.post(
   '/content/:blockKey/image',
   asyncHandler(async (req, res) => {
-    const { path, mediaId } = req.body;
+    const { path, mediaId, alt } = req.body;
     if (!Array.isArray(path) || !mediaId) throw new HttpError(400, 'path and mediaId are required');
-    res.json(await updateContentBlockImage(routeParam(req.params.blockKey), path, mediaId));
+    res.json(await updateContentBlockImage(routeParam(req.params.blockKey), path, mediaId, alt));
   })
 );
 

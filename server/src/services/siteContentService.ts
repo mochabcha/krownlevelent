@@ -88,7 +88,7 @@ export async function updateContentBlock(key: string, data: Record<string, unkno
   return normalizeDoc(block);
 }
 
-export async function updateContentBlockImage(key: string, path: string[], mediaId: string) {
+export async function updateContentBlockImage(key: string, path: string[], mediaId: string, alt?: string) {
   if (!isDatabaseConnected()) throw new HttpError(503, 'MongoDB is required for admin content');
   const block = await ContentBlock.findOne({ key });
   if (!block) throw new HttpError(404, 'Content block not found');
@@ -98,7 +98,11 @@ export async function updateContentBlockImage(key: string, path: string[], media
     cursor[segment] = cursor[segment] || {};
     cursor = cursor[segment];
   }
-  cursor[path[path.length - 1]] = { ...(cursor[path[path.length - 1]] || {}), mediaId };
+  cursor[path[path.length - 1]] = {
+    ...(cursor[path[path.length - 1]] || {}),
+    mediaId,
+    ...(typeof alt === 'string' ? { alt } : {}),
+  };
   block.markModified('data');
   await block.save();
   return normalizeDoc(block);

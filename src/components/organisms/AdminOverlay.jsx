@@ -1,24 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Icon, Input, Textarea, Typography } from '../atoms';
 import { useAdmin } from '../admin/AdminContext';
+import { resolveImage } from '../../content/imageRegistry';
 
 const editableGroups = [
-  { key: 'general', label: 'General', kind: 'settings' },
-  { key: 'events', label: 'Events', kind: 'events' },
-  { key: 'testimonials', label: 'Testimonials', kind: 'testimonials' },
-  { key: 'hero', label: 'Hero', kind: 'content' },
-  { key: 'brand-ecosystem', label: 'KLE Focus Points', kind: 'content' },
-  { key: 'founder-bio', label: 'Founder Bio', kind: 'content' },
-  { key: 'credentials', label: 'Credentials', kind: 'content' },
-  { key: 'quote-banner', label: 'Quote Banner', kind: 'content' },
-  { key: 'vision', label: 'Vision', kind: 'content' },
-  { key: 'wellness', label: "Genie's Healing Elements", kind: 'content' },
-  { key: 'plant-klub', label: 'Plant Klub', kind: 'content' },
-  { key: 'sage-defense', label: 'SAGE Defense Systems', kind: 'content' },
-  { key: 'sign-up', label: 'Signup Form Copy', kind: 'content' },
-  { key: 'contact', label: 'Contact Copy', kind: 'content' },
-  { key: 'secondary-cta', label: 'Secondary CTA', kind: 'content' },
-  { key: 'footer', label: 'Footer', kind: 'content' },
+  { key: 'general', label: 'General Settings', kind: 'settings', section: 'Site Settings' },
+  { key: 'events', label: 'Events', kind: 'events', section: 'CMS Collections' },
+  { key: 'testimonials', label: 'Testimonials', kind: 'testimonials', section: 'CMS Collections' },
+  { key: 'hero', label: 'Hero', kind: 'content', section: 'Page Components' },
+  { key: 'brand-ecosystem', label: 'KLE Focus Points', kind: 'content', section: 'Page Components' },
+  { key: 'founder-bio', label: 'Founder Bio', kind: 'content', section: 'Page Components' },
+  { key: 'credentials', label: 'Credentials', kind: 'content', section: 'Page Components' },
+  { key: 'quote-banner', label: 'Quote Banner', kind: 'content', section: 'Page Components' },
+  { key: 'vision', label: 'Vision', kind: 'content', section: 'Page Components' },
+  { key: 'wellness', label: "Genie's Healing Elements", kind: 'content', section: 'Page Components' },
+  { key: 'plant-klub', label: 'Plant Klub', kind: 'content', section: 'Page Components' },
+  { key: 'sage-defense', label: 'SAGE Defense Systems', kind: 'content', section: 'Page Components' },
+  { key: 'sign-up', label: 'Signup Form Copy', kind: 'content', section: 'Page Components' },
+  { key: 'contact', label: 'Contact Copy', kind: 'content', section: 'Page Components' },
+  { key: 'secondary-cta', label: 'Secondary CTA', kind: 'content', section: 'Page Components' },
+  { key: 'footer', label: 'Footer', kind: 'content', section: 'Page Components' },
 ];
 
 function api(path, options = {}) {
@@ -35,6 +36,42 @@ function api(path, options = {}) {
     }
     return data;
   });
+}
+
+function cloneValue(value) {
+  return value === undefined ? value : JSON.parse(JSON.stringify(value));
+}
+
+function labelFromKey(key) {
+  return String(key)
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function getPathValue(source, path = []) {
+  return path.reduce((cursor, segment) => cursor?.[segment], source);
+}
+
+function updatePathValue(source, path, value) {
+  if (!path.length) return value;
+  const [head, ...rest] = path;
+  const next = Array.isArray(source) ? [...source] : { ...(source || {}) };
+  next[head] = updatePathValue(next[head], rest, value);
+  return next;
+}
+
+function isImageRef(value) {
+  return value && typeof value === 'object' && !Array.isArray(value) && ('assetKey' in value || 'mediaId' in value || 'url' in value) && 'alt' in value;
+}
+
+function groupedEditableItems() {
+  return editableGroups.reduce((groups, item) => {
+    const section = item.section || 'Content';
+    groups[section] = groups[section] || [];
+    groups[section].push(item);
+    return groups;
+  }, {});
 }
 
 function AuthPanel() {
@@ -116,15 +153,161 @@ function AuthPanel() {
   );
 }
 
-function JsonEditor({ title, value, onSave }) {
-  const [draft, setDraft] = useState(JSON.stringify(value || {}, null, 2));
+function StructuredFields({ value, path = [], onChange, depth = 0 }) {
+  if (Array.isArray(value)) {
+    const isPrimitiveList = value.every((item) => item === null || typeof item !== 'object');
+    return (
+      <div className="divide-y divide-white/10">
+        {value.map((item, index) => (
+          <div key={`${path.join('.')}.${index}`} className="py-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <Typography variant="eyebrow" className="text-white/45">
+                {isPrimitiveList ? `Item ${index + 1}` : `${labelFromKey(path[path.length - 1] || 'Item')} ${index + 1}`}
+              </Typography>
+              <button
+                type="button"
+                onClick={() => onChange(path, value.filter((_, itemIndex) => itemIndex !== index))}
+                className="text-xs text-red-200 hover:text-red-100"
+              >
+                Remove
+              </button>
+            </div>
+            {isPrimitiveList ? (
+              <Input
+                value={item || ''}
+                onChange={(event) => onChange([...path, index], event.target.value)}
+                className="bg-white/5 text-white border-white/15"
+              />
+            ) : (
+              <StructuredFields value={item || {}} path={[...path, index]} onChange={onChange} depth={depth + 1} />
+            )}
+          </div>
+        ))}
+        <div className="py-4">
+          <button
+            type="button"
+            onClick={() => onChange(path, [...value, isPrimitiveList ? '' : {}])}
+            className="text-sm text-brand-aqua-light hover:text-white"
+          >
+            Add {labelFromKey(path[path.length - 1] || 'item')}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (value && typeof value === 'object') {
+    if (isImageRef(value)) {
+      return (
+        <div className="space-y-2">
+          <Input
+            value={value.alt || ''}
+            onChange={(event) => onChange([...path, 'alt'], event.target.value)}
+            placeholder="Alt text"
+            className="bg-white/5 text-white border-white/15"
+          />
+          <Typography variant="small" className="text-white/40">
+            Image file changes happen from the image library.
+          </Typography>
+        </div>
+      );
+    }
+
+    return (
+      <div className={depth === 0 ? 'divide-y divide-white/10' : 'space-y-4'}>
+        {Object.entries(value).map(([key, item]) => {
+          const fieldPath = [...path, key];
+          if (key === 'id' || key === '_id' || key === '__v' || key === 'singletonKey') return null;
+
+          if (isImageRef(item)) {
+            return (
+              <div key={fieldPath.join('.')} className={depth === 0 ? 'py-4' : ''}>
+                <Typography variant="eyebrow" className="mb-2 text-white/45">
+                  {labelFromKey(key)}
+                </Typography>
+                <Input
+                  value={item.alt || ''}
+                  onChange={(event) => onChange([...fieldPath, 'alt'], event.target.value)}
+                  placeholder="Alt text"
+                  className="bg-white/5 text-white border-white/15"
+                />
+                <Typography variant="small" className="mt-2 text-white/40">
+                  Image file changes happen from the image library.
+                </Typography>
+              </div>
+            );
+          }
+
+          if (Array.isArray(item) || (item && typeof item === 'object')) {
+            return (
+              <div key={fieldPath.join('.')} className={depth === 0 ? 'py-5' : 'border-l border-white/10 pl-4'}>
+                <Typography variant="eyebrow" className="mb-3 text-brand-aqua-light">
+                  {labelFromKey(key)}
+                </Typography>
+                <StructuredFields value={item} path={fieldPath} onChange={onChange} depth={depth + 1} />
+              </div>
+            );
+          }
+
+          if (typeof item === 'boolean') {
+            return (
+              <label key={fieldPath.join('.')} className={`flex items-center justify-between gap-4 ${depth === 0 ? 'py-4' : ''}`}>
+                <span className="text-sm text-white/75">{labelFromKey(key)}</span>
+                <input type="checkbox" checked={item} onChange={(event) => onChange(fieldPath, event.target.checked)} />
+              </label>
+            );
+          }
+
+          const stringValue = item ?? '';
+          const isLong = String(stringValue).length > 90 || ['lead', 'description', 'content', 'quote', 'philosophy', 'tagline', 'creditTagline'].includes(key);
+          return (
+            <label key={fieldPath.join('.')} className={`block ${depth === 0 ? 'py-4' : ''}`}>
+              <span className="mb-2 block text-sm text-white/65">{labelFromKey(key)}</span>
+              {isLong ? (
+                <Textarea
+                  rows={4}
+                  value={stringValue}
+                  onChange={(event) => onChange(fieldPath, event.target.value)}
+                  className="bg-white/5 text-white border-white/15"
+                />
+              ) : (
+                <Input
+                  type={typeof item === 'number' ? 'number' : 'text'}
+                  value={stringValue}
+                  onChange={(event) => onChange(fieldPath, typeof item === 'number' ? Number(event.target.value) : event.target.value)}
+                  className="bg-white/5 text-white border-white/15"
+                />
+              )}
+            </label>
+          );
+        })}
+      </div>
+    );
+  }
+
+  return null;
+}
+
+function FieldEditor({ title, value, onSave }) {
+  const [draft, setDraft] = useState(() => cloneValue(value || {}));
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    setDraft(cloneValue(value || {}));
+    setDirty(false);
+    setError('');
+  }, [value]);
+
+  const update = (path, nextValue) => {
+    setDraft((current) => updatePathValue(current, path, nextValue));
+    setDirty(true);
+  };
 
   const save = async () => {
     setError('');
     try {
-      await onSave(JSON.parse(draft));
+      await onSave(draft);
       setDirty(false);
     } catch (err) {
       setError(err.message);
@@ -132,17 +315,9 @@ function JsonEditor({ title, value, onSave }) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-dirty={dirty ? 'true' : undefined}>
       <Typography variant="h4" className="text-white">{title}</Typography>
-      <Textarea
-        rows={18}
-        value={draft}
-        onChange={(event) => {
-          setDraft(event.target.value);
-          setDirty(true);
-        }}
-        className="font-mono text-sm bg-white/10 text-white border-white/20"
-      />
+      <StructuredFields value={draft} onChange={update} />
       {error && <Typography variant="small" className="text-red-300">{error}</Typography>}
       <div className="flex gap-3">
         <Button variant="cta" type="button" onClick={save}>
@@ -168,7 +343,7 @@ function ItemEditor({ kind, item, onSave }) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-dirty={dirty ? 'true' : undefined}>
       <Typography variant="h4" className="text-white">{draft.id ? 'Edit Item' : 'New Item'}</Typography>
       {fields.map((field) => (
         field === 'description' || field === 'quote' ? (
@@ -195,6 +370,7 @@ function RightDrawer() {
   const [level, setLevel] = useState('menu');
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [items, setItems] = useState([]);
+  const menuGroups = useMemo(groupedEditableItems, []);
 
   useEffect(() => {
     if (!admin.editorTarget) return;
@@ -246,37 +422,52 @@ function RightDrawer() {
       </div>
       <div className="p-5">
         {level === 'menu' && (
-          <div className="space-y-3">
-            {editableGroups.map((group) => (
-              <button
-                key={group.key}
-                type="button"
-                onClick={() => {
-                  setSelectedGroup(group);
-                  setLevel(group.kind === 'events' || group.kind === 'testimonials' ? 'items' : 'edit');
-                }}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left hover:border-brand-aqua/50"
-              >
-                {group.label}
-              </button>
+          <div className="space-y-8">
+            {Object.entries(menuGroups).map(([section, groups]) => (
+              <div key={section}>
+                <Typography variant="eyebrow" className="mb-2 text-brand-aqua-light">
+                  {section}
+                </Typography>
+                <div className="divide-y divide-white/10 border-y border-white/10">
+                  {groups.map((group) => (
+                    <button
+                      key={group.key}
+                      type="button"
+                      onClick={() => {
+                        setSelectedGroup(group);
+                        setLevel(group.kind === 'events' || group.kind === 'testimonials' ? 'items' : 'edit');
+                      }}
+                      className="flex w-full items-center justify-between px-1 py-4 text-left transition-colors hover:bg-white/[0.04]"
+                    >
+                      <span>{group.label}</span>
+                      <Icon name="chevron-right" size={16} className="text-white/35" />
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         )}
         {level === 'items' && selectedGroup && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <Button type="button" variant="cta" onClick={() => setLevel('new')}>
               Add {selectedGroup.label.slice(0, -1)}
             </Button>
-            {items.map((item) => (
-              <button key={item.id} type="button" onClick={() => { setSelectedGroup({ ...selectedGroup, item }); setLevel('itemEdit'); }} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left hover:border-brand-aqua/50">
-                <span className="block font-semibold">{item.title || item.author}</span>
-                <span className="block text-sm text-white/50">{item.date || item.role}</span>
-              </button>
-            ))}
+            <div className="divide-y divide-white/10 border-y border-white/10">
+              {items.map((item) => (
+                <button key={item.id} type="button" onClick={() => { setSelectedGroup({ ...selectedGroup, item }); setLevel('itemEdit'); }} className="flex w-full items-center justify-between px-1 py-4 text-left transition-colors hover:bg-white/[0.04]">
+                  <span>
+                    <span className="block font-semibold">{item.title || item.author}</span>
+                    <span className="block text-sm text-white/50">{item.date || item.role}</span>
+                  </span>
+                  <Icon name="chevron-right" size={16} className="text-white/35" />
+                </button>
+              ))}
+            </div>
           </div>
         )}
         {level === 'edit' && selectedGroup && (
-          <JsonEditor title={selectedGroup.label} value={currentValue} onSave={saveContent} />
+          <FieldEditor title={selectedGroup.label} value={currentValue} onSave={saveContent} />
         )}
         {level === 'itemEdit' && selectedGroup?.item && (
           <ItemEditor kind={selectedGroup.kind} item={selectedGroup.item} onSave={saveItem} />
@@ -296,12 +487,22 @@ function MediaDrawer() {
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState('');
+  const [currentAlt, setCurrentAlt] = useState('');
+  const [assetAltDrafts, setAssetAltDrafts] = useState({});
+
+  const currentImageRef = admin.mediaTarget?.blockKey
+    ? getPathValue(admin.content.blocks?.[admin.mediaTarget.blockKey], admin.mediaTarget.path)
+    : null;
+  const currentImage = currentImageRef ? resolveImage(currentImageRef, admin.mediaById) : null;
+  const currentBlock = admin.mediaTarget?.blockKey ? admin.content.blocks?.[admin.mediaTarget.blockKey] : null;
 
   const load = async () => {
     setLoading(true);
     setError('');
     try {
-      setMedia(await api('/api/admin/media'));
+      const items = await api('/api/admin/media');
+      setMedia(items);
+      setAssetAltDrafts(Object.fromEntries(items.map((asset) => [asset.id, asset.alt || ''])));
     } catch (err) {
       setMedia([]);
       setError(err.message);
@@ -314,6 +515,10 @@ function MediaDrawer() {
   useEffect(() => {
     if (admin.leftOpen) load();
   }, [admin.leftOpen]);
+
+  useEffect(() => {
+    setCurrentAlt(currentImageRef?.alt || '');
+  }, [admin.leftOpen, admin.mediaTarget, currentImageRef?.alt]);
 
   if (!admin.leftOpen) return null;
 
@@ -353,11 +558,50 @@ function MediaDrawer() {
     if (admin.mediaTarget?.blockKey && admin.mediaTarget?.path) {
       await api(`/api/admin/content/${admin.mediaTarget.blockKey}/image`, {
         method: 'POST',
-        body: JSON.stringify({ path: admin.mediaTarget.path, mediaId: asset.id }),
+        body: JSON.stringify({ path: admin.mediaTarget.path, mediaId: asset.id, alt: currentAlt }),
       });
       await admin.refreshContent();
       admin.closeMedia();
     }
+  };
+
+  const saveCurrentAlt = async () => {
+    if (!admin.mediaTarget?.blockKey || !currentBlock || !currentImageRef) return;
+    setError('');
+    try {
+      const nextBlock = updatePathValue(currentBlock, admin.mediaTarget.path, { ...currentImageRef, alt: currentAlt });
+      await api(`/api/admin/content/${admin.mediaTarget.blockKey}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ data: nextBlock }),
+      });
+      await admin.refreshContent();
+    } catch (err) {
+      setError(err.message);
+      if (err.status === 401) admin.setAuthenticated(false);
+    }
+  };
+
+  const saveAssetAlt = async (asset) => {
+    const nextAlt = assetAltDrafts[asset.id] || '';
+    if (nextAlt === (asset.alt || '')) return;
+    setError('');
+    try {
+      const updated = await api(`/api/admin/media/${asset.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ alt: nextAlt }),
+      });
+      setMedia((items) => items.map((item) => (item.id === updated.id ? updated : item)));
+      await admin.refreshContent();
+    } catch (err) {
+      setError(err.message);
+      if (err.status === 401) admin.setAuthenticated(false);
+    }
+  };
+
+  const formatBytes = (size) => {
+    if (!size) return '';
+    if (size < 1024 * 1024) return `${Math.round(size / 1024)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
   };
 
   return (
@@ -375,6 +619,34 @@ function MediaDrawer() {
         <button type="button" onClick={admin.closeMedia} className="text-white/70 hover:text-white">Close</button>
       </div>
       <div className="p-5 space-y-5">
+        {currentImage && (
+          <div className="border-b border-white/10 pb-5">
+            <Typography variant="eyebrow" className="mb-3 text-brand-aqua-light">
+              Current Image
+            </Typography>
+            <div className="grid grid-cols-[112px_1fr] gap-4">
+              <img src={currentImage.src} alt={currentImage.alt || ''} className="aspect-square w-28 object-cover" />
+              <div className="min-w-0 space-y-3">
+                <div>
+                  <span className="block text-sm text-white/80">{currentImage.filename || currentImage.assetKey || 'Selected image'}</span>
+                  {currentImage.mediaId && <span className="block truncate text-xs text-white/40">Media ID: {currentImage.mediaId}</span>}
+                </div>
+                <label className="block">
+                  <span className="mb-1 block text-xs text-white/50">Alt text for this placement</span>
+                  <Input
+                    value={currentAlt}
+                    onChange={(event) => setCurrentAlt(event.target.value)}
+                    onBlur={saveCurrentAlt}
+                    className="bg-white/5 text-white border-white/15"
+                  />
+                </label>
+                <button type="button" onClick={saveCurrentAlt} className="text-sm text-brand-aqua-light hover:text-white">
+                  Save alt text
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <label className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-brand-aqua/50 bg-white/5 p-6 text-center hover:bg-white/10">
           <Icon name="upload" size={28} className="mb-2 text-brand-aqua-light" />
           <span>{busy ? 'Uploading...' : 'Drag or select images'}</span>
@@ -397,12 +669,35 @@ function MediaDrawer() {
             No images are stored yet.
           </div>
         )}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="divide-y divide-white/10 border-y border-white/10">
           {media.map((asset) => (
-            <button key={asset.id} type="button" onClick={() => select(asset)} className="group overflow-hidden rounded-xl border border-white/10 bg-white/5 text-left">
-              <img src={asset.url} alt={asset.alt || asset.filename} className="aspect-square w-full object-cover group-hover:scale-105 transition-transform" />
-              <span className="block truncate px-2 py-2 text-xs text-white/70">{asset.filename}</span>
-            </button>
+            <div key={asset.id} className="grid grid-cols-[84px_1fr] gap-3 py-4 transition-colors hover:bg-white/[0.04]">
+              <img src={asset.url} alt={asset.alt || asset.filename} className="aspect-square w-[84px] object-cover" />
+              <div className="min-w-0 space-y-2">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className="block truncate text-sm text-white/80">{asset.filename}</span>
+                    <span className="block text-xs text-white/40">
+                      {[asset.width && asset.height ? `${asset.width}x${asset.height}` : '', formatBytes(asset.size)].filter(Boolean).join(' · ')}
+                    </span>
+                  </div>
+                  {admin.mediaTarget && (
+                    <button type="button" onClick={() => select(asset)} className="shrink-0 text-sm text-brand-aqua-light hover:text-white">
+                      Use
+                    </button>
+                  )}
+                </div>
+                <label className="block">
+                  <span className="mb-1 block text-xs text-white/45">Library alt text</span>
+                  <Input
+                    value={assetAltDrafts[asset.id] || ''}
+                    onChange={(event) => setAssetAltDrafts((drafts) => ({ ...drafts, [asset.id]: event.target.value }))}
+                    onBlur={() => saveAssetAlt(asset)}
+                    className="bg-white/5 text-white border-white/15"
+                  />
+                </label>
+              </div>
+            </div>
           ))}
         </div>
       </div>
