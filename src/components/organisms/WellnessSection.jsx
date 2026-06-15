@@ -44,7 +44,7 @@ export default function WellnessSection({ content = {}, mediaById = {} }) {
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-28 w-auto object-contain md:h-36"
+                  className="h-56 w-auto object-contain md:h-72"
                   loading="lazy"
                 />
               </div>
