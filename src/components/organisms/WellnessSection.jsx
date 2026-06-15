@@ -135,7 +135,7 @@ export default function WellnessSection({ content = {}, mediaById = {} }) {
               className="mb-8"
             />
             <CTAGroup
-              primary={{ label: content.ctaLabel || 'Book Your Consultation', href: '#contact' }}
+              primary={{ label: content.ctaLabel || 'Book Your Consultation', href: content.ctaHref || '#contact', variant: content.ctaVariant || 'cta' }}
               align="center"
             />
           </div>

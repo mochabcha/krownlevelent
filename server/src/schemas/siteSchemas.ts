@@ -22,6 +22,7 @@ export const eventSchema = z.object({
   price: z.string().optional().default(''),
   ctaText: z.string().optional().default('Reserve Your Spot'),
   ctaHref: z.string().optional().default('#contact'),
+  ctaVariant: z.string().optional().default('primary'),
   active: z.boolean().default(true),
   sortOrder: z.number().default(0),
 });

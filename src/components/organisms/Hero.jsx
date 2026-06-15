@@ -44,8 +44,8 @@ export default function Hero({ content = {}, mediaById = {} }) {
               className="mb-8"
             />
             <CTAGroup
-              primary={{ label: content.primaryCta || 'Join Plant Klub', href: '#plant-klub' }}
-              secondary={{ label: content.secondaryCta || 'Book a Consultation', href: '#wellness', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
+              primary={{ label: content.primaryCta || 'Join Plant Klub', href: content.primaryCtaHref || '#plant-klub', variant: content.primaryCtaVariant || 'cta' }}
+              secondary={{ label: content.secondaryCta || 'Book a Consultation', href: content.secondaryCtaHref || '#wellness', variant: content.secondaryCtaVariant || 'outline', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
               align="center"
               className="lg:justify-start"
             />

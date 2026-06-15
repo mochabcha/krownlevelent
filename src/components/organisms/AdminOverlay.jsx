@@ -63,6 +63,47 @@ function updatePathValue(source, path, value) {
   return next;
 }
 
+function templateForPath(path = []) {
+  const key = path[path.length - 1];
+  const templates = {
+    pillars: { icon: 'sprout', title: '', description: '', color: 'text-brand-green', href: '#contact' },
+    trustRibbon: { icon: 'star', label: '' },
+    items: { icon: 'star', title: '', iconColor: 'text-brand-purple', items: [''] },
+    offerings: { icon: 'sprout', title: '', description: '' },
+    processItems: { title: '', content: '' },
+    trainingLevels: { level: 1, title: '', description: '' },
+    faqItems: { question: '', answer: '' },
+    outcomes: { icon: 'star', text: '' },
+    socialLinks: { platform: 'instagram', label: '', href: '#' },
+    images: { assetKey: '', alt: '' },
+    gallery: { assetKey: '', alt: '' },
+  };
+  return templates[key] ? cloneValue(templates[key]) : {};
+}
+
+function emptyFromShape(value, path = []) {
+  if (Array.isArray(value)) return value.length ? [emptyFromShape(value[0], path)] : [''];
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([key]) => !['id', '_id', '__v'].includes(key))
+        .map(([key, item]) => [key, emptyFromShape(item, [...path, key])])
+    );
+  }
+  if (typeof value === 'number') return 0;
+  if (typeof value === 'boolean') return true;
+  return '';
+}
+
+function newItemForArray(value, path) {
+  if (value.length > 0) {
+    const next = emptyFromShape(value[0], path);
+    if (typeof next.level === 'number') next.level = value.length + 1;
+    return next;
+  }
+  return templateForPath(path);
+}
+
 function isImageRef(value) {
   return value && typeof value === 'object' && !Array.isArray(value) && ('assetKey' in value || 'mediaId' in value || 'url' in value) && 'alt' in value;
 }
@@ -85,6 +126,55 @@ const sectionIdsByGroup = {
   'sign-up': 'contact',
   events: 'events',
 };
+
+const anchorOptions = [
+  { value: '#hero', label: 'Hero' },
+  { value: '#about', label: 'About / Founder' },
+  { value: '#plant-klub', label: 'Plant Klub' },
+  { value: '#wellness', label: 'Wellness' },
+  { value: '#sage-defense', label: 'SAGE Defense' },
+  { value: '#events', label: 'Events' },
+  { value: '#contact', label: 'Contact' },
+];
+
+const buttonVariants = [
+  { value: 'cta', label: 'CTA' },
+  { value: 'primary', label: 'Primary' },
+  { value: 'secondary', label: 'Secondary' },
+  { value: 'outline', label: 'Outline' },
+  { value: 'ghost', label: 'Ghost' },
+];
+
+const brandColorOptions = [
+  { value: 'text-brand-purple', label: 'Brand Purple', hex: '#7B5EA7' },
+  { value: 'text-brand-purple-light', label: 'Brand Purple Light', hex: '#9B7FC7' },
+  { value: 'text-brand-purple-dark', label: 'Brand Purple Dark', hex: '#5B3E87' },
+  { value: 'text-brand-indigo', label: 'Brand Indigo', hex: '#2D1B69' },
+  { value: 'text-brand-indigo-light', label: 'Brand Indigo Light', hex: '#3D2B89' },
+  { value: 'text-brand-gold', label: 'Brand Gold', hex: '#D4A843' },
+  { value: 'text-brand-gold-light', label: 'Brand Gold Light', hex: '#E4C873' },
+  { value: 'text-brand-gold-dark', label: 'Brand Gold Dark', hex: '#B48823' },
+  { value: 'text-brand-green', label: 'Brand Green', hex: '#1A7D45' },
+  { value: 'text-brand-green-light', label: 'Brand Green Light', hex: '#2AAD65' },
+  { value: 'text-brand-green-dark', label: 'Brand Green Dark', hex: '#0A5D25' },
+  { value: 'text-brand-sage', label: 'Brand Sage', hex: '#7C9A72' },
+  { value: 'text-brand-sage-light', label: 'Brand Sage Light', hex: '#A8BE9F' },
+  { value: 'text-brand-sage-dark', label: 'Brand Sage Dark', hex: '#536D4A' },
+  { value: 'text-brand-aqua', label: 'Brand Aqua', hex: '#2CB7B0' },
+  { value: 'text-brand-aqua-light', label: 'Brand Aqua Light', hex: '#76D7D2' },
+  { value: 'text-brand-aqua-dark', label: 'Brand Aqua Dark', hex: '#167A75' },
+];
+
+const buttonFieldConfig = {
+  primaryCta: { hrefKey: 'primaryCtaHref', variantKey: 'primaryCtaVariant', defaultHref: '#plant-klub', defaultVariant: 'cta' },
+  secondaryCta: { hrefKey: 'secondaryCtaHref', variantKey: 'secondaryCtaVariant', defaultHref: '#wellness', defaultVariant: 'outline' },
+  ctaLabel: { hrefKey: 'ctaHref', variantKey: 'ctaVariant', defaultHref: '#contact', defaultVariant: 'cta' },
+  ctaText: { hrefKey: 'ctaHref', variantKey: 'ctaVariant', defaultHref: '#contact', defaultVariant: 'primary' },
+  primaryLabel: { hrefKey: 'primaryHref', variantKey: 'primaryVariant', defaultHref: '#plant-klub', defaultVariant: 'cta' },
+  secondaryLabel: { hrefKey: 'secondaryHref', variantKey: 'secondaryVariant', defaultHref: '#contact', defaultVariant: 'outline' },
+};
+
+const buttonAuxKeys = new Set(Object.values(buttonFieldConfig).flatMap((config) => [config.hrefKey, config.variantKey]));
 
 function findEditableElement(groupKey) {
   const editButton = document.querySelector(`[data-admin-group="${groupKey}"]`);
@@ -111,10 +201,23 @@ function highlightEditableGroup(groupKey) {
   }, 1800);
 }
 
-function AdminTextField({ label, value, onChange, type = 'text', multiline = false, rows = 3, helper = '', error = '', children }) {
-  const fieldClass = `peer w-full rounded-md border border-white/15 bg-white/[0.035] px-3 pb-2 pt-5 text-sm text-white outline-none transition-colors placeholder:text-transparent focus:border-brand-aqua/70 focus:bg-white/[0.055] ${
+function AdminTextField({ label, value, onChange, type = 'text', multiline = false, rows = 3, placeholder, helper = '', error = '', children, readOnly = false, onFocus, onBlur, onClick }) {
+  const [focused, setFocused] = useState(false);
+  const hasValue = value !== undefined && value !== null && String(value).length > 0;
+  const raised = focused || hasValue;
+  const fieldClass = `peer w-full rounded-md border border-white/15 bg-white/[0.035] px-3 text-sm text-white outline-none transition-colors focus:border-brand-aqua/70 focus:bg-white/[0.055] ${
     multiline ? 'resize-y' : 'h-11'
   }`;
+
+  const handleFocus = (event) => {
+    setFocused(true);
+    onFocus?.(event);
+  };
+
+  const handleBlur = (event) => {
+    setFocused(false);
+    onBlur?.(event);
+  };
 
   return (
     <label className="relative block">
@@ -123,19 +226,31 @@ function AdminTextField({ label, value, onChange, type = 'text', multiline = fal
           rows={rows}
           value={value}
           onChange={onChange}
-          placeholder={label}
-          className={fieldClass}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onClick={onClick}
+          placeholder={placeholder || label}
+          readOnly={readOnly}
+          className={`${fieldClass} pb-2 pt-4 placeholder:text-white/35 focus:placeholder:text-transparent ${raised ? 'placeholder:text-transparent' : ''}`}
         />
       ) : (
         <input
           type={type}
           value={value}
           onChange={onChange}
-          placeholder={label}
-          className={fieldClass}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onClick={onClick}
+          placeholder={placeholder || label}
+          readOnly={readOnly}
+          className={`${fieldClass} pb-1 pt-1 placeholder:text-white/35 focus:placeholder:text-transparent ${raised ? 'placeholder:text-transparent' : ''}`}
         />
       )}
-      <span className="pointer-events-none absolute left-3 top-1.5 text-[11px] uppercase tracking-wide text-white/45 transition-colors peer-focus:text-brand-aqua-light">
+      <span
+        className={`pointer-events-none absolute left-2 bg-dark-surface px-1 text-[11px] uppercase tracking-wide transition-all ${
+          raised ? '-top-2 text-brand-aqua-light' : 'top-3 text-transparent'
+        }`}
+      >
         {label}
       </span>
       {children}
@@ -148,31 +263,163 @@ function AdminTextField({ label, value, onChange, type = 'text', multiline = fal
   );
 }
 
-function IconSelector({ label, value, onChange }) {
+function SearchableDropdown({ label, value, onChange, options, renderOption, renderValue, placeholder = 'Search...' }) {
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const filteredIcons = iconNames.filter((name) => name.includes(query.trim().toLowerCase()));
+  const selected = options.find((option) => option.value === value);
+  const displayValue = open ? query : (renderValue ? renderValue(selected, value) : selected?.label || value || '');
+  const filteredOptions = options.filter((option) => {
+    const text = `${option.label || ''} ${option.value || ''}`.toLowerCase();
+    return text.includes(query.trim().toLowerCase());
+  });
+
+  return (
+    <div className="relative">
+      <AdminTextField
+        label={label}
+        value={displayValue}
+        placeholder={placeholder || label}
+        onChange={(event) => {
+          setQuery(event.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => {
+          setQuery(selected?.label || value || '');
+          setOpen(true);
+        }}
+        onBlur={() => window.setTimeout(() => setOpen(false), 150)}
+      >
+        <Icon name="chevron-down" size={15} className="absolute right-3 top-4 text-white/35" />
+      </AdminTextField>
+      {open && (
+        <div className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-md border border-white/15 bg-dark-elevated py-1 shadow-2xl">
+          {filteredOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => {
+                onChange(option.value);
+                setQuery('');
+                setOpen(false);
+              }}
+              className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
+                value === option.value ? 'bg-brand-aqua/20 text-white' : 'text-white/70 hover:bg-white/[0.06] hover:text-white'
+              }`}
+            >
+              {renderOption ? renderOption(option) : option.label}
+            </button>
+          ))}
+          {filteredOptions.length === 0 && (
+            <div className="px-3 py-2 text-sm text-white/45">No matches</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function IconSelector({ label, value, onChange }) {
+  const options = iconNames.map((name) => ({ value: name, label: name }));
+  return (
+    <SearchableDropdown
+      label={label}
+      value={value}
+      onChange={onChange}
+      options={options}
+      placeholder="Search icons..."
+      renderValue={(_selected, selectedValue) => selectedValue || ''}
+      renderOption={(option) => (
+        <>
+          <Icon name={option.value} size={17} />
+          <span>{option.label}</span>
+        </>
+      )}
+    />
+  );
+}
+
+function ColorSelector({ label, value, onChange }) {
+  const options = brandColorOptions.some((option) => option.value === value)
+    ? brandColorOptions
+    : [{ value, label: value || 'Current custom value', hex: '#ffffff' }, ...brandColorOptions];
+  return (
+    <SearchableDropdown
+      label={label}
+      value={value}
+      onChange={onChange}
+      options={options}
+      placeholder="Search brand colors..."
+      renderValue={(selected, selectedValue) => selected?.label || selectedValue || ''}
+      renderOption={(option) => (
+        <>
+          <span className="h-4 w-4 rounded-full border border-white/20" style={{ backgroundColor: option.hex }} />
+          <span>{option.label}</span>
+        </>
+      )}
+    />
+  );
+}
+
+function SelectDropdown({ label, value, onChange, options }) {
+  return (
+    <SearchableDropdown
+      label={label}
+      value={value}
+      onChange={onChange}
+      options={options}
+      placeholder={`Select ${label.toLowerCase()}...`}
+      renderValue={(selected, selectedValue) => selected?.label || selectedValue || ''}
+    />
+  );
+}
+
+function LinkSelector({ label, value, onChange }) {
+  const isAnchor = !value || value.startsWith('#');
+  const [mode, setMode] = useState(isAnchor ? 'anchor' : 'external');
+
+  useEffect(() => {
+    setMode(!value || value.startsWith('#') ? 'anchor' : 'external');
+  }, [value]);
 
   return (
     <div className="space-y-2">
-      <AdminTextField label={label} value={query} onChange={(event) => setQuery(event.target.value)} helper={`Selected: ${value || 'none'}`}>
-        <Icon name="search" size={15} className="absolute right-3 top-4 text-white/35" />
-      </AdminTextField>
-      <div className="grid max-h-44 grid-cols-4 gap-1 overflow-y-auto border-l border-white/10 pl-3">
-        {filteredIcons.map((name) => (
-          <button
-            key={name}
-            type="button"
-            onClick={() => onChange(name)}
-            className={`flex h-14 flex-col items-center justify-center gap-1 rounded-md text-[10px] transition-colors ${
-              value === name ? 'bg-brand-aqua text-dark-bg' : 'text-white/65 hover:bg-white/[0.06] hover:text-white'
-            }`}
-            title={name}
-          >
-            <Icon name={name} size={18} />
-            <span className="max-w-full truncate px-1">{name}</span>
-          </button>
-        ))}
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            setMode('anchor');
+            if (!value || !value.startsWith('#')) onChange('#contact');
+          }}
+          className={`rounded-md border px-3 py-2 text-sm ${mode === 'anchor' ? 'border-brand-aqua bg-brand-aqua/10 text-white' : 'border-white/10 text-white/60 hover:text-white'}`}
+        >
+          On-page
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode('external')}
+          className={`rounded-md border px-3 py-2 text-sm ${mode === 'external' ? 'border-brand-aqua bg-brand-aqua/10 text-white' : 'border-white/10 text-white/60 hover:text-white'}`}
+        >
+          External
+        </button>
       </div>
+      {mode === 'anchor' ? (
+        <SelectDropdown label={label} value={value || '#contact'} onChange={onChange} options={anchorOptions} />
+      ) : (
+        <AdminTextField label={label} value={value || ''} onChange={(event) => onChange(event.target.value)} placeholder="https://..." />
+      )}
+    </div>
+  );
+}
+
+function ButtonEditor({ label, data, onChange }) {
+  const { labelValue, hrefValue, variantValue, defaults } = data;
+  return (
+    <div className="space-y-3 border-l border-white/10 pl-4">
+      <Typography variant="eyebrow" className="text-white/45">{label}</Typography>
+      <AdminTextField label="Button label" value={labelValue || ''} onChange={(event) => onChange('label', event.target.value)} />
+      <SelectDropdown label="Button style" value={variantValue || defaults.defaultVariant} onChange={(value) => onChange('variant', value)} options={buttonVariants} />
+      <LinkSelector label="Button link" value={hrefValue || defaults.defaultHref} onChange={(value) => onChange('href', value)} />
     </div>
   );
 }
@@ -320,7 +567,9 @@ function AuthPanel() {
 
 function StructuredFields({ value, path = [], onChange, depth = 0 }) {
   if (Array.isArray(value)) {
-    const isPrimitiveList = value.every((item) => item === null || typeof item !== 'object');
+    const knownTemplate = templateForPath(path);
+    const hasKnownObjectTemplate = knownTemplate && typeof knownTemplate === 'object' && !Array.isArray(knownTemplate) && Object.keys(knownTemplate).length > 0;
+    const isPrimitiveList = !hasKnownObjectTemplate && value.every((item) => item === null || typeof item !== 'object');
     return (
       <div className="border-l border-white/10 pl-4">
         {value.map((item, index) => (
@@ -352,7 +601,7 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
         <div className="py-4">
           <button
             type="button"
-            onClick={() => onChange(path, [...value, isPrimitiveList ? '' : {}])}
+            onClick={() => onChange(path, [...value, isPrimitiveList ? '' : newItemForArray(value, path)])}
             className="inline-flex items-center gap-2 rounded-md border border-brand-aqua/30 px-3 py-2 text-sm text-brand-aqua-light hover:bg-brand-aqua/10 hover:text-white"
           >
             <Icon name="plus" size={15} />
@@ -382,6 +631,29 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
         {Object.entries(value).map(([key, item]) => {
           const fieldPath = [...path, key];
           if (key === 'id' || key === '_id' || key === '__v' || key === 'singletonKey') return null;
+          if (buttonAuxKeys.has(key)) return null;
+
+          if (buttonFieldConfig[key]) {
+            const config = buttonFieldConfig[key];
+            return (
+              <div key={fieldPath.join('.')} className="py-2">
+                <ButtonEditor
+                  label={labelFromKey(key)}
+                  data={{
+                    labelValue: item ?? '',
+                    hrefValue: value[config.hrefKey],
+                    variantValue: value[config.variantKey],
+                    defaults: config,
+                  }}
+                  onChange={(field, nextValue) => {
+                    if (field === 'label') onChange(fieldPath, nextValue);
+                    if (field === 'href') onChange([...path, config.hrefKey], nextValue);
+                    if (field === 'variant') onChange([...path, config.variantKey], nextValue);
+                  }}
+                />
+              </div>
+            );
+          }
 
           if (isImageRef(item)) {
             return (
@@ -422,11 +694,29 @@ function StructuredFields({ value, path = [], onChange, depth = 0 }) {
           const stringValue = item ?? '';
           const isLong = String(stringValue).length > 90 || ['lead', 'description', 'content', 'quote', 'philosophy', 'tagline', 'creditTagline'].includes(key);
           const isIcon = key === 'icon' || key.endsWith('Icon');
+          const isColor = key === 'color' || key.endsWith('Color');
+          const isHref = key === 'href' || key.endsWith('Href') || key.endsWith('Url');
 
           if (isIcon) {
             return (
               <div key={fieldPath.join('.')} className="py-1">
                 <IconSelector label={labelFromKey(key)} value={stringValue} onChange={(nextIcon) => onChange(fieldPath, nextIcon)} />
+              </div>
+            );
+          }
+
+          if (isColor) {
+            return (
+              <div key={fieldPath.join('.')} className="py-1">
+                <ColorSelector label={labelFromKey(key)} value={stringValue} onChange={(nextColor) => onChange(fieldPath, nextColor)} />
+              </div>
+            );
+          }
+
+          if (isHref) {
+            return (
+              <div key={fieldPath.join('.')} className="py-1">
+                <LinkSelector label={labelFromKey(key)} value={stringValue} onChange={(nextHref) => onChange(fieldPath, nextHref)} />
               </div>
             );
           }
@@ -510,13 +800,33 @@ function ItemEditor({ kind, item, onSave }) {
   return (
     <div className="space-y-4" data-dirty={dirty ? 'true' : undefined}>
       <Typography variant="h4" className="text-white">{draft.id ? 'Edit Item' : 'New Item'}</Typography>
-      {fields.map((field) => (
-        field === 'description' || field === 'quote' ? (
+      {fields.map((field) => {
+        if (field === 'ctaHref') return null;
+        if (field === 'ctaText') {
+          return (
+            <ButtonEditor
+              key={field}
+              label="Call To Action"
+              data={{
+                labelValue: draft.ctaText || '',
+                hrefValue: draft.ctaHref || '#contact',
+                variantValue: draft.ctaVariant || 'primary',
+                defaults: buttonFieldConfig.ctaText,
+              }}
+              onChange={(target, nextValue) => {
+                if (target === 'label') update('ctaText', nextValue);
+                if (target === 'href') update('ctaHref', nextValue);
+                if (target === 'variant') update('ctaVariant', nextValue);
+              }}
+            />
+          );
+        }
+        return field === 'description' || field === 'quote' ? (
           <RichTextField key={field} label={labelFromKey(field)} value={draft[field] || ''} onChange={(nextValue) => update(field, nextValue)} />
         ) : (
           <AdminTextField key={field} label={labelFromKey(field)} value={draft[field] || ''} onChange={(e) => update(field, e.target.value)} />
-        )
-      ))}
+        );
+      })}
       <label className="flex items-center justify-between gap-4 rounded-md px-1 py-2 text-white/80 hover:bg-white/[0.04]">
         <span>Active</span>
         <input type="checkbox" checked={draft.active !== false} onChange={(e) => update('active', e.target.checked)} />

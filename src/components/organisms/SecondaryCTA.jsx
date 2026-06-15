@@ -22,8 +22,8 @@ export default function SecondaryCTA({ content = {} }) {
             className="mb-0"
           />
           <CTAGroup
-            primary={{ label: content.primaryLabel || 'Join Plant Klub', href: '#plant-klub' }}
-            secondary={{ label: content.secondaryLabel || 'Book Now', href: '#contact', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
+            primary={{ label: content.primaryLabel || 'Join Plant Klub', href: content.primaryHref || '#plant-klub', variant: content.primaryVariant || 'cta' }}
+            secondary={{ label: content.secondaryLabel || 'Book Now', href: content.secondaryHref || '#contact', variant: content.secondaryVariant || 'outline', className: 'border-white/30 text-white hover:bg-white/10 hover:text-white' }}
             align="center"
           />
         </motion.div>

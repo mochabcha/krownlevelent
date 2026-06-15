@@ -11,6 +11,7 @@ export default function EventCard({
   price,
   ctaText = 'Reserve Your Spot',
   ctaHref = '#contact',
+  ctaVariant = 'primary',
   className = '',
   animate = false,
   delay = 0,
@@ -57,7 +58,7 @@ export default function EventCard({
               {price}
             </Typography>
           )}
-          <Button variant="primary" href={ctaHref} className="text-sm px-6 py-2">
+          <Button variant={ctaVariant} href={ctaHref} className="text-sm px-6 py-2">
             {ctaText}
           </Button>
         </div>

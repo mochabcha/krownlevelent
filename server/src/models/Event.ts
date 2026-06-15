@@ -11,6 +11,7 @@ export interface EventDocument {
   price: string;
   ctaText: string;
   ctaHref: string;
+  ctaVariant?: string;
   active: boolean;
   sortOrder: number;
   createdAt: Date;
@@ -27,6 +28,7 @@ const eventSchema = new Schema<EventDocument>(
     price: { type: String, default: '' },
     ctaText: { type: String, default: 'Reserve Your Spot' },
     ctaHref: { type: String, default: '#contact' },
+    ctaVariant: { type: String, default: 'primary' },
     active: { type: Boolean, default: true },
     sortOrder: { type: Number, default: 0 },
   },
