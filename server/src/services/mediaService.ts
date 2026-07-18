@@ -1,4 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import heicConvert from 'heic-convert';
 import sharp from 'sharp';
 import { randomUUID } from 'node:crypto';
 import { env, requireEnv } from '../config/env.js';
@@ -7,13 +8,35 @@ import { MediaAsset } from '../models/index.js';
 import { HttpError } from '../utils/http.js';
 
 const MAX_CONCURRENT_IMAGE_JOBS = 3;
+const HEIC_MIME_TYPES = new Set(['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence']);
+const HEIC_FILE_EXTENSIONS = new Set(['.heic', '.heif']);
+
+function isHeicImage(file: Express.Multer.File) {
+  const mimeType = file.mimetype.toLowerCase();
+  const extension = file.originalname.toLowerCase().match(/\.[^.]+$/)?.[0];
+  return HEIC_MIME_TYPES.has(mimeType) || (extension ? HEIC_FILE_EXTENSIONS.has(extension) : false);
+}
+
+async function normalizeImageBuffer(file: Express.Multer.File, isHeic: boolean) {
+  if (!isHeic) return file.buffer;
+
+  try {
+    return await heicConvert({
+      buffer: file.buffer,
+      format: 'JPEG',
+      quality: 0.92,
+    });
+  } catch {
+    throw new HttpError(400, `${file.originalname} could not be read as a HEIC/HEIF image`);
+  }
+}
 
 function getS3Client() {
   return new S3Client({
-    region: requireEnv('AWS_REGION'),
+    region: requireEnv('S3_REGION'),
     credentials: {
-      accessKeyId: requireEnv('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: requireEnv('AWS_SECRET_ACCESS_KEY'),
+      accessKeyId: requireEnv('S3_ACCESS_KEY_ID'),
+      secretAccessKey: requireEnv('S3_SECRET_ACCESS_KEY'),
     },
   });
 }
@@ -21,7 +44,7 @@ function getS3Client() {
 function publicUrlFor(key: string) {
   const baseUrl =
     env.S3_PUBLIC_BASE_URL?.replace(/\/$/, '') ||
-    `https://${requireEnv('S3_BUCKET')}.s3.${requireEnv('AWS_REGION')}.amazonaws.com`;
+    `https://${requireEnv('S3_BUCKET')}.s3.${requireEnv('S3_REGION')}.amazonaws.com`;
   return `${baseUrl}/${key}`;
 }
 
@@ -45,16 +68,24 @@ async function putObject(key: string, body: Buffer, contentType: string) {
 
 async function processAndUploadImage(file: Express.Multer.File) {
   if (!isDatabaseConnected()) throw new HttpError(503, 'MongoDB is required for media uploads');
-  if (!file.mimetype.startsWith('image/')) throw new HttpError(400, `${file.originalname} is not an image`);
+  const isHeic = isHeicImage(file);
+  if (!file.mimetype.startsWith('image/') && !isHeic) throw new HttpError(400, `${file.originalname} is not an image`);
 
   const id = randomUUID();
   const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
   const baseKey = prefixedKey(`media/${id}`);
-  const metadata = await sharp(file.buffer).metadata();
+  const processableBuffer = await normalizeImageBuffer(file, isHeic);
+  let metadata: sharp.Metadata;
+
+  try {
+    metadata = await sharp(processableBuffer).metadata();
+  } catch {
+    throw new HttpError(400, `${file.originalname} is not a supported image`);
+  }
   const originalKey = `${baseKey}/original-${safeName}`;
   const originalUrl = await putObject(originalKey, file.buffer, file.mimetype);
 
-  const webpBuffer = await sharp(file.buffer)
+  const webpBuffer = await sharp(processableBuffer)
     .rotate()
     .resize({ width: 1800, withoutEnlargement: true })
     .webp({ quality: 82 })
@@ -143,9 +174,9 @@ export async function archiveMedia(id: string) {
 
 export function hasS3Config() {
   return Boolean(
-    env.AWS_REGION &&
-      env.AWS_ACCESS_KEY_ID &&
-      env.AWS_SECRET_ACCESS_KEY &&
+    env.S3_REGION &&
+      env.S3_ACCESS_KEY_ID &&
+      env.S3_SECRET_ACCESS_KEY &&
       env.S3_BUCKET
   );
 }

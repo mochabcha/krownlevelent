@@ -3,6 +3,7 @@ import { Button, Icon, Input, Typography } from '../atoms';
 import { iconNames } from '../atoms/Icon';
 import { useAdmin } from '../admin/AdminContext';
 import { resolveImage } from '../../content/imageRegistry';
+import { acceptedImageFileTypes, isSupportedImageUpload } from '../../utils/mediaUpload';
 import { normalizeRichText } from '../../utils/richText';
 
 const editableGroups = [
@@ -1070,7 +1071,7 @@ function MediaDrawer() {
   if (!admin.leftOpen) return null;
 
   const upload = async (files) => {
-    const imageFiles = Array.from(files || []).filter((file) => file.type.startsWith('image/'));
+    const imageFiles = Array.from(files || []).filter(isSupportedImageUpload);
     if (!imageFiles.length) return;
     const form = new FormData();
     imageFiles.forEach((file) => form.append('images', file));
@@ -1215,8 +1216,8 @@ function MediaDrawer() {
         )}
         <label className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-brand-aqua/50 bg-white/5 p-6 text-center hover:bg-white/10">
           <Icon name="upload" size={28} className="mb-2 text-brand-aqua-light" />
-          <span>{busy ? 'Uploading...' : 'Drag or select images'}</span>
-          <input type="file" multiple accept="image/*" className="hidden" onChange={(e) => upload(e.target.files)} />
+          <span>{busy ? 'Uploading...' : 'Drag or select images (including HEIC)'}</span>
+          <input type="file" multiple accept={acceptedImageFileTypes} className="hidden" onChange={(e) => upload(e.target.files)} />
         </label>
         {error && (
           <div className="rounded-xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">

@@ -29,9 +29,16 @@ const parsedEnv = envSchema.parse(process.env);
 
 export const env = {
   ...parsedEnv,
-  AWS_REGION: parsedEnv.AWS_REGION || parsedEnv.S3_REGION,
-  AWS_ACCESS_KEY_ID: parsedEnv.AWS_ACCESS_KEY_ID || parsedEnv.S3_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY: parsedEnv.AWS_SECRET_ACCESS_KEY || parsedEnv.S3_SECRET_ACCESS_KEY,
+  // Prefer the storage-specific variables. Hosting providers can inject AWS_*
+  // variables for the region where the function itself runs, which may not be
+  // the region that contains our S3 bucket.
+  S3_REGION: parsedEnv.S3_REGION || parsedEnv.AWS_REGION,
+  S3_ACCESS_KEY_ID: parsedEnv.S3_ACCESS_KEY_ID || parsedEnv.AWS_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY: parsedEnv.S3_SECRET_ACCESS_KEY || parsedEnv.AWS_SECRET_ACCESS_KEY,
+  // Keep these aliases for backwards compatibility with existing scripts.
+  AWS_REGION: parsedEnv.S3_REGION || parsedEnv.AWS_REGION,
+  AWS_ACCESS_KEY_ID: parsedEnv.S3_ACCESS_KEY_ID || parsedEnv.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: parsedEnv.S3_SECRET_ACCESS_KEY || parsedEnv.AWS_SECRET_ACCESS_KEY,
 };
 
 export function requireEnv<K extends keyof typeof env>(key: K): NonNullable<(typeof env)[K]> {

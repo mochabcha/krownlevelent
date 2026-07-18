@@ -30,10 +30,10 @@ const assetFiles: Record<string, { file: string; alt: string }> = {
 
 function s3Client() {
   return new S3Client({
-    region: requireEnv('AWS_REGION'),
+    region: requireEnv('S3_REGION'),
     credentials: {
-      accessKeyId: requireEnv('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: requireEnv('AWS_SECRET_ACCESS_KEY'),
+      accessKeyId: requireEnv('S3_ACCESS_KEY_ID'),
+      secretAccessKey: requireEnv('S3_SECRET_ACCESS_KEY'),
     },
   });
 }
@@ -46,7 +46,7 @@ function withPrefix(key: string) {
 function urlFor(key: string) {
   const base =
     env.S3_PUBLIC_BASE_URL?.replace(/\/$/, '') ||
-    `https://${requireEnv('S3_BUCKET')}.s3.${requireEnv('AWS_REGION')}.amazonaws.com`;
+    `https://${requireEnv('S3_BUCKET')}.s3.${requireEnv('S3_REGION')}.amazonaws.com`;
   return `${base}/${key}`;
 }
 
